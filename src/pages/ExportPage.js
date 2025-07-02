@@ -14,10 +14,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { 
   FaDownload, 
   FaFileExcel, 
-  FaPrint, 
-  FaCalendarAlt,
+  FaPrint,
   FaArrowLeft,
-  FaWhatsapp
+  FaWhatsapp,
+  FaUser
 } from "react-icons/fa";
 import { calculateFinancialSummary } from "../utils/financeCalculator";
 import "./ExportPage.css";
@@ -26,7 +26,8 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 const ExportPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [summary, setSummary] = useState({
     openingBalance: 0,
     totalIncome: 0,
@@ -41,12 +42,14 @@ const ExportPage = () => {
   const [exportPermission, setExportPermission] = useState(false);
   const [exportStatus, setExportStatus] = useState({ success: false, message: '' });
   const [storagePermission, setStoragePermission] = useState(false);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
         setExportPermission(true);
+        setUserName(currentUser.displayName || currentUser.email.split('@')[0]);
       }
     });
     
@@ -136,13 +139,13 @@ const ExportPage = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!selectedMonth || allData.length === 0) return;
+    if (!startDate || !endDate || allData.length === 0) return;
     
     const filteredData = allData.filter((item) => {
       if (!item.timestamp || !item.timestamp.seconds) return false;
       const date = new Date(item.timestamp.seconds * 1000);
-      const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-      return mStr === selectedMonth;
+      const itemDate = date.toISOString().split('T')[0];
+      return itemDate >= startDate && itemDate <= endDate;
     });
     
     const expenses = filteredData.filter(d => d.recordType === "expense");
@@ -157,27 +160,30 @@ const ExportPage = () => {
       externals,
       startingAmounts,
       employeeTransactions,
-      "monthly"
+      "custom"
     );
     
     setSummary(newSummary);
-  }, [allData, selectedMonth]);
+  }, [allData, startDate, endDate]);
 
-  const getMonthName = (monthStr) => {
-    if (!monthStr) return "";
-    const [year, month] = monthStr.split("-");
-    const date = new Date(year, month - 1, 1);
-    return date.toLocaleString("default", { month: "long" });
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
   };
 
   const generateTransactionRows = () => {
-    if (!selectedMonth) return [];
+    if (!startDate || !endDate) return [];
     
     let filteredData = allData.filter((item) => {
       if (!item.timestamp || !item.timestamp.seconds) return false;
       const date = new Date(item.timestamp.seconds * 1000);
-      const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-      return mStr === selectedMonth;
+      const itemDate = date.toISOString().split('T')[0];
+      return itemDate >= startDate && itemDate <= endDate;
     });
     
     filteredData.sort((a, b) => 
@@ -187,16 +193,21 @@ const ExportPage = () => {
     let runningBalance = 0;
     const rows = [];
 
+    // Find opening balance from startingAmounts
+    const openingEntry = filteredData.find(item => item.recordType === "opening");
+    const openingBalance = openingEntry ? openingEntry.amount : 0;
+    
     rows.push([
-      `01 ${getMonthName(selectedMonth)} ${new Date().getFullYear()}`,
+      formatDate(startDate),
       "Opening Balance",
       "",
-      summary.openingBalance.toFixed(2),
-      `${summary.openingBalance.toFixed(2)} Cr`,
+      openingBalance.toFixed(2),
+      `${openingBalance.toFixed(2)} Cr`,
     ]);
     
-    runningBalance = summary.openingBalance;
+    runningBalance = openingBalance;
 
+    // Remove opening entry from filtered data
     filteredData = filteredData.filter(item => item.recordType !== "opening");
     
     let actualDebitTotal = 0;
@@ -206,7 +217,7 @@ const ExportPage = () => {
       if (!item.timestamp || !item.timestamp.seconds) return;
       
       const date = new Date(item.timestamp.seconds * 1000);
-      const formattedDate = `${date.getDate()} ${getMonthName(selectedMonth)}`;
+      const formattedDate = formatDate(date.toISOString().split('T')[0]);
       
       let description = "";
       let credit = 0;
@@ -346,8 +357,8 @@ const ExportPage = () => {
   };
 
   const handleExport = async (exporter, fileType) => {
-    if (!selectedMonth) {
-      alert("Please select a month first");
+    if (!startDate || !endDate) {
+      alert("Please select start and end dates first");
       return;
     }
     
@@ -404,39 +415,48 @@ const ExportPage = () => {
       format: "a4",
     });
 
-    doc.setFontSize(16);
+    const exportDate = new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+
+    // Header with company name and export date
+    doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
-    doc.text("Financial Statement", 105, 15, { align: "center" });
-    doc.setFontSize(12);
+    doc.text("MaxBond Financial Statement", 105, 10, { align: "center" });
+    
+    doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(
-      `${getMonthName(selectedMonth)} ${selectedMonth.split("-")[0]}`,
-      105,
-      22,
-      { align: "center" }
-    );
-
+    doc.text(`Exported on: ${exportDate}`, 105, 15, { align: "center" });
+    doc.text(`Exported by: ${userName}`, 105, 20, { align: "center" });
+    
+    // Date range
+    doc.setFontSize(12);
+    doc.text(`From: ${formatDate(startDate)} To: ${formatDate(endDate)}`, 105, 28, { align: "center" });
+    
+    // Summary section
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
-    doc.text("Opening Balance:", 20, 35);
-    doc.text(`${summary.openingBalance.toFixed(2)}`, 50, 35);
+    doc.text("Opening Balance:", 20, 40);
+    doc.text(`${summary.openingBalance.toFixed(2)}`, 50, 40);
     
-    doc.text("Total Income:", 20, 40);
-    doc.text(`${summary.totalIncome.toFixed(2)}`, 50, 40);
+    doc.text("Total Income:", 20, 45);
+    doc.text(`${summary.totalIncome.toFixed(2)}`, 50, 45);
     
-    doc.text("Total Expenses:", 20, 45);
-    doc.text(`${summary.totalExpenses.toFixed(2)}`, 50, 45);
+    doc.text("Total Expenses:", 20, 50);
+    doc.text(`${summary.totalExpenses.toFixed(2)}`, 50, 50);
     
-    doc.text("Net Balance:", 20, 50);
+    doc.text("Net Balance:", 20, 55);
     doc.text(
       `${Math.abs(summary.netBalance).toFixed(2)} ${summary.netBalance >= 0 ? "Cr" : "Dr"}`,
       50,
-      50
+      55
     );
 
     autoTable(doc, {
-      startY: 60,
+      startY: 65,
       head: [["Date", "Description", "Debit", "Credit", "Balance"]],
       body: generateTransactionRows(),
       theme: "grid",
@@ -492,7 +512,7 @@ const ExportPage = () => {
     });
 
     const blob = doc.output('blob');
-    const fileName = `MaxBond_Financial_Statement_${getMonthName(selectedMonth)}.pdf`;
+    const fileName = `MaxBond_Financial_Statement_${startDate}_to_${endDate}.pdf`;
     await saveFile(blob, fileName);
     return fileName;
   };
@@ -502,8 +522,10 @@ const ExportPage = () => {
     
     const excelData = [];
     
-    excelData.push(["Financial Statement"]);
-    excelData.push([`${getMonthName(selectedMonth)} ${selectedMonth.split('-')[0]}`]);
+    excelData.push(["MaxBond Financial Statement"]);
+    excelData.push([`From: ${formatDate(startDate)} To: ${formatDate(endDate)}`]);
+    excelData.push([`Exported by: ${userName}`]);
+    excelData.push([`Exported on: ${new Date().toLocaleDateString()}`]);
     excelData.push([]);
     
     excelData.push(["SUMMARY"]);
@@ -539,10 +561,10 @@ const ExportPage = () => {
     
     if (ws['A1']) ws['A1'].s = { ...boldStyle, ...centerStyle, font: { sz: 16 } };
     if (ws['A2']) ws['A2'].s = { ...boldStyle, ...centerStyle, font: { sz: 14 } };
-    if (ws['A4']) ws['A4'].s = boldStyle;
-    if (ws['A9']) ws['A9'].s = boldStyle;
+    if (ws['A6']) ws['A6'].s = boldStyle;
+    if (ws['A11']) ws['A11'].s = boldStyle;
     
-    for (let i = 5; i <= 8; i++) {
+    for (let i = 7; i <= 10; i++) {
       const cellRef = `B${i}`;
       if (ws[cellRef]) {
         ws[cellRef].s = { ...(ws[cellRef].s || {}), ...rightAlign };
@@ -550,7 +572,7 @@ const ExportPage = () => {
     }
     
     for (let col = 0; col < 5; col++) {
-      const cellRef = XLSX.utils.encode_cell({ r: 9, c: col });
+      const cellRef = XLSX.utils.encode_cell({ r: 11, c: col });
       if (ws[cellRef]) {
         ws[cellRef].s = { ...boldStyle, ...headerFill };
       }
@@ -567,7 +589,7 @@ const ExportPage = () => {
       }
     }
     
-    for (let i = 10; i < lastRow; i++) {
+    for (let i = 12; i < lastRow; i++) {
       const debitCellRef = XLSX.utils.encode_cell({ r: i, c: 2 });
       if (ws[debitCellRef] && ws[debitCellRef].v) {
         ws[debitCellRef].s = {
@@ -596,8 +618,10 @@ const ExportPage = () => {
     ws['!merges'] = [
       { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
       { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+      { s: { r: 2, c: 0 }, e: { r: 2, c: 4 } },
       { s: { r: 3, c: 0 }, e: { r: 3, c: 4 } },
-      { s: { r: 8, c: 0 }, e: { r: 8, c: 4 } }
+      { s: { r: 5, c: 0 }, e: { r: 5, c: 4 } },
+      { s: { r: 10, c: 0 }, e: { r: 10, c: 4 } }
     ];
     
     XLSX.utils.book_append_sheet(wb, ws, "Financial Statement");
@@ -610,7 +634,7 @@ const ExportPage = () => {
       return buf;
     };
     const blob = new Blob([s2ab(wbout)], {type: 'application/octet-stream'});
-    const fileName = `MaxBond_Financial_Statement_${getMonthName(selectedMonth)}.xlsx`;
+    const fileName = `MaxBond_Financial_Statement_${startDate}_to_${endDate}.xlsx`;
     await saveFile(blob, fileName);
     return fileName;
   };
@@ -628,7 +652,7 @@ const ExportPage = () => {
       printWindow.document.write(`
         <html>
           <head>
-            <title>Financial Statement - ${getMonthName(selectedMonth)}</title>
+            <title>Financial Statement - ${formatDate(startDate)} to ${formatDate(endDate)}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
               
@@ -644,23 +668,30 @@ const ExportPage = () => {
                 margin: 0 auto;
               }
               
-              .header {
+              .company-header {
                 text-align: center;
-                margin-bottom: 1.5rem;
-                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
                 border-bottom: 2px solid #000;
               }
               
-              .header h1 {
+              .company-header h1 {
                 font-size: 1.8rem;
                 font-weight: 700;
                 margin-bottom: 0.25rem;
               }
               
-              .header p {
+              .date-range {
+                text-align: center;
                 font-size: 1.1rem;
-                margin: 0;
                 font-weight: 500;
+                margin-bottom: 1rem;
+              }
+              
+              .export-info {
+                text-align: center;
+                margin-bottom: 1.5rem;
+                font-size: 0.9rem;
               }
               
               .summary-section {
@@ -673,6 +704,8 @@ const ExportPage = () => {
               .summary-card {
                 text-align: center;
                 padding: 0.5rem;
+                border: 1px solid #000;
+                border-radius: 4px;
               }
               
               .summary-card h3 {
@@ -695,7 +728,8 @@ const ExportPage = () => {
               }
               
               .transactions-table th {
-                background-color: #f0f0f0;
+                background-color: #0F2E53;
+                color: #fff;
                 padding: 0.75rem;
                 text-align: left;
                 font-weight: 500;
@@ -778,9 +812,16 @@ const ExportPage = () => {
           </head>
           <body>
             <div class="print-container">
-              <div class="header">
-                <h1>Financial Statement</h1>
-                <p>${getMonthName(selectedMonth)} ${selectedMonth.split("-")[0]}</p>
+              <div class="company-header">
+                <h1>MaxBond Financial Statement</h1>
+              </div>
+              
+              <div class="date-range">
+                From: ${formatDate(startDate)} To: ${formatDate(endDate)}
+              </div>
+              
+              <div class="export-info">
+                Exported by: ${userName} | Exported on: ${new Date().toLocaleDateString()}
               </div>
               
               <div class="summary-section">
@@ -842,24 +883,32 @@ const ExportPage = () => {
     let actualDebitTotal = 0;
     let actualCreditTotal = 0;
 
+    // Find opening balance
+    const openingEntry = allData.find(item => 
+      item.recordType === "opening" && 
+      item.timestamp && 
+      item.timestamp.seconds
+    );
+    const openingBalance = openingEntry ? openingEntry.amount : 0;
+
     // Opening Balance Row
     rowsHTML += `
       <tr>
-        <td>01 ${getMonthName(selectedMonth)} ${new Date().getFullYear()}</td>
+        <td>${formatDate(startDate)}</td>
         <td>Opening Balance</td>
         <td class="debit"></td>
         <td class="credit"></td>
-        <td class="balance">${summary.openingBalance.toFixed(2)} Cr</td>
+        <td class="balance">${openingBalance.toFixed(2)} Cr</td>
       </tr>
     `;
     
-    runningBalance = summary.openingBalance;
+    runningBalance = openingBalance;
 
     const filteredData = allData.filter((item) => {
       if (!item.timestamp || !item.timestamp.seconds) return false;
       const date = new Date(item.timestamp.seconds * 1000);
-      const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-      return mStr === selectedMonth;
+      const itemDate = date.toISOString().split('T')[0];
+      return itemDate >= startDate && itemDate <= endDate && item.recordType !== "opening";
     }).sort((a, b) => a.timestamp.seconds - b.timestamp.seconds);
 
     filteredData.forEach((item) => {
@@ -867,7 +916,7 @@ const ExportPage = () => {
       if (!item.timestamp || !item.timestamp.seconds) return;
       
       const date = new Date(item.timestamp.seconds * 1000);
-      const formattedDate = `${date.getDate()} ${getMonthName(selectedMonth)}`;
+      const formattedDate = formatDate(date.toISOString().split('T')[0]);
       
       let description = "";
       let debit = 0;
@@ -962,7 +1011,7 @@ const ExportPage = () => {
         // Generate PDF content same as exportToPDF
         // ... (same PDF generation as in exportToPDF) ...
         const blob = doc.output('blob');
-        const fileName = `MaxBond_Financial_Statement_${getMonthName(selectedMonth)}.pdf`;
+        const fileName = `MaxBond_Financial_Statement_${startDate}_to_${endDate}.pdf`;
         
         // Create a temporary URL for the PDF
         const url = URL.createObjectURL(blob);
@@ -982,7 +1031,7 @@ const ExportPage = () => {
         
         // Open WhatsApp with pre-filled message
         const message = encodeURIComponent(
-          `Check out the financial statement for ${getMonthName(selectedMonth)}: ` +
+          `Check out the financial statement from ${formatDate(startDate)} to ${formatDate(endDate)}: ` +
           `Download the file from: ${window.location.origin}`
         );
         
@@ -1008,23 +1057,31 @@ const ExportPage = () => {
     let actualDebitTotal = 0;
     let actualCreditTotal = 0;
 
+    // Find opening balance
+    const openingEntry = allData.find(item => 
+      item.recordType === "opening" && 
+      item.timestamp && 
+      item.timestamp.seconds
+    );
+    const openingBalance = openingEntry ? openingEntry.amount : 0;
+
     rows.push(
       <tr className="table-row" key="opening">
-        <td>01 {getMonthName(selectedMonth)}</td>
+        <td>{formatDate(startDate)}</td>
         <td>Opening Balance</td>
         <td></td>
         <td></td>
-        <td className="balance">{summary.openingBalance.toFixed(2)} Cr</td>
+        <td className="balance">{openingBalance.toFixed(2)} Cr</td>
       </tr>
     );
     
-    runningBalance = summary.openingBalance;
+    runningBalance = openingBalance;
 
     const filteredData = allData.filter((item) => {
       if (!item.timestamp || !item.timestamp.seconds) return false;
       const date = new Date(item.timestamp.seconds * 1000);
-      const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-      return mStr === selectedMonth;
+      const itemDate = date.toISOString().split('T')[0];
+      return itemDate >= startDate && itemDate <= endDate && item.recordType !== "opening";
     }).sort((a, b) => a.timestamp.seconds - b.timestamp.seconds);
 
     filteredData.forEach((item, index) => {
@@ -1032,7 +1089,7 @@ const ExportPage = () => {
       if (!item.timestamp || !item.timestamp.seconds) return;
       
       const date = new Date(item.timestamp.seconds * 1000);
-      const formattedDate = `${date.getDate()} ${getMonthName(selectedMonth)}`;
+      const formattedDate = formatDate(date.toISOString().split('T')[0]);
       
       let description = "";
       let debit = 0;
@@ -1107,17 +1164,6 @@ const ExportPage = () => {
     return rows;
   };
 
-  const availableMonths = Array.from(
-    new Set(
-      allData
-        .filter(item => item.timestamp && item.timestamp.seconds)
-        .map(item => {
-          const date = new Date(item.timestamp.seconds * 1000);
-          return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        })
-    )
-  ).sort().reverse();
-
   return (
     <div className="export-container">
       <div className="back-button" onClick={() => navigate("/dashboard")}>
@@ -1127,7 +1173,7 @@ const ExportPage = () => {
       <div className="header-section">
         <div className="header-content">
           <h1>Financial Reports</h1>
-          <p>Generate professional financial statements for any month</p>
+          <p>Generate professional financial statements for any date range</p>
         </div>
       </div>
 
@@ -1165,44 +1211,55 @@ const ExportPage = () => {
       </div>
 
       <div className="control-panel">
-        <div className="month-selector">
-          <FaCalendarAlt className="calendar-icon" />
-          <label htmlFor="month-picker">Select Month:</label>
-          <input
-            id="month-picker"
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            onFocus={(e) => e.target.showPicker()}
-            disabled={loading || exporting}
-          />
+        <div className="date-range-selector">
+          <div className="date-input-group">
+            <label htmlFor="start-date">From:</label>
+            <input
+              id="start-date"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              disabled={loading || exporting}
+            />
+          </div>
+          
+          <div className="date-input-group">
+            <label htmlFor="end-date">To:</label>
+            <input
+              id="end-date"
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              disabled={loading || exporting}
+            />
+          </div>
         </div>
 
         <div className="action-buttons">
           <button
             onClick={() => handleExport(exportToPDF, "pdf")}
-            disabled={!selectedMonth || loading || exporting || !exportPermission}
+            disabled={!startDate || !endDate || loading || exporting || !exportPermission}
             className="pdf-btn"
           >
             <FaDownload /> Export PDF
           </button>
           <button
             onClick={() => handleExport(exportToExcel, "excel")}
-            disabled={!selectedMonth || loading || exporting || !exportPermission}
+            disabled={!startDate || !endDate || loading || exporting || !exportPermission}
             className="excel-btn"
           >
             <FaFileExcel /> Export Excel
           </button>
           <button
             onClick={handlePrint}
-            disabled={!selectedMonth || loading || exporting || !exportPermission}
+            disabled={!startDate || !endDate || loading || exporting || !exportPermission}
             className="print-btn"
           >
             <FaPrint /> {isMobileDevice() ? "Save PDF" : "Print Report"}
           </button>
           <button
             onClick={shareOnWhatsApp}
-            disabled={!selectedMonth || loading || exporting || !exportPermission}
+            disabled={!startDate || !endDate || loading || exporting || !exportPermission}
             className="whatsapp-btn"
           >
             <FaWhatsapp /> Share via WhatsApp
@@ -1230,13 +1287,14 @@ const ExportPage = () => {
         </div>
       )}
 
-      {!loading && !exporting && selectedMonth && (
+      {!loading && !exporting && startDate && endDate && (
         <div className="report-preview">
           <div className="preview-header">
             <h2>Financial Statement Preview</h2>
-            <p>
-              {getMonthName(selectedMonth)} {selectedMonth.split("-")[0]}
-            </p>
+            <div className="preview-subheader">
+              <p>From: {formatDate(startDate)} To: {formatDate(endDate)}</p>
+              <p><FaUser /> {userName}</p>
+            </div>
           </div>
 
           <div className="summary-section">
@@ -1266,8 +1324,8 @@ const ExportPage = () => {
               <span>{allData.filter(item => {
                 if (!item.timestamp || !item.timestamp.seconds) return false;
                 const date = new Date(item.timestamp.seconds * 1000);
-                const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-                return mStr === selectedMonth && item.recordType !== "opening";
+                const itemDate = date.toISOString().split('T')[0];
+                return itemDate >= startDate && itemDate <= endDate && item.recordType !== "opening";
               }).length} transactions</span>
             </div>
             
@@ -1296,16 +1354,16 @@ const ExportPage = () => {
         </div>
       )}
 
-      {!loading && !exporting && selectedMonth && allData.filter(item => {
+      {!loading && !exporting && startDate && endDate && allData.filter(item => {
         if (!item.timestamp || !item.timestamp.seconds) return false;
         const date = new Date(item.timestamp.seconds * 1000);
-        const mStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-        return mStr === selectedMonth;
+        const itemDate = date.toISOString().split('T')[0];
+        return itemDate >= startDate && itemDate <= endDate;
       }).length === 0 && (
         <div className="empty-state">
           <div className="empty-content">
             <h3>No Transactions Found</h3>
-            <p>There are no transactions for the selected month</p>
+            <p>There are no transactions for the selected date range</p>
           </div>
         </div>
       )}
