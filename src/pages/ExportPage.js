@@ -19,7 +19,6 @@ import {
   FaWhatsapp,
   FaUser
 } from "react-icons/fa";
-import { calculateFinancialSummary } from "../utils/financeCalculator";
 import "./ExportPage.css";
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
@@ -154,16 +153,47 @@ const ExportPage = () => {
     const startingAmounts = filteredData.filter(d => d.recordType === "opening");
     const employeeTransactions = filteredData.filter(d => d.recordType === "employee");
     
-    const newSummary = calculateFinancialSummary(
-      expenses,
-      transactions,
-      externals,
-      startingAmounts,
-      employeeTransactions,
-      "custom"
-    );
+    // Calculate summary
+    const openingBalance = startingAmounts.reduce((sum, item) => sum + (item.amount || 0), 0);
+    const totalExpenses = expenses.reduce((sum, item) => sum + (item.cost || 0), 0);
     
-    setSummary(newSummary);
+    const creditTransactions = transactions
+      .filter(t => t.type === "credit")
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+      
+    const debitTransactions = transactions
+      .filter(t => t.type === "debit")
+      .reduce((sum, t) => sum + (t.amount || 0), 0);
+      
+    const creditExternals = externals
+      .filter(e => e.type === "credit")
+      .reduce((sum, e) => sum + (e.amount || 0), 0);
+      
+    const debitExternals = externals
+      .filter(e => e.type === "debit")
+      .reduce((sum, e) => sum + (e.amount || 0), 0);
+      
+    const creditEmployees = employeeTransactions
+      .filter(e => e.type === "credit")
+      .reduce((sum, e) => sum + (e.amount || 0), 0);
+      
+    const debitEmployees = employeeTransactions
+      .filter(e => e.type === "debit")
+      .reduce((sum, e) => sum + (e.amount || 0), 0);
+    
+    const totalIncome = creditTransactions + creditExternals + creditEmployees;
+    const totalDebit = debitTransactions + debitExternals + debitEmployees + totalExpenses;
+    const netBalance = openingBalance + totalIncome - totalDebit;
+    
+    setSummary({
+      openingBalance,
+      totalIncome,
+      totalExpenses,
+      totalCredit: totalIncome,
+      totalDebit,
+      netBalance
+    });
+    
   }, [allData, startDate, endDate]);
 
   const formatDate = (dateStr) => {
