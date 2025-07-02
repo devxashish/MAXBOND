@@ -6,14 +6,13 @@ import {
   query,
   where,
   getDocs,
-  orderBy,
-  limit,
   getCountFromServer,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import "./AdminPanel.css";
 import AttendanceList from "../components/attendance/AttendanceList";
 import AdminGeofenceManager from "../components/attendance/AdminGeofenceManager";
+import AddSiteForm from "../components/AddSiteForm";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -34,17 +33,14 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get total user count
         const usersCol = collection(db, "users");
         const userSnapshot = await getCountFromServer(usersCol);
         setUserCount(userSnapshot.data().count);
 
-        // Get total attendance count
         const attendanceCol = collection(db, "attendance");
         const attendanceSnapshot = await getCountFromServer(attendanceCol);
         setAttendanceCount(attendanceSnapshot.data().count);
 
-        // Get today's attendance
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -68,7 +64,6 @@ const AdminPanel = () => {
 
   const presentCount = todayAttendance.length;
   const absentCount = Math.max(userCount - presentCount, 0);
-
   const presentPercentage = userCount ? (presentCount / userCount) * 100 : 0;
   const absentPercentage = userCount ? (absentCount / userCount) * 100 : 0;
 
@@ -142,6 +137,13 @@ const AdminPanel = () => {
             <AttendanceList adminView={true} />
           </div>
         );
+      case 'site':
+        return (
+          <div className="ios-card">
+            <h3 className="ios-card-title">Manage Sites</h3>
+            <AddSiteForm />
+          </div>
+        );
       default:
         return null;
     }
@@ -179,8 +181,14 @@ const AdminPanel = () => {
           <i className="fas fa-clipboard-list"></i> Attendance
         </button>
         <button
+          className={`ios-tab-button ${activeTab === 'site' ? 'active' : ''}`}
+          onClick={() => setActiveTab('site')}
+        >
+          <i className="fas fa-warehouse"></i> Sites
+        </button>
+        <button
           className="ios-tab-button"
-          onClick={() => navigate("/dashboard")}  /* Added dashboard path */
+          onClick={() => navigate("/dashboard")}
         >
           <i className="fas fa-chart-line"></i> Main Dashboard
         </button>
