@@ -1,0 +1,37 @@
+.ios-button-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ios-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ios-button.primary {
+  background-color: #007AFF;
+  color: white;
+}
+
+.ios-button.danger {
+  background-color: #FF3B30;
+  color: white;
+}
+
+.ios-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ios-button i {
+  margin-right: 8px;
+}

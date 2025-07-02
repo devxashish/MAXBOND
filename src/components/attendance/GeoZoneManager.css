@@ -1,0 +1,121 @@
+.card {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.map-container {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.popup-content {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.popup-content strong {
+  font-weight: 600;
+}
+
+.popup-content .btn {
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.btn {
+  border-radius: 12px !important;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-sm {
+  font-size: 13px;
+  padding: 6px 10px;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.editing-form {
+  background-color: #fdfdfd;
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control, .form-range {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.form-range {
+  margin-top: 5px;
+}
+
+.alert {
+  border-radius: 12px;
+  font-size: 14px;
+  padding: 12px;
+}

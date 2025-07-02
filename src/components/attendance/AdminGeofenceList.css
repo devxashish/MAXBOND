@@ -1,0 +1,52 @@
+.geofence-map-preview {
+  margin-bottom: 16px;
+}
+
+.geofence-list {
+  margin-top: 16px;
+}
+
+.geofence-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #F2F2F7;
+}
+
+.geofence-item:last-child {
+  border-bottom: none;
+}
+
+.geofence-info h4 {
+  margin: 0 0 4px 0;
+}
+
+.geofence-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #8E8E93;
+}
+
+.geofence-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background-color: rgba(52, 199, 89, 0.1);
+  color: #34C759;
+}
+
+.status-badge.inactive {
+  background-color: rgba(255, 149, 0, 0.1);
+  color: #FF9500;
+}

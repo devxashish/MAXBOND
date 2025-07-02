@@ -1,0 +1,23 @@
+.reports-page {
+  padding: 1rem;
+  font-family: "Arial", sans-serif;
+}
+
+.report-cards {
+  display: grid;
+  gap: 1rem;
+}
+
+.report-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-card:hover {
+  background-color: #e0f7fa;
+  transform: scale(1.02);
+}

@@ -1,0 +1,129 @@
+.ios-profile-container {
+  min-height: 100vh;
+  background: url('https://i.postimg.cc/prnnf7Qs/IMG-20250623-WA0000.jpg') center/cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.ios-profile-card {
+  max-width: 480px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.ios-profile-card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.profile-photo-preview {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  display: block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.profile-photo-fallback {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #667eea;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.ios-profile-card label {
+  font-weight: 500;
+  color: #555;
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.ios-profile-card input,
+.ios-profile-card textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: 14px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.ios-profile-card input:focus,
+.ios-profile-card textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.ios-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ios-button:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-1px);
+}
+
+.ios-logout-btn {
+  width: 100%;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ios-logout-btn:hover {
+  background: #e53935;
+  transform: translateY(-1px);
+}
+
+.profile-back-logo {
+  width: 40px;
+  cursor: pointer;
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  border-radius: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

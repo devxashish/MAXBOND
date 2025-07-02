@@ -1,0 +1,121 @@
+/* ExpensePage.css */
+
+body[data-theme="dark"] {
+  background: url('https://i.postimg.cc/prnnf7Qs/IMG-20250623-WA0000.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+.expense-page-wrapper {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #222;
+  max-width: 800px;
+  margin: auto;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back-logo {
+  width: 50px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00000088;
+}
+
+.expense-title {
+  font-size: 2rem;
+  color: #5d5f66;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.expense-input-box {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00000022;
+  margin-bottom: 20px;
+}
+
+.expense-form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.expense-form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.add-button {
+  margin-top: 15px;
+  background: orange;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.add-button:hover {
+  background: darkorange;
+}
+
+.expense-summary {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(6px);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+  color: #111;
+  box-shadow: 0 0 10px #00000030;
+}
+
+.expense-list {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00000022;
+}
+
+.expense-item {
+  background: #ffffffaa;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 6px;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-btn, .delete-btn {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #ff9800;
+  color: white;
+}
+.delete-btn {
+  background-color: #e53935;
+  color: white;
+}

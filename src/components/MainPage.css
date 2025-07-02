@@ -1,0 +1,132 @@
+/* Main container */
+.main-container {
+  padding: 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  background: #f9fafe;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Heading */
+.main-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #111827;
+}
+
+/* Grid system */
+.main-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-three {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .grid-three {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.grid-two {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .grid-two {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.margin-top {
+  margin-top: 2rem;
+}
+
+/* Card style */
+.main-card {
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.main-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Input styling for forms */
+.main-card input,
+.main-card select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  transition: border 0.2s ease;
+}
+.main-card input:focus,
+.main-card select:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Button styling */
+.main-card button {
+  background: linear-gradient(to right, #4ade80, #22c55e);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.main-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.35);
+}
+
+/* Label style */
+.main-card label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #374151;
+  display: block;
+}
+
+/* Optional table tweaks (for TransferHistory if needed) */
+.main-card table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.main-card th,
+.main-card td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+.main-card th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+.back-button {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.back-button:hover {
+  background-color: #e0e7ff;
+}

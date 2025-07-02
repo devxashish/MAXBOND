@@ -1,0 +1,1124 @@
+/* Dashboard.css - iOS Style with Orange Theme */
+
+/* Orange Color Theme */
+:root {
+  --primary: #FF9500; /* Orange */
+  --secondary: #34C759; /* Green */
+  --danger: #FF3B30; /* Red */
+  --warning: #FF9500; /* Orange */
+  --background: #F2F2F7;
+  --card-bg: #FFFFFF;
+  --text-primary: #1C1C1E;
+  --text-secondary: #8E8E93;
+  --border: #C7C7CC;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --header-height: 60px;
+  --footer-height: 85px;
+}
+
+.financial-dashboard {
+  background-color: var(--background);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+/* iOS Header Styles */
+.ios-header {
+  background: linear-gradient(135deg, var(--primary), #FF6A00); /* Orange gradient */
+  color: white;
+  height: var(--header-height);
+  padding: 0 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+}
+
+.header-title {
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.header-icon {
+  position: absolute;
+  right: 20px;
+  font-size: 20px;
+  color: white;
+}
+
+/* iOS Segment Control */
+.ios-segment-control {
+  display: flex;
+  background-color: #E9E9EB;
+  border-radius: 10px;
+  margin: 15px;
+  padding: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.segment-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+.segment-item.active {
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Summary Card */
+.ios-summary-card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  margin: 0 15px 15px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.balance-title {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.balance-amount {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--primary);
+}
+
+.balance-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px;
+  background: #FFF8F0;
+  border-radius: 10px;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-weight: 600;
+}
+
+.income {
+  color: var(--secondary);
+}
+
+.expense {
+  color: var(--danger);
+}
+
+/* Toggle Container */
+.ios-toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px;
+  background-color: var(--card-bg);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.toggle-label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.ios-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.ios-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ios-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border);
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.ios-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .ios-toggle-slider {
+  background-color: var(--primary);
+}
+
+input:checked + .ios-toggle-slider:before {
+  transform: translateX(22px);
+}
+
+/* Transaction Section */
+.ios-transaction-section {
+  margin: 15px;
+  padding: 0 5px;
+}
+
+.ios-transaction-section h3 {
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.ios-transaction-list {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+/* Transaction Item */
+.ios-transaction-item {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.ios-transaction-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.transaction-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 18px;
+  color: white;
+  background-color: var(--primary) !important;
+}
+
+.transaction-details {
+  flex: 1;
+}
+
+.transaction-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.transaction-category {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.external-tag {
+  background-color: var(--warning);
+  color: white;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+/* Empty State */
+.ios-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.ios-empty-state i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.ios-empty-state p {
+  font-size: 16px;
+}
+
+/* Footer Button */
+.ios-footer {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+  z-index: 10;
+}
+
+.ios-add-button {
+  background: linear-gradient(135deg, var(--primary), #FF6A00);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+  width: 100%;
+}
+
+.ios-add-button i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.ios-add-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scrollbar styling */
+.ios-transaction-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.ios-transaction-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ios-transaction-list::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 10px;
+}/* Add to Dashboard.css */
+
+/* Expense Tag */
+.expense-tag {
+  background-color: #FF3B30;
+  color: white;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+/* Transaction Meta */
+.transaction-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.transaction-category {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #F0F0F5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.transaction-date {
+  color: var(--text-secondary);
+}/* Add to Dashboard.css */
+
+/* Footer Buttons */
+.ios-footer {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  gap: 15px;
+  z-index: 10;
+}
+
+.ios-add-balance-button,
+.ios-report-button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ios-add-balance-button {
+  background: linear-gradient(135deg, #34C759, #2e9e4d);
+  color: white;
+}
+
+.ios-report-button {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+}
+
+.ios-add-balance-button:hover,
+.ios-report-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ios-add-balance-button i,
+.ios-report-button i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Balance Form Modal */
+.balance-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel-btn, .save-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #e08500, #c07500);
+}
+/* Add to Dashboard.css */
+
+/* Footer Buttons */
+.ios-footer {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  gap: 15px;
+  z-index: 10;
+}
+
+.ios-add-balance-button,
+.ios-report-button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ios-add-balance-button {
+  background: linear-gradient(135deg, #34C759, #2e9e4d);
+  color: white;
+}
+
+.ios-report-button {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+}
+
+.ios-add-balance-button:hover,
+.ios-report-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ios-add-balance-button i,
+.ios-report-button i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Balance Form Modal */
+.balance-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel-btn, .save-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #e08500, #c07500);
+}
+
+/* Daily Closing Info */
+.daily-closing-info {
+  background-color: #FFF8F0;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px;
+  text-align: center;
+  border: 1px dashed #FF9500;
+}
+
+.closing-label {
+  font-size: 14px;
+  color: #8E8E93;
+  margin-bottom: 5px;
+}
+
+.closing-amount {
+  font-size: 22px;
+  font-weight: 700;
+  color: #34C759;
+  margin-bottom: 5px;
+}
+
+.closing-note {
+  font-size: 12px;
+  color: #8E8E93;
+}
+
+/* Carry Over Tag */
+.carryover-tag {
+  background-color: #AF52DE;
+  color: white;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}/* Add to Dashboard.css */
+
+/* Footer Buttons */
+.ios-footer {
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  gap: 8px;
+  z-index: 10;
+}
+
+.ios-add-balance-button,
+.ios-add-expense-button,
+.ios-report-button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ios-add-balance-button {
+  background: linear-gradient(135deg, #34C759, #2e9e4d);
+  color: white;
+}
+
+.ios-add-expense-button {
+  background: linear-gradient(135deg, #FF3B30, #e0332a);
+  color: white;
+}
+
+.ios-report-button {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+}
+
+.ios-add-balance-button:hover,
+.ios-add-expense-button:hover,
+.ios-report-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ios-add-balance-button i,
+.ios-add-expense-button i,
+.ios-report-button i {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+/* Expense Form Modal */
+.expense-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.expense-form-modal .modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8E8E93;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #1C1C1E;
+}
+
+.form-group input, 
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #C7C7CC;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #F2F2F7;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #F2F2F7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-item.active {
+  background-color: #E0F7FA;
+  border: 1px solid #007AFF;
+}
+
+.category-item i {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #FF9500;
+}
+
+.category-item span {
+  font-size: 12px;
+  text-align: center;
+}
+
+.save-expense-btn {
+  background: linear-gradient(135deg, #FF9500, #e08500);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.save-expense-btn i {
+  margin-right: 10px;
+}
+
+.save-expense-btn:hover {
+  background: linear-gradient(135deg, #e08500, #c07500);
+}
+
+/* Balance Form Modal */
+.balance-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.balance-form-modal .modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #34C759, #2e9e4d);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.save-btn i {
+  margin-right: 10px;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #2e9e4d, #278e44);
+}
+/* ATTENDANCE CARD STYLES */
+.ios-attendance-card {
+  background: linear-gradient(135deg, #4a6bff, #8a4fff);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  color: white;
+  box-shadow: 0 10px 20px rgba(74, 107, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.ios-attendance-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  transform: rotate(30deg);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-header i {
+  font-size: 24px;
+  margin-right: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.card-content p {
+  margin: 0 0 15px 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.attendance-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat .value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat .label {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+.card-footer {
+  margin-top: 15px;
+}
+
+.attendance-btn {
+  display: block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.attendance-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.attendance-btn i {
+  margin-right: 8px;
+}
+/* Dashboard.css */
+.ios-view-attendance-button {
+  background-color: #5E5CE6; /* Purple color */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ios-view-attendance-button:hover {
+  background-color: #4d4bda;
+}
+
+.ios-view-attendance-button i {
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+/* Dashboard.css */
+.ios-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 5px;
+  background: white;
+  border-top: 1px solid #eee;
+  position: sticky;
+  bottom: 50px;
+  z-index: 10;
+}
+
+.ios-footer button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 9px;
+  font-size: 15px;
+  border-radius: 15px;
+  border: none;
+  font-weight: 500;
+}
+/* Admin Back Button Styles */
+.admin-back-button {
+  position: absolute;
+  left: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 10;
+}
+
+.admin-back-button i {
+  font-size: 0.9rem;
+}
+
+.ios-header .header-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title {
+  z-index: 1; /* Ensure title stays centered */
+}

@@ -1,0 +1,144 @@
+.site-form-wrapper {
+  padding: 1.5rem;
+  background: #fefefe;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  max-width: 700px;
+  margin: 2rem auto;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #111827;
+  text-align: center;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.form-input {
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.form-button {
+  padding: 0.65rem 1.25rem;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  color: white;
+  width: fit-content;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+
+.add-btn {
+  background-color: #34c759;
+}
+
+.add-btn:hover {
+  background-color: #28a745;
+}
+
+.update-btn {
+  background-color: #ffcc00;
+  color: #333;
+}
+
+.update-btn:hover {
+  background-color: #e0b000;
+}
+
+.table-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.site-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.site-table th,
+.site-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #fff;
+}
+
+.site-table th {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.site-table td {
+  color: #374151;
+}
+
+.actions {
+  text-align: center;
+}
+
+.edit-btn,
+.delete-btn {
+  font-size: 0.95rem;
+  padding: 0.3rem 0.75rem;
+  margin: 0 0.25rem;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.edit-btn {
+  background-color: #ffe58f;
+  color: #8c6d1f;
+}
+
+.edit-btn:hover {
+  background-color: #ffdd75;
+}
+
+.delete-btn {
+  background-color: #ff453a;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e6392e;
+}

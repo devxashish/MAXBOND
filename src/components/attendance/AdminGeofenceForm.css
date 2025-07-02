@@ -1,0 +1,21 @@
+.map-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.map-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.ios-form {
+  margin-top: 16px;
+}
