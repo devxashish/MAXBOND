@@ -1,0 +1,51 @@
+.my-attendance-container {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.my-attendance-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.my-attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.my-attendance-table th {
+  background-color: #dbeafe;
+  color: #1e293b;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.my-attendance-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.my-attendance-table tr:hover {
+  background-color: #f1f5f9;
+}
+
+.my-attendance-empty {
+  text-align: center;
+  color: #64748b;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}

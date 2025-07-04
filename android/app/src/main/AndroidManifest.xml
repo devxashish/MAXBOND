@@ -64,12 +64,5 @@
         </provider>
 
         <!-- Location Services -->
-        <service 
-            android:name="com.getcapacitor.community.geolocation.services.FusedLocationService"
-            android:foregroundServiceType="location" />
-            
-        <service
-            android:name="com.google.android.gms.location.GeofenceBroadcastReceiver"
-            android:exported="true" />
-    </application>
+        
 </manifest>

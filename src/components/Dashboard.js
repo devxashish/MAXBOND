@@ -505,31 +505,7 @@ const Dashboard = () => {
       </div>
 
       {/* ATTENDANCE TRACKING CARD */}
-      <div className="ios-attendance-card">
-        <div className="card-header">
-          <i className="fas fa-map-marker-alt"></i>
-          <h3>Attendance Tracking</h3>
-        </div>
-        <div className="card-content">
-          <p>Location-based automatic attendance</p>
-          <div className="attendance-stats">
-            <div className="stat">
-              <span className="value">92%</span>
-              <span className="label">This Week</span>
-            </div>
-            <div className="stat">
-              <span className="value">89%</span>
-              <span className="label">This Month</span>
-            </div>
-          </div>
-        </div>
-        <div className="card-footer">
-          <Link to="/attendance" className="attendance-btn">
-            <i className="fas fa-calendar-check"></i>
-            View Attendance Records
-          </Link>
-        </div>
-      </div>
+      
 
       {/* Add Expense Form Modal */}
       {showExpenseForm && (
@@ -640,12 +616,14 @@ const Dashboard = () => {
   </button>
   
   {/* Add View Attendance Button */}
-  <button 
-    className="ios-view-attendance-button"
-    onClick={() => navigate("/dashboard/attendance")}
-  >
-    <i className="fas fa-calendar-check"></i> View Attendance
-  </button>
+<button
+  onClick={() => navigate("/attendance")}
+  className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition"
+>
+  📍 Location Attendance
+</button>
+
+
   
   <button 
     className="ios-add-expense-button"

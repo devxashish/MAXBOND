@@ -1,0 +1,41 @@
+.admin-attendance-page {
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.admin-attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-attendance-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-attendance-date-input {
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  transition: 0.2s ease;
+}
+
+.admin-attendance-date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
