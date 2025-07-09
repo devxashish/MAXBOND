@@ -1,4 +1,4 @@
-// js/firebase.js
+// src/firebase.js
 
 // ✅ Firebase Setup
 import { initializeApp } from "firebase/app";
@@ -44,7 +44,6 @@ const functions = getFunctions(app);
 enableIndexedDbPersistence(db)
   .then(() => console.log("✅ Firestore offline persistence enabled"))
   .catch((err) => console.error("❌ Offline support failed:", err));
-
 
 
 // ✅ Export essentials

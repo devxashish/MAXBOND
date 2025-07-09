@@ -1,64 +1,99 @@
+// src/components/AddItemForm.jsx
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { getAllSites } from "../services/siteService";
+import { addInventoryItem } from "../services/inventoryService";
+import Modal from "./Modal"; // Import the new Modal component
+import './AddItemForm.css'; // Import the new CSS file
 
 const AddItemForm = () => {
   const [sites, setSites] = useState([]);
-  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [unit, setUnit] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", message: "", onConfirm: null, showCancelButton: false });
+
+  const openModal = (title, message, onConfirm = null, showCancelButton = false) => {
+    setModalContent({ title, message, onConfirm, showCancelButton });
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalContent({ title: "", message: "", onConfirm: null, showCancelButton: false });
+  };
 
   // Load list of available sites
   useEffect(() => {
     const fetchSites = async () => {
-      const snapshot = await getDocs(collection(db, "sites"));
-      const siteList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setSites(siteList);
+      try {
+        const siteList = await getAllSites();
+        setSites(siteList);
+      } catch (err) {
+        console.error("Error fetching sites:", err);
+        setError("Failed to load sites for item assignment.");
+      }
     };
-
     fetchSites();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(false);
+    setLoading(true);
 
-    if (!selectedSite || !itemName || !quantity) {
-      alert("Please fill in all required fields.");
+    if (!selectedSiteId || !itemName || !quantity) {
+      openModal("Required Fields", "Please fill in all required fields.");
+      setLoading(false);
+      return;
+    }
+
+    if (Number(quantity) <= 0) {
+      openModal("Invalid Quantity", "Quantity must be a positive number.");
+      setLoading(false);
       return;
     }
 
     try {
-      await addDoc(collection(db, "inventory"), {
-        siteId: selectedSite,
-        name: itemName,
-        quantity: Number(quantity),
-        unit: unit || "",
-      });
-      alert("Item added successfully!");
+      await addInventoryItem(selectedSiteId, itemName, Number(quantity), unit);
+      setSuccess(true);
       setItemName("");
       setQuantity("");
       setUnit("");
+      openModal("Success", "Item added successfully!");
     } catch (err) {
-      console.error(err);
-      alert("Failed to add item.");
+      console.error("Error adding item:", err);
+      setError(err.message || "Failed to add item.");
+      openModal("Error", `Failed to add item: ${err.message || "Unknown error"}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-4 border rounded shadow mt-4">
-      <h2 className="text-xl font-bold mb-3">Add New Item to Site</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="add-item-form-container">
+      <h2 className="add-item-form-title">➕ Add New Item to Site Inventory</h2>
+      <form onSubmit={handleSubmit} className="add-item-form-layout"> {/* Updated class name */}
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>} {/* Display success message */}
+
         {/* Select Site */}
-        <div>
-          <label className="block font-medium">Select Site</label>
+        <div className="add-item-form-group">
+          <label htmlFor="selectSite" className="add-item-form-label">
+            Select Site
+          </label>
           <select
-            className="w-full border p-2"
-            value={selectedSite}
-            onChange={(e) => setSelectedSite(e.target.value)}
+            id="selectSite"
+            className="form-select"
+            value={selectedSiteId}
+            onChange={(e) => setSelectedSiteId(e.target.value)}
+            disabled={loading}
+            required
           >
             <option value="">Choose Site</option>
             {sites.map((site) => (
@@ -70,49 +105,71 @@ const AddItemForm = () => {
         </div>
 
         {/* Item Name */}
-        <div>
-          <label className="block font-medium">Item Name</label>
+        <div className="add-item-form-group">
+          <label htmlFor="itemName" className="add-item-form-label">
+            Item Name
+          </label>
           <input
             type="text"
-            className="w-full border p-2"
+            id="itemName"
+            className="form-input"
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
+            placeholder="e.g. Cement, Bricks, Steel Rods"
+            disabled={loading}
             required
           />
         </div>
 
         {/* Quantity */}
-        <div>
-          <label className="block font-medium">Quantity</label>
+        <div className="add-item-form-group">
+          <label htmlFor="quantity" className="add-item-form-label">
+            Quantity
+          </label>
           <input
             type="number"
-            className="w-full border p-2"
+            id="quantity"
+            className="form-input"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             required
             min="1"
+            disabled={loading}
           />
         </div>
 
         {/* Unit */}
-        <div>
-          <label className="block font-medium">Unit (optional)</label>
+        <div className="add-item-form-group">
+          <label htmlFor="unit" className="add-item-form-label">
+            Unit (optional)
+          </label>
           <input
             type="text"
-            className="w-full border p-2"
+            id="unit"
+            className="form-input"
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
             placeholder="e.g. kg, liter, pcs"
+            disabled={loading}
           />
         </div>
 
         <button
           type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="add-item-submit-button" 
+          disabled={loading}
         >
-          Add Item
+          {loading ? "Adding Item..." : "Add Item"}
         </button>
       </form>
+      <Modal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        title={modalContent.title}
+        message={modalContent.message}
+        onConfirm={modalContent.onConfirm}
+        showCancelButton={modalContent.showCancelButton}
+      />
     </div>
   );
 };

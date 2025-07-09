@@ -1,0 +1,69 @@
+/* src/styles/EditInventoryItemModal.css */
+
+/* This component uses the global .modal-overlay, .modal-content, etc.
+   from Modal.css for its main structure.
+   Specific form elements inside the modal will use global .form-input, .form-select, .primary-button. */
+
+.edit-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-item-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-item-form-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #fff;
+  font-size: 1em;
+}
+
+.edit-item-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit-item-save-button {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.edit-item-save-button:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+  transform: translateY(-2px);
+}
+
+.edit-item-cancel-button {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.edit-item-cancel-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #ff4d4d; /* Red color for errors */
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}

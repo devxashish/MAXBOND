@@ -1,0 +1,148 @@
+    /* src/styles/StockSummaryPage.css */
+
+    .stock-summary-container {
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+      border-radius: 15px; /* Rounded corners */
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      color: #e0e0e0; /* Light text color */
+      animation: fadeInUp 0.6s ease-out; /* Animation from global styles */
+    }
+
+    .stock-summary-title {
+      text-align: center;
+      color: #ffd700; /* Gold color for titles */
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      animation: slideDown 0.5s ease-out; /* Animation from global styles */
+    }
+
+    .filter-export-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    /* Inputs use global .form-input */
+
+    .export-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px; /* Space for mobile layout */
+    }
+
+    .export-button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .export-button.pdf {
+      background: linear-gradient(to right, #dc3545, #b30000); /* Red for PDF */
+    }
+
+    .export-button.pdf:hover {
+      background: linear-gradient(to right, #b30000, #dc3545);
+      transform: translateY(-2px);
+    }
+
+    .export-button.excel {
+      background: linear-gradient(to right, #28a745, #218838); /* Green for Excel */
+    }
+
+    .export-button.excel:hover {
+      background: linear-gradient(to right, #218838, #28a745);
+      transform: translateY(-2px);
+    }
+
+    .export-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #495057;
+    }
+
+    .stock-summary-message {
+      text-align: center;
+      font-size: 1.1em;
+      color: #ccc;
+      padding: 20px;
+    }
+
+    /* Table styling uses global .data-table */
+
+    /* New styles for Actions column and buttons */
+    .stock-summary-actions-cell {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .stock-summary-action-button { /* General class for action buttons */
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 0.9em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .stock-summary-action-button.edit {
+      background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
+    }
+
+    .stock-summary-action-button.edit:hover {
+      background: linear-gradient(to right, #0056b3, #007bff);
+      transform: translateY(-2px);
+    }
+
+    .stock-summary-action-button.delete { /* Style for delete button */
+      background: linear-gradient(to right, #dc3545, #b30000); /* Red gradient */
+    }
+
+    .stock-summary-action-button.delete:hover {
+      background: linear-gradient(to right, #b30000, #dc3545);
+      transform: translateY(-2px);
+    }
+
+    .stock-summary-action-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #6c757d;
+    }
+
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+      .filter-export-section {
+        justify-content: space-between;
+      }
+      .export-buttons {
+        margin-top: 0;
+      }
+    }
+    

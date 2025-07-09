@@ -1,0 +1,71 @@
+/* src/styles/SiteInventory.css */
+
+.site-inventory-container {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #e0e0e0; /* Light text color */
+  animation: fadeInUp 0.6s ease-out; /* Animation from global styles */
+}
+
+.site-inventory-title {
+  text-align: center;
+  color: #ffd700; /* Gold color for titles */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  animation: slideDown 0.5s ease-out; /* Animation from global styles */
+}
+
+.site-inventory-message {
+  text-align: center;
+  font-size: 1.1em;
+  color: #ccc;
+  padding: 20px;
+}
+
+.loading-message, .no-items-message {
+  text-align: center;
+  color: #ccc;
+  font-size: 1.1em;
+  padding: 20px 0;
+}
+
+/* Table styling uses global .data-table from index.css */
+
+.inventory-actions-cell {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.action-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.action-button.edit {
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
+}
+
+.action-button.edit:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+  transform: translateY(-2px);
+}
+
+.action-button.delete {
+  background: linear-gradient(to right, #dc3545, #b30000); /* Red gradient */
+}
+
+.action-button.delete:hover {
+  background: linear-gradient(to right, #b30000, #dc3545);
+  transform: translateY(-2px);
+}

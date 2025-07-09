@@ -1,0 +1,87 @@
+/* src/styles/TransferHistory.css */
+
+.transfer-history-container {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #e0e0e0; /* Light text color */
+  animation: fadeInUp 0.6s ease-out; /* Animation from global styles */
+}
+
+.transfer-history-title {
+  text-align: center;
+  color: #ffd700; /* Gold color for titles */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  animation: slideDown 0.5s ease-out; /* Animation from global styles */
+}
+
+.export-buttons-history {
+  display: flex;
+  gap: 15px; /* Space between buttons */
+  margin-bottom: 20px;
+  justify-content: flex-end; /* Align buttons to the right */
+}
+
+/* Export buttons use global .export-button classes from index.css */
+
+.loading-message, .no-records-message {
+  text-align: center;
+  font-size: 1.1em;
+  color: #ccc;
+  padding: 20px;
+}
+
+.error-message {
+  color: #ff4d4d; /* Red color for errors */
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}
+
+/* Table styling uses global .data-table from index.css */
+
+/* New styles for Actions column and buttons */
+.transfer-actions-cell {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.transfer-action-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.transfer-action-button.edit {
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
+}
+
+.transfer-action-button.edit:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+  transform: translateY(-2px);
+}
+
+.transfer-action-button.delete {
+  background: linear-gradient(to right, #dc3545, #b30000); /* Red gradient */
+}
+
+.transfer-action-button.delete:hover {
+  background: linear-gradient(to right, #b30000, #dc3545);
+  transform: translateY(-2px);
+}
+
+.transfer-action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #6c757d;
+}

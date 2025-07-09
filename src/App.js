@@ -33,6 +33,9 @@ import MainPage from "./components/MainPage";
 import AdminAttendancePage from "./pages/AdminAttendancePage";
 import AdminUserList from "./pages/AdminUserList";
 import UserLocationView from "./pages/UserLocationView";
+import SiteStockPage from "./components/SiteStockPage"; // make sure path is correct
+
+
 
 // ✅ Admin email set
 const adminEmailSet = new Set(ADMIN_EMAILS);
@@ -83,6 +86,7 @@ function App() {
               : <Navigate to="/login" replace />
           }
         />
+        <Route path="/dashboard/site-stock" element={<SiteStockPage />} />
 
         {/* 🔓 Public */}
         <Route path="/login" element={<Login />} />

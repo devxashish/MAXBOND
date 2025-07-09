@@ -1,0 +1,107 @@
+/* src/styles/SiteList.css */
+
+.site-list-container {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #e0e0e0; /* Light text color */
+  animation: fadeInUp 0.6s ease-out; /* Animation from global styles */
+}
+
+.site-list-title {
+  text-align: center;
+  color: #ffd700; /* Gold color for titles */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  animation: slideDown 0.5s ease-out; /* Animation from global styles */
+}
+
+.site-list-message {
+  text-align: center;
+  font-size: 1.1em;
+  color: #ccc;
+  padding: 20px;
+}
+
+.site-list-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between list items */
+}
+
+.site-list-item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent background */
+}
+
+.site-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px); /* Lift effect on hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.site-list-item.selected {
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient for selected */
+  border-color: #007bff;
+  color: #fff;
+  transform: scale(1.02); /* Slightly larger when selected */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative; /* For the ring effect */
+  z-index: 1; /* Ensure it's on top */
+}
+
+/* Optional: Add a ring effect for selected item */
+.site-list-item.selected::before {
+  content: '';
+  position: absolute;
+  inset: -3px; /* Adjust to control ring thickness */
+  border: 2px solid #007bff; /* Blue ring */
+  border-radius: 12px; /* Slightly larger than item border-radius */
+  z-index: -1; /* Behind the item content */
+  animation: pulse 1.5s infinite ease-out; /* Subtle pulse animation */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+.site-item-name {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.site-item-location {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.error-message {
+  color: #ff4d4d; /* Red color for errors */
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}

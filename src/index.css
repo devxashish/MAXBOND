@@ -17,3 +17,325 @@ code {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+/* src/styles/index.css */
+
+/* Global Box Sizing */
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Base Body Styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif; /* As per user's example */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(to right, #1f1c2c, #928dab); /* From user's example */
+  min-height: 100vh;
+  color: #fff; /* Default text color for the body */
+}
+
+/* Global Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Common form element styling */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  color: #333; /* Darker text for inputs */
+  background-color: #f9f9f9;
+}
+
+.form-input:focus,
+.form-select:focus {
+  box-shadow: 0 0 8px #ffa500;
+  border-color: #ffa500;
+}
+
+.primary-button {
+  padding: 10px 25px;
+  background: linear-gradient(to right, #00c853, #009624); /* From user's example */
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.3s ease;
+  width: 100%; /* Default to full width */
+}
+
+.primary-button:hover {
+  background: linear-gradient(to right, #43e97b, #38f9d7); /* From user's example */
+  transform: scale(1.03);
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(to right, #ccc, #bbb);
+}
+
+/* Common table styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden; /* Ensures rounded corners apply to content */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.data-table thead {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffd700; /* Gold color for headers */
+}
+
+.data-table th {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 16px;
+}
+
+.data-table tbody tr {
+  background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter background for rows */
+  transition: background-color 0.3s ease;
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.data-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #eee;
+  font-size: 15px;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Utility for text colors */
+.text-gold {
+  color: #ffd700;
+}
+.text-light-gray {
+  color: #eee;
+}
+.text-dark-gray {
+  color: #333;
+}
+.text-red {
+  color: #ff4d4d;
+}
+.text-green {
+  color: #00e676;
+}
+/* src/styles/index.css */
+
+/* Global Box Sizing */
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Base Body Styles */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif; /* A common iOS-like font */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Soft, light gradient background for the entire page */
+  background: linear-gradient(to bottom right, #f2f2f7, #e5e5ea); /* iOS background colors */
+  min-height: 100vh;
+  color: #1c1c1e; /* Default dark text color for better visibility on light background */
+}
+
+/* Global Animations (no change, these are generic) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Common form element styling */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px; /* Slightly larger padding */
+  border-radius: 10px; /* More rounded */
+  border: 1px solid #d1d1d6; /* Light gray border */
+  outline: none;
+  font-size: 16px; /* Slightly larger font */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  color: #1c1c1e; /* Dark text */
+  background-color: #ffffff; /* White background */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+}
+
+.form-input:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* iOS blue focus ring */
+  border-color: #007aff; /* iOS blue border */
+}
+
+.primary-button {
+  padding: 12px 25px; /* Slightly larger padding */
+  background: linear-gradient(to right, #007aff, #0056b3); /* iOS blue gradient */
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px; /* Slightly larger font */
+  border: none;
+  border-radius: 10px; /* More rounded */
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2); /* Blue shadow */
+}
+
+.primary-button:hover {
+  background: linear-gradient(to right, #0056b3, #007aff); /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift */
+  box-shadow: 0 6px 12px rgba(0, 122, 255, 0.3);
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(to right, #a2a2a7, #8e8e93); /* Muted gray for disabled */
+  box-shadow: none;
+}
+
+/* Common table styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Soft shadow for tables */
+  background-color: #ffffff; /* White background for table */
+}
+
+.data-table thead {
+  background-color: #f2f2f7; /* Light gray for table header */
+  color: #333333; /* Dark text for headers */
+}
+
+.data-table th {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5ea; /* Light border */
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.data-table tbody tr {
+  background-color: #ffffff; /* White background for rows */
+  transition: background-color 0.3s ease;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f8f8fa; /* Lighter white on hover */
+}
+
+.data-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e5e5ea; /* Light border */
+  color: #1c1c1e; /* Dark text for cells */
+  font-size: 15px;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Utility for text colors (adjusted for light theme) */
+.text-gold {
+  color: #daa520; /* Darker gold */
+}
+.text-light-gray {
+  color: #8e8e93; /* Muted gray */
+}
+.text-dark-gray {
+  color: #1c1c1e; /* Very dark gray */
+}
+.text-red {
+  color: #ff3b30; /* iOS red */
+}
+.text-green {
+  color: #34c759; /* iOS green */
+}
+
+/* Global action button styles (used in lists/tables) */
+.action-button {
+  padding: 8px 12px; /* Slightly smaller padding */
+  border-radius: 8px; /* More rounded */
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.action-button.edit {
+  background: #007aff; /* iOS blue */
+}
+
+.action-button.edit:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.action-button.delete {
+  background: #ff3b30; /* iOS red */
+}
+
+.action-button.delete:hover {
+  background: #cc2920;
+  transform: translateY(-1px);
+}
+
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #a2a2a7;
+}

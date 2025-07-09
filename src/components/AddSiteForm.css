@@ -1,144 +1,169 @@
-.site-form-wrapper {
-  padding: 1.5rem;
-  background: #fefefe;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-  max-width: 700px;
-  margin: 2rem auto;
-  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", sans-serif;
-  transition: all 0.3s ease;
+/* src/styles/AddSiteForm.css */
+
+.site-form-container {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  color: #e0e0e0; /* Light text color */
+  animation: fadeInUp 0.6s ease-out; /* Animation from global styles */
 }
 
 .form-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: #111827;
   text-align: center;
+  color: #ffd700; /* Gold color for titles */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  animation: slideDown 0.5s ease-out; /* Animation from global styles */
 }
 
-.form-grid {
+.form-layout {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  margin-bottom: 2rem;
+  gap: 20px; /* Space between form groups */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-label {
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: #374151;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #fff; /* White label text */
+  font-size: 1.05em;
 }
 
-.form-input {
-  padding: 0.65rem 1rem;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  background-color: #f9fafb;
-  font-size: 1rem;
-  transition: border 0.2s ease, background 0.2s ease;
-}
+/* Inputs use global .form-input from index.css */
 
-.form-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-.form-button {
-  padding: 0.65rem 1.25rem;
-  border-radius: 14px;
+.form-submit-button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
   border: none;
-  font-weight: 600;
-  color: white;
-  width: fit-content;
-  align-self: flex-start;
-  transition: all 0.2s ease;
-}
-
-.add-btn {
-  background-color: #34c759;
-}
-
-.add-btn:hover {
-  background-color: #28a745;
-}
-
-.update-btn {
-  background-color: #ffcc00;
-  color: #333;
-}
-
-.update-btn:hover {
-  background-color: #e0b000;
-}
-
-.table-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #111827;
-}
-
-.site-table {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  font-size: 0.95rem;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
-}
-
-.site-table th,
-.site-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #fff;
-}
-
-.site-table th {
-  background-color: #f3f4f6;
-  color: #4b5563;
-  font-weight: 500;
-}
-
-.site-table td {
-  color: #374151;
-}
-
-.actions {
-  text-align: center;
-}
-
-.edit-btn,
-.delete-btn {
-  font-size: 0.95rem;
-  padding: 0.3rem 0.75rem;
-  margin: 0 0.25rem;
-  border-radius: 10px;
-  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.form-submit-button.add-mode {
+  background: linear-gradient(to right, #28a745, #218838); /* Green gradient for Add */
+}
+
+.form-submit-button.add-mode:hover {
+  background: linear-gradient(to right, #218838, #28a745);
+  transform: translateY(-2px);
+}
+
+.form-submit-button.edit-mode {
+  background: linear-gradient(to right, #6f42c1, #563d7c); /* Purple gradient for Edit */
+}
+
+.form-submit-button.edit-mode:hover {
+  background: linear-gradient(to right, #563d7c, #6f42c1);
+  transform: translateY(-2px);
+}
+
+.form-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #6c757d; /* Gray for disabled */
+}
+
+.error-message {
+  color: #ff4d4d; /* Red color for errors */
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}
+
+.existing-sites-title {
+  text-align: center;
+  color: #ffd700;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.no-sites-message {
+  text-align: center;
+  color: #ccc;
+  font-size: 1.1em;
+  padding: 20px;
+}
+
+.loading-message {
+  text-align: center;
+  color: #ccc;
+  font-size: 1.1em;
+  padding: 20px;
+}
+
+.site-table-wrapper {
+  overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+/* Table styling uses global .data-table from index.css */
+
+.site-actions-cell {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start; /* Align action buttons to the left */
+}
+
+.action-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
   border: none;
-  transition: background 0.2s ease;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.edit-btn {
-  background-color: #ffe58f;
-  color: #8c6d1f;
+.action-button.edit {
+  background: linear-gradient(to right, #007bff, #0056b3); /* Blue gradient */
 }
 
-.edit-btn:hover {
-  background-color: #ffdd75;
+.action-button.edit:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+  transform: translateY(-2px);
 }
 
-.delete-btn {
-  background-color: #ff453a;
-  color: white;
+.action-button.delete {
+  background: linear-gradient(to right, #dc3545, #b30000); /* Red gradient */
 }
 
-.delete-btn:hover {
-  background-color: #e6392e;
+.action-button.delete:hover {
+  background: linear-gradient(to right, #b30000, #dc3545);
+  transform: translateY(-2px);
+}
+
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #6c757d;
+}
+
+/* Responsive adjustments for form layout */
+@media (min-width: 768px) {
+  .form-layout {
+    flex-direction: row; /* Arrange inputs in a row on larger screens */
+    align-items: flex-end; /* Align items to the bottom */
+    justify-content: space-between;
+  }
+  .form-group {
+    flex: 1; /* Allow form groups to take equal space */
+  }
+  .form-submit-button {
+    width: auto; /* Button can shrink */
+    min-width: 150px; /* Ensure a minimum width */
+  }
 }

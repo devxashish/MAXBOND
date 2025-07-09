@@ -8,7 +8,7 @@ const BottomTab = () => {
   const location = useLocation();
 
   const tabs = [
-    { label: "Main", path: "/dashboard/main", icon: <Home /> }, // Replaced "Expense"
+     { label: "Stock", path: "/dashboard/site-stock", icon: <Home /> },
     { label: "Transactions", path: "/dashboard/transactions", icon: <Wallet /> },
     { label: "External", path: "/dashboard/external-payments", icon: <Globe /> },
     { label: "Export", path: "/dashboard/export", icon: <Upload /> },

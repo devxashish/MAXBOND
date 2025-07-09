@@ -1,170 +1,188 @@
-/* Dashboard.css - iOS Style with Orange Theme */
+/* src/styles/Dashboard.css */
 
-/* Orange Color Theme */
-:root {
-  --primary: #FF9500; /* Orange */
-  --secondary: #34C759; /* Green */
-  --danger: #FF3B30; /* Red */
-  --warning: #FF9500; /* Orange */
-  --background: #F2F2F7;
-  --card-bg: #FFFFFF;
-  --text-primary: #1C1C1E;
-  --text-secondary: #8E8E93;
-  --border: #C7C7CC;
-  --shadow: rgba(0, 0, 0, 0.1);
-  --header-height: 60px;
-  --footer-height: 85px;
-}
-
+/* Main Dashboard Wrapper */
 .financial-dashboard {
-  background-color: var(--background);
-  color: var(--text-primary);
   min-height: 100vh;
-  padding-bottom: 80px;
-  position: relative;
+  /* Background handled by index.css body */
+  padding-bottom: 140px; /* Increased space for two bottom bars (Action buttons + BottomTab) */
 }
 
-/* iOS Header Styles */
+/* iOS-style Header */
 .ios-header {
-  background: linear-gradient(135deg, var(--primary), #FF6A00); /* Orange gradient */
-  color: white;
-  height: var(--header-height);
-  padding: 0 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  background: linear-gradient(to right, #007aff, #5ac8fa); /* iOS blue gradient */
+  padding: 20px;
+  padding-top: 50px; /* Space for status bar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .header-content {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   position: relative;
+  z-index: 1;
+}
+
+.admin-back-button {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Pill shape */
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .header-title {
-  font-weight: 600;
-  font-size: 20px;
-  letter-spacing: 0.5px;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  flex-grow: 1; /* Allow title to take space */
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .header-icon {
-  position: absolute;
-  right: 20px;
-  font-size: 20px;
-  color: white;
+  font-size: 24px;
+  opacity: 0.8;
 }
 
-/* iOS Segment Control */
+/* iOS Segment Control (Daily/Weekly/Monthly) */
 .ios-segment-control {
   display: flex;
-  background-color: #E9E9EB;
+  background-color: #e5e5ea; /* Light gray background */
   border-radius: 10px;
-  margin: 15px;
-  padding: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-width: 350px;
+  margin: 20px auto;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner shadow */
 }
 
 .segment-item {
   flex: 1;
-  text-align: center;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  padding: 10px 15px;
+  background-color: transparent;
   border: none;
-  background: transparent;
+  color: #3a3a3c; /* Dark text */
   font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .segment-item.active {
-  background-color: var(--card-bg);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  font-weight: 600;
-  color: var(--primary);
+  background-color: #ffffff; /* White active background */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for active item */
+  color: #007aff; /* iOS blue for active text */
+  transform: scale(1.02); /* Slight pop */
 }
 
-/* Summary Card */
+/* Summary Cards */
+.summary-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between cards */
+  margin: 0 20px 20px 20px; /* Margin around the container */
+}
+
 .ios-summary-card {
-  background-color: var(--card-bg);
-  border-radius: 16px;
-  margin: 0 15px 15px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  animation: fadeIn 0.6s ease-out;
+  background-color: #ffffff; /* White background */
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  text-align: center;
+  border: 1px solid #e5e5ea;
 }
 
 .balance-title {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 8px;
-  text-align: center;
+  font-size: 16px;
+  color: #8e8e93; /* Muted gray */
+  margin-bottom: 5px;
 }
 
 .balance-amount {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: bold;
+  color: #1c1c1e; /* Dark text */
   margin-bottom: 20px;
-  text-align: center;
-  color: var(--primary);
+}
+
+.balance-amount.income { /* Specific color for morning balance */
+  color: #34c759; /* iOS green */
 }
 
 .balance-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 15px; /* Space between stats */
 }
 
 .stat-item {
+  flex: 1;
+  min-width: 120px; /* Ensure items don't get too small */
   text-align: center;
-  padding: 10px;
-  background: #FFF8F0;
-  border-radius: 10px;
 }
 
 .stat-label {
-  color: var(--text-secondary);
-  font-size: 13px;
-  margin-bottom: 4px;
+  font-size: 14px;
+  color: #8e8e93;
+  margin-bottom: 3px;
 }
 
 .stat-value {
+  font-size: 18px;
   font-weight: 600;
 }
 
-.income {
-  color: var(--secondary);
+.stat-value.income {
+  color: #34c759; /* iOS green */
 }
 
-.expense {
-  color: var(--danger);
+.stat-value.expense {
+  color: #ff3b30; /* iOS red */
 }
 
-/* Toggle Container */
+/* External Toggle */
 .ios-toggle-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin: 15px;
-  background-color: var(--card-bg);
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 15px;
   padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin: 0 20px 20px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e5ea;
 }
 
 .toggle-label {
-  font-weight: 500;
   font-size: 16px;
+  color: #1c1c1e;
+  font-weight: 500;
 }
 
+/* iOS Toggle Switch (CSS from previous example, adjusted colors) */
 .ios-toggle-switch {
   position: relative;
   display: inline-block;
   width: 50px;
-  height: 28px;
+  height: 30px;
 }
 
 .ios-toggle-switch input {
@@ -180,16 +198,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--border);
+  background-color: #a2a2a7; /* Inactive gray */
   transition: .4s;
-  border-radius: 34px;
+  border-radius: 30px;
 }
 
 .ios-toggle-slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
+  height: 22px;
+  width: 22px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -197,592 +215,141 @@
   border-radius: 50%;
 }
 
-input:checked + .ios-toggle-slider {
-  background-color: var(--primary);
+.ios-toggle-switch input:checked + .ios-toggle-slider {
+  background-color: #34c759; /* iOS green active */
 }
 
-input:checked + .ios-toggle-slider:before {
-  transform: translateX(22px);
+.ios-toggle-switch input:checked + .ios-toggle-slider:before {
+  transform: translateX(20px);
 }
 
-/* Transaction Section */
+/* Transaction Sections Wrapper */
+.ios-transaction-sections-wrapper {
+  margin: 0 20px 20px 20px; /* Margin around the container */
+  display: grid;
+  grid-template-columns: 1fr; /* Default to single column */
+  gap: 20px; /* Space between sections */
+}
+
+@media (min-width: 768px) {
+  .ios-transaction-sections-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Multiple columns on larger screens */
+  }
+}
+
+
 .ios-transaction-section {
-  margin: 15px;
-  padding: 0 5px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e5ea;
 }
 
 .ios-transaction-section h3 {
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e5e5ea;
+  padding-bottom: 10px;
 }
 
 .ios-transaction-list {
-  max-height: 50vh;
-  overflow-y: auto;
+  /* No specific styles needed here, items will style themselves */
 }
 
-/* Transaction Item */
 .ios-transaction-item {
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: slideIn 0.5s ease-out;
-  animation-fill-mode: both;
+  padding: 12px 0;
+  border-bottom: 1px solid #f2f2f7; /* Very light border */
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-.ios-transaction-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+.ios-transaction-item:last-child {
+  border-bottom: none;
 }
 
 .transaction-icon {
   width: 40px;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 15px;
   font-size: 18px;
-  color: white;
-  background-color: var(--primary) !important;
+  color: #fff;
+  margin-right: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+.transaction-icon.expense-icon { background-color: #ff3b30; } /* iOS Red */
+.transaction-icon.income-icon { background-color: #34c759; } /* iOS Green */
+.transaction-icon.external-icon { background-color: #ff9500; } /* iOS Orange */
+.transaction-icon.balance-icon { background-color: #007aff; } /* iOS Blue */
+
 
 .transaction-details {
   flex: 1;
 }
 
 .transaction-title {
-  font-weight: 500;
-  margin-bottom: 4px;
-  display: flex;
-  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1c1e;
+  margin-bottom: 2px;
 }
 
-.transaction-category {
-  color: var(--text-secondary);
+.expense-tag, .external-tag {
+  background-color: #e5e5ea;
+  color: #3a3a3c;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-weight: 500;
+}
+
+.transaction-meta {
   font-size: 13px;
+  color: #8e8e93;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .transaction-amount {
-  font-weight: 600;
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
-.external-tag {
-  background-color: var(--warning);
-  color: white;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
+.transaction-amount.income {
+  color: #34c759; /* iOS green */
 }
 
-/* Empty State */
+.transaction-amount.expense {
+  color: #ff3b30; /* iOS red */
+}
+
 .ios-empty-state {
   text-align: center;
-  padding: 40px 20px;
-  color: var(--text-secondary);
+  padding: 30px;
+  color: #8e8e93;
+  font-size: 16px;
 }
 
 .ios-empty-state i {
-  font-size: 48px;
-  margin-bottom: 16px;
-  opacity: 0.5;
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #d1d1d6;
 }
 
-.ios-empty-state p {
-  font-size: 16px;
-}
-
-/* Footer Button */
-.ios-footer {
-  position: fixed;
-  bottom: 80px;
-  left: 0;
-  right: 0;
-  padding: 0 20px;
-  z-index: 10;
-}
-
-.ios-add-button {
-  background: linear-gradient(135deg, var(--primary), #FF6A00);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
-  width: 100%;
-}
-
-.ios-add-button i {
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-.ios-add-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* Scrollbar styling */
-.ios-transaction-list::-webkit-scrollbar {
-  width: 5px;
-}
-
-.ios-transaction-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.ios-transaction-list::-webkit-scrollbar-thumb {
-  background-color: var(--border);
-  border-radius: 10px;
-}/* Add to Dashboard.css */
-
-/* Expense Tag */
-.expense-tag {
-  background-color: #FF3B30;
-  color: white;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}
-
-/* Transaction Meta */
-.transaction-meta {
-  display: flex;
-  gap: 10px;
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.transaction-category {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background-color: #F0F0F5;
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-
-.transaction-date {
-  color: var(--text-secondary);
-}/* Add to Dashboard.css */
-
-/* Footer Buttons */
-.ios-footer {
-  position: fixed;
-  bottom: 80px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 15px;
-  gap: 15px;
-  z-index: 10;
-}
-
-.ios-add-balance-button,
-.ios-report-button {
-  flex: 1;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.ios-add-balance-button {
-  background: linear-gradient(135deg, #34C759, #2e9e4d);
-  color: white;
-}
-
-.ios-report-button {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-}
-
-.ios-add-balance-button:hover,
-.ios-report-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.ios-add-balance-button i,
-.ios-report-button i {
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-/* Balance Form Modal */
+/* Add/Expense Form Modals (use global modal styles from index.css) */
+.expense-form-modal,
 .balance-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal-content {
-  background-color: white;
-  border-radius: 16px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content h3 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #555;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.cancel-btn, .save-btn {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.save-btn {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-}
-
-.cancel-btn:hover {
-  background-color: #d0d0d0;
-}
-
-.save-btn:hover {
-  background: linear-gradient(135deg, #e08500, #c07500);
-}
-/* Add to Dashboard.css */
-
-/* Footer Buttons */
-.ios-footer {
-  position: fixed;
-  bottom: 80px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 15px;
-  gap: 15px;
-  z-index: 10;
-}
-
-.ios-add-balance-button,
-.ios-report-button {
-  flex: 1;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.ios-add-balance-button {
-  background: linear-gradient(135deg, #34C759, #2e9e4d);
-  color: white;
-}
-
-.ios-report-button {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-}
-
-.ios-add-balance-button:hover,
-.ios-report-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.ios-add-balance-button i,
-.ios-report-button i {
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-/* Balance Form Modal */
-.balance-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal-content {
-  background-color: white;
-  border-radius: 16px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content h3 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #555;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.cancel-btn, .save-btn {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.save-btn {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-}
-
-.cancel-btn:hover {
-  background-color: #d0d0d0;
-}
-
-.save-btn:hover {
-  background: linear-gradient(135deg, #e08500, #c07500);
-}
-
-/* Daily Closing Info */
-.daily-closing-info {
-  background-color: #FFF8F0;
-  border-radius: 12px;
-  padding: 15px;
-  margin: 15px;
-  text-align: center;
-  border: 1px dashed #FF9500;
-}
-
-.closing-label {
-  font-size: 14px;
-  color: #8E8E93;
-  margin-bottom: 5px;
-}
-
-.closing-amount {
-  font-size: 22px;
-  font-weight: 700;
-  color: #34C759;
-  margin-bottom: 5px;
-}
-
-.closing-note {
-  font-size: 12px;
-  color: #8E8E93;
-}
-
-/* Carry Over Tag */
-.carryover-tag {
-  background-color: #AF52DE;
-  color: white;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}/* Add to Dashboard.css */
-
-/* Footer Buttons */
-.ios-footer {
-  position: fixed;
-  bottom: 80px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-  gap: 8px;
-  z-index: 10;
-}
-
-.ios-add-balance-button,
-.ios-add-expense-button,
-.ios-report-button {
-  flex: 1;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 8px;
-  font-size: 14px;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.ios-add-balance-button {
-  background: linear-gradient(135deg, #34C759, #2e9e4d);
-  color: white;
-}
-
-.ios-add-expense-button {
-  background: linear-gradient(135deg, #FF3B30, #e0332a);
-  color: white;
-}
-
-.ios-report-button {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-}
-
-.ios-add-balance-button:hover,
-.ios-add-expense-button:hover,
-.ios-report-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.ios-add-balance-button i,
-.ios-add-expense-button i,
-.ios-report-button i {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-/* Expense Form Modal */
-.expense-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.expense-form-modal .modal-content {
-  background-color: white;
-  border-radius: 16px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
+  /* These are overlays, use modal-overlay for the container */
 }
 
 .modal-header {
@@ -790,19 +357,28 @@ input:checked + .ios-toggle-slider:before {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  border-bottom: 1px solid #e5e5ea;
+  padding-bottom: 10px;
 }
 
 .modal-header h3 {
-  margin: 0;
   font-size: 20px;
+  font-weight: bold;
+  color: #1c1c1e;
+  margin: 0;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 20px;
-  color: #8E8E93;
+  font-size: 24px;
+  color: #8e8e93;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #1c1c1e;
 }
 
 .form-group {
@@ -810,315 +386,288 @@ input:checked + .ios-toggle-slider:before {
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: #3a3a3c;
   font-weight: 500;
-  color: #1C1C1E;
-}
-
-.form-group input, 
-.form-group textarea {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #C7C7CC;
-  border-radius: 10px;
-  font-size: 16px;
-  background-color: #F2F2F7;
-}
-
-.form-group textarea {
-  resize: vertical;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Responsive grid */
   gap: 10px;
+  margin-top: 10px;
 }
 
 .category-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
+  background-color: #f2f2f7; /* Light gray */
   border-radius: 10px;
-  background-color: #F2F2F7;
+  padding: 10px;
+  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.category-item.active {
-  background-color: #E0F7FA;
-  border: 1px solid #007AFF;
+  color: #3a3a3c;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .category-item i {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 5px;
-  color: #FF9500;
+  color: #8e8e93;
 }
 
-.category-item span {
-  font-size: 12px;
-  text-align: center;
+.category-item.active {
+  background-color: #007aff; /* iOS blue */
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 122, 255, 0.2);
 }
 
-.save-expense-btn {
-  background: linear-gradient(135deg, #FF9500, #e08500);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
+.category-item.active i {
+  color: #fff;
 }
 
-.save-expense-btn i {
-  margin-right: 10px;
-}
-
-.save-expense-btn:hover {
-  background: linear-gradient(135deg, #e08500, #c07500);
-}
-
-/* Balance Form Modal */
-.balance-form-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.balance-form-modal .modal-content {
-  background-color: white;
-  border-radius: 16px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-.save-btn {
-  background: linear-gradient(135deg, #34C759, #2e9e4d);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
-}
-
-.save-btn i {
-  margin-right: 10px;
-}
-
-.save-btn:hover {
-  background: linear-gradient(135deg, #2e9e4d, #278e44);
-}
-/* ATTENDANCE CARD STYLES */
-.ios-attendance-card {
-  background: linear-gradient(135deg, #4a6bff, #8a4fff);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px 0;
-  color: white;
-  box-shadow: 0 10px 20px rgba(74, 107, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.ios-attendance-card::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-  transform: rotate(30deg);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.card-header i {
-  font-size: 24px;
-  margin-right: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-header h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.card-content p {
-  margin: 0 0 15px 0;
-  font-size: 0.95rem;
-  opacity: 0.9;
-}
-
-.attendance-stats {
-  display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat .value {
-  display: block;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.stat .label {
-  display: block;
-  font-size: 0.85rem;
-  opacity: 0.8;
-  margin-top: 5px;
-}
-
-.card-footer {
-  margin-top: 15px;
-}
-
-.attendance-btn {
-  display: block;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  text-align: center;
-  padding: 12px 20px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.attendance-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+.category-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-.attendance-btn i {
-  margin-right: 8px;
-}
-/* Dashboard.css */
-.ios-view-attendance-button {
-  background-color: #5E5CE6; /* Purple color */
-  color: white;
+.save-expense-btn,
+.save-balance-btn { /* Combined for consistency */
+  background: linear-gradient(to right, #34c759, #28a645); /* iOS green */
+  color: #fff;
   border: none;
   border-radius: 10px;
-  padding: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  margin: 0 5px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(52, 199, 89, 0.2);
+  margin-top: 20px;
 }
 
-.ios-view-attendance-button:hover {
-  background-color: #4d4bda;
+.save-expense-btn:hover,
+.save-balance-btn:hover {
+  background: linear-gradient(to right, #28a645, #34c759);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 199, 89, 0.3);
 }
 
-.ios-view-attendance-button i {
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-/* Dashboard.css */
-.ios-footer {
+/* Action Buttons Bar (just above the bottom tab) */
+.ios-action-buttons-bar {
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  gap: 5px;
-  background: white;
-  border-top: 1px solid #eee;
-  position: sticky;
-  bottom: 50px;
-  z-index: 10;
+  justify-content: space-around; /* Distribute items evenly */
+  align-items: center;
+  padding: 10px 10px; /* Padding for the bar */
+  background-color: #ffffff; /* White background for the bar */
+  border-top: 1px solid #e5e5ea;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 20px; /* Space above this bar */
+  border-radius: 15px; /* Rounded corners for the bar itself */
+  margin-left: 20px; /* Match screen margins */
+  margin-right: 20px; /* Match screen margins */
+  gap: 10px; /* Space between buttons */
+  flex-wrap: wrap; /* Allow buttons to wrap on small screens */
 }
 
-.ios-footer button {
-  flex: 1;
+
+.ios-action-button-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px 9px;
-  font-size: 15px;
-  border-radius: 15px;
+  gap: 3px;
+  background: none;
   border: none;
+  color: #8e8e93; /* Muted gray for inactive */
+  font-size: 12px;
   font-weight: 500;
-}
-/* Admin Back Button Styles */
-.admin-back-button {
-  position: absolute;
-  left: 15px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.9rem;
   cursor: pointer;
-  display: flex;
+  transition: color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+  flex: 1; /* Distribute space evenly */
+  padding: 8px 5px; /* Padding for the button area */
+  border-radius: 10px; /* Rounded corners for the buttons */
+  min-width: 110px; /* Minimum width for buttons */
+  max-width: 180px; /* Maximum width for buttons */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for action buttons */
+  background-color: #f2f2f7; /* Light gray background for button box */
+}
+
+.ios-action-button-item i {
+  font-size: 20px; /* Icon size */
+}
+
+/* Specific button colors and hover effects */
+.ios-action-button-item.add-balance-btn {
+  background: linear-gradient(to right, #34c759, #28a645); /* Green */
+  color: #fff;
+}
+.ios-action-button-item.add-balance-btn:hover {
+  background: linear-gradient(to right, #28a645, #34c759);
+  transform: translateY(-2px);
+}
+
+.ios-action-button-item.attendance-btn {
+  background: linear-gradient(to right, #5856d6, #7a76ff); /* Indigo */
+  color: #fff;
+}
+.ios-action-button-item.attendance-btn:hover {
+  background: linear-gradient(to right, #7a76ff, #5856d6);
+  transform: translateY(-2px);
+}
+
+.ios-action-button-item.add-expense-btn {
+  background: linear-gradient(to right, #ff3b30, #cc2920); /* Red */
+  color: #fff;
+}
+.ios-action-button-item.add-expense-btn:hover {
+  background: linear-gradient(to right, #cc2920, #ff3b30);
+  transform: translateY(-2px);
+}
+
+.ios-action-button-item.report-btn {
+  background: linear-gradient(to right, #ff9500, #ffcc00); /* Orange */
+  color: #fff;
+}
+.ios-action-button-item.report-btn:hover {
+  background: linear-gradient(to right, #ffcc00, #ff9500);
+  transform: translateY(-2px);
+}
+
+/* Ensure text remains white for colored buttons */
+.ios-action-button-item.add-balance-btn span,
+.ios-action-button-item.attendance-btn span,
+.ios-action-button-item.add-expense-btn span,
+.ios-action-button-item.report-btn span {
+  color: #fff;
+}
+.ios-action-button-item.add-balance-btn i,
+.ios-action-button-item.attendance-btn i,
+.ios-action-button-item.add-expense-btn i,
+.ios-action-button-item.report-btn i {
+  color: #fff;
+}
+
+
+/* Bottom Tab Bar (This is where the actual BottomTab component goes) */
+.bottom-tab-bar-container {
+  position: fixed; /* Fixed at the bottom */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 600; /* Higher z-index than action bar */
+  background-color: #ffffff; /* White background */
+  border-top: 1px solid #e5e5ea;
+  box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.08); /* Stronger shadow */
+  padding: 5px 0; /* Padding for the BottomTab component itself */
+  display: flex; /* Ensure flex for its internal items */
+  justify-content: space-around;
   align-items: center;
-  gap: 5px;
-  z-index: 10;
+  height: 60px; /* Fixed height for the tab bar */
 }
 
-.admin-back-button i {
-  font-size: 0.9rem;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ios-header {
+    padding-top: 30px;
+  }
+  .header-title {
+    font-size: 24px;
+  }
+  .admin-back-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .ios-summary-card,
+  .ios-toggle-container,
+  .ios-transaction-section {
+    margin: 0 15px 15px 15px; /* Adjust margins for smaller screens */
+    padding: 15px;
+  }
+  .balance-amount {
+    font-size: 30px;
+  }
+  .balance-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .stat-item {
+    min-width: unset;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f7;
+    padding-bottom: 5px;
+  }
+  .stat-item:last-child {
+    border-bottom: none;
+  }
+  .ios-toggle-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .ios-segment-control {
+    max-width: 90%;
+  }
+  .category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  }
+  .category-item {
+    padding: 8px;
+    font-size: 11px;
+  }
+  .category-item i {
+    font-size: 18px;
+  }
+  .ios-action-button-item {
+    min-width: 60px;
+    font-size: 11px;
+    padding: 6px 3px;
+  }
+  .ios-action-button-item i {
+    font-size: 18px;
+  }
+  .ios-action-buttons-bar {
+    padding: 12px 15px;
+    gap: 8px;
+  }
 }
 
-.ios-header .header-content {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-title {
-  z-index: 1; /* Ensure title stays centered */
+@media (max-width: 480px) {
+  .ios-header {
+    padding-top: 20px;
+  }
+  .header-title {
+    font-size: 22px;
+  }
+  .ios-summary-card,
+  .ios-toggle-container,
+  .ios-transaction-section {
+    margin: 0 10px 10px 10px;
+    padding: 10px;
+  }
+  .balance-amount {
+    font-size: 28px;
+  }
+  .ios-segment-control {
+    max-width: 100%;
+    margin: 15px auto;
+  }
+  .ios-action-button-item {
+    min-width: 50px;
+    font-size: 10px;
+    padding: 5px 2px;
+  }
+  .ios-action-button-item i {
+    font-size: 16px;
+  }
+  .ios-action-buttons-bar {
+    padding: 5px 5px;
+    gap: 5px;
+  }
 }
