@@ -2,22 +2,23 @@
 
 .site-stock-page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #1f1c2c, #928dab); /* Darker gradient for the page background */
-  font-family: 'Segoe UI', sans-serif;
-  color: #fff;
+  background: linear-gradient(to bottom right, #f2f2f7, #e5e5ea); /* iOS background colors */
+  font-family: 'Inter', sans-serif;
+  color: #1c1c1e; /* Default dark text color */
   padding-bottom: 40px; /* Add some padding at the bottom */
 }
 
 /* Hero Section */
 .hero-section {
   position: relative;
-  background: linear-gradient(to right, #007bff, #6610f2); /* Blue-purple gradient - This will now be the solid background */
+  background: linear-gradient(to right, #007aff, #5ac8fa); /* iOS blue gradient */
   padding: 80px 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   overflow: hidden;
   color: #fff;
+  text-align: center;
 }
 
 /* Removed: .hero-background-pattern class */
@@ -31,10 +32,10 @@
 }
 
 .hero-title {
-  font-size: 4em; /* Larger text */
+  font-size: 4em;
   font-weight: 800;
   margin-bottom: 15px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   animation: slideDown 0.8s ease-out;
 }
 
@@ -57,18 +58,18 @@
   border-radius: 50px; /* Pill shape */
   font-size: 1.1em;
   font-weight: 700;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
   transition: all 0.3s ease;
 }
 
 .hero-button.primary {
   background-color: #fff;
-  color: #007bff;
+  color: #007aff; /* iOS blue */
 }
 
 .hero-button.primary:hover {
-  background-color: #e6f0ff;
-  transform: translateY(-3px) scale(1.02);
+  background-color: #f2f2f7; /* Lighter white */
+  transform: translateY(-2px) scale(1.02);
 }
 
 .hero-button.secondary {
@@ -79,8 +80,8 @@
 
 .hero-button.secondary:hover {
   background-color: #fff;
-  color: #007bff;
-  transform: translateY(-3px) scale(1.02);
+  color: #007aff;
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* Main Content Area */
@@ -98,13 +99,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
+  gap: 15px; /* Space between buttons */
   margin-bottom: 40px;
   padding: 15px;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  background-color: #ffffff; /* White background for the tab bar */
   border-radius: 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  border: 1px solid #e5e5ea; /* Subtle border */
 }
 
 .tab-button {
@@ -113,51 +114,79 @@
   align-items: center;
   justify-content: center;
   padding: 15px 20px;
-  border-radius: 15px;
+  border-radius: 15px; /* Rounded corners for buttons */
   font-size: 0.95em;
   font-weight: 600;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   flex: 1 1 auto; /* Allow buttons to grow and shrink */
-  min-width: 120px; /* Minimum width for buttons */
-  max-width: 180px; /* Maximum width for buttons */
-  border: none; /* Remove default button border */
-  outline: none; /* Remove default focus outline */
+  min-width: 120px;
+  max-width: 180px;
+  border: none;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow for individual buttons */
 }
 
 .tab-button-icon {
-  font-size: 2.2em; /* Larger icons */
+  font-size: 2.2em;
   margin-bottom: 5px;
 }
 
+/* Specific Tab Button Colors */
+.tab-button.sites {
+  background: linear-gradient(to right, #007aff, #5ac8fa); /* Blue */
+  color: #fff;
+}
+.tab-button.add {
+  background: linear-gradient(to right, #34c759, #28a645); /* Green */
+  color: #fff;
+}
+.tab-button.inventory {
+  background: linear-gradient(to right, #ff9500, #ffcc00); /* Orange */
+  color: #fff;
+}
+.tab-button.transfer {
+  background: linear-gradient(to right, #5856d6, #7a76ff); /* Indigo */
+  color: #fff;
+}
+.tab-button.history {
+  background: linear-gradient(to right, #bf5af2, #da70d6); /* Purple */
+  color: #fff;
+}
+.tab-button.usage { /* New: Usage Tab Color */
+  background: linear-gradient(to right, #00c7e5, #00a8c4); /* Cyan/Teal */
+  color: #fff;
+}
+.tab-button.summary {
+  background: linear-gradient(to right, #ff3b30, #cc2920); /* Red */
+  color: #fff;
+}
+
+/* Active Tab Button Style (Overrides specific colors for a consistent active look) */
 .tab-button.active {
-  background: linear-gradient(to bottom right, #007bff, #0056b3); /* Active tab gradient */
+  background: linear-gradient(to bottom right, #007aff, #0056b3); /* Deeper iOS blue for active */
   color: #fff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3); /* Stronger blue shadow */
   transform: translateY(-5px) scale(1.05); /* Pop effect */
-  border: 1px solid #007bff;
+  border: 1px solid #007aff;
+  z-index: 1; /* Ensure active button is on top */
 }
 
-.tab-button:not(.active) {
-  background-color: rgba(255, 255, 255, 0.08); /* Inactive tab background */
-  color: #e0e0e0;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+/* Inactive Tab Button Hover Effect */
 .tab-button:not(.active):hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  opacity: 0.9; /* Slight opacity change on hover */
   transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Tab Content Area */
 .tab-content-area {
-  background-color: rgba(255, 255, 255, 0.08); /* Content area background */
+  background-color: #ffffff; /* White background for content */
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e0e0e0; /* Default text color for content */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e5ea;
+  color: #1c1c1e; /* Dark text for content */
   animation: fadeInUp 0.6s ease-out; /* Animation for content transition */
 }
 

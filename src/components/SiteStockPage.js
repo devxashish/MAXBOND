@@ -7,6 +7,7 @@ import TransferForm from "./TransferForm";
 import SiteList from "./SiteList";
 import TransferHistory from "./TransferHistory";
 import StockSummaryPage from "./StockSummaryPage";
+import StockUsageForm from "./StockUsageForm"; // Import the new component
 
 import './SiteStockPage.css'; // Import the main page CSS
 
@@ -21,10 +22,10 @@ const SiteStockPage = () => {
   }, [activeTab]);
 
   // Helper component for styled tab buttons
-  const TabButton = ({ label, icon, isActive, onClick }) => {
+  const TabButton = ({ label, icon, isActive, onClick, className }) => {
     return (
       <button
-        className={`tab-button ${isActive ? "active" : ""}`}
+        className={`tab-button ${className} ${isActive ? "active" : ""}`}
         onClick={onClick}
       >
         <span className="tab-button-icon">{icon}</span>
@@ -65,36 +66,49 @@ const SiteStockPage = () => {
             icon="🏗️"
             isActive={activeTab === "sites"}
             onClick={() => setActiveTab("sites")}
+            className="sites"
           />
           <TabButton
             label="Add Item"
             icon="➕"
             isActive={activeTab === "add"}
             onClick={() => setActiveTab("add")}
+            className="add"
           />
           <TabButton
             label="View Inventory"
             icon="📦"
             isActive={activeTab === "inventory"}
             onClick={() => setActiveTab("inventory")}
+            className="inventory"
           />
           <TabButton
             label="Transfer Stock"
             icon="🔁"
             isActive={activeTab === "transfer"}
             onClick={() => setActiveTab("transfer")}
+            className="transfer"
           />
           <TabButton
             label="Transfer History"
             icon="📜"
             isActive={activeTab === "history"}
             onClick={() => setActiveTab("history")}
+            className="history"
+          />
+          <TabButton
+            label="Stock Usage" // New Tab
+            icon="🛠️"
+            isActive={activeTab === "usage"}
+            onClick={() => setActiveTab("usage")}
+            className="usage" // Specific class for styling
           />
           <TabButton
             label="Stock Summary"
             icon="📊"
             isActive={activeTab === "summary"}
             onClick={() => setActiveTab("summary")}
+            className="summary"
           />
         </div>
 
@@ -109,7 +123,7 @@ const SiteStockPage = () => {
               <div>
                 <SiteList onSelectSite={setSelectedSite} selectedSiteId={selectedSite?.id} />
               </div>
-              <div> {/* This div will take 2/3 width on md screens and up */}
+              <div>
                 <SiteInventory site={selectedSite} />
               </div>
             </div>
@@ -118,6 +132,8 @@ const SiteStockPage = () => {
           {activeTab === "transfer" && <TransferForm />}
 
           {activeTab === "history" && <TransferHistory />}
+
+          {activeTab === "usage" && <StockUsageForm />} {/* New Content */}
 
           {activeTab === "summary" && <StockSummaryPage />}
         </div>

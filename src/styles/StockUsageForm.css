@@ -1,0 +1,131 @@
+/* src/styles/StockUsageForm.css */
+
+.stock-usage-container {
+  padding: 25px;
+  background: #ffffff; /* White background for the card */
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  color: #1c1c1e; /* Dark text */
+  border: 1px solid #e5e5ea; /* Subtle border */
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.stock-usage-title {
+  text-align: center;
+  color: #007aff; /* iOS blue for titles */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  animation: slideDown 0.5s ease-out;
+}
+
+.stock-usage-form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group { /* Reusing global form-group styles */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label { /* Reusing global form-label styles */
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #3a3a3c;
+  font-size: 1.05em;
+}
+
+/* Inputs and selects use global .form-input, .form-select from index.css */
+
+.stock-usage-submit-button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2);
+  background: linear-gradient(to right, #007aff, #0056b3); /* iOS blue gradient */
+  margin-top: 10px;
+}
+
+.stock-usage-submit-button:hover {
+  background: linear-gradient(to right, #0056b3, #007aff);
+  transform: translateY(-2px);
+}
+
+.stock-usage-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(to right, #a2a2a7, #8e8e93);
+  box-shadow: none;
+}
+
+.error-message { /* Reusing global error-message */
+  color: #ff3b30;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}
+
+.success-message { /* Reusing global success-message */
+  color: #34c759;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95em;
+}
+
+/* Usage History Section */
+.usage-history-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e5ea;
+}
+
+.usage-history-title {
+  text-align: center;
+  color: #1c1c1e;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.usage-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.usage-history-item {
+  background-color: #f8f8fa; /* Light gray background */
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+  border: 1px solid #e5e5ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.usage-history-item:hover {
+  background: #f2f2f7;
+}
+
+.usage-item-details {
+  flex: 1;
+  font-size: 0.95em;
+  color: #3a3a3c;
+}
+
+.usage-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Action buttons use global .action-button classes from index.css */

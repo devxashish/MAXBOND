@@ -482,7 +482,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 8px;
   background: none;
   border: none;
   color: #8e8e93; /* Muted gray for inactive */
@@ -491,10 +491,10 @@
   cursor: pointer;
   transition: color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
   flex: 1; /* Distribute space evenly */
-  padding: 8px 5px; /* Padding for the button area */
+  padding: 18px 10px; /* Padding for the button area */
   border-radius: 10px; /* Rounded corners for the buttons */
-  min-width: 70px; /* Minimum width for buttons */
-  max-width: 120px; /* Maximum width for buttons */
+  min-width: 240px; /* Minimum width for buttons */
+  max-width: 310px; /* Maximum width for buttons */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for action buttons */
   background-color: #f2f2f7; /* Light gray background for button box */
 }
