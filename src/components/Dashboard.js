@@ -185,7 +185,7 @@ const Dashboard = () => {
     showCancelButton: false,
   });
 
-  const [currentTheme, setCurrentTheme] = useState("light-theme");
+  const [currentTheme, setCurrentTheme] = useState("ios-theme");
   const [showThemeListModal, setShowThemeListModal] = useState(false);
 
   const themes = [
@@ -746,7 +746,7 @@ const Dashboard = () => {
         // Show the undoable toast
         showToast(
             "premium-delete",
-            "Transaction deleted. Undo?",
+            "Undo?",
             async () => {
                 // This is the UNDO action
                 try {

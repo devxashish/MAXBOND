@@ -60,7 +60,7 @@
 .filter-label,
 .add-starting-label {
   font-weight: 600;
-  color: #1c1c1e;
+  color: #000000; /* Darker color for labels */
   flex-shrink: 0;
 }
 
@@ -68,11 +68,15 @@
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #d1d1d6;
-  background-color: #f8f8fa;
+  border: 1px solid #ffffff;
+  background-color: #ffffff; /* Lighter background color */
   font-size: 16px;
-  color: #1c1c1e;
+  color: #ffffff; /* Darker text color inside the input */
   transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input::placeholder {
+    color: #ffffff; /* Darker placeholder color */
 }
 
 .form-input:focus {
@@ -146,7 +150,7 @@
 .breakdown-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #1c1c1e;
+  color: #000000;
   margin-bottom: 15px;
 }
 

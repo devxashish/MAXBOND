@@ -18,12 +18,12 @@ import {
   FaFileExcel,
   FaPrint,
   FaArrowLeft,
-  FaWhatsapp,
+  FaShare, // Changed from FaWhatsapp to FaShare
   FaUser,
 } from "react-icons/fa";
 import "./ExportPage.css";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-import SharePromptModal from "../components/SharePromptModal";
+import { Share } from "@capacitor/share"; // Import Capacitor Share plugin
 
 const ExportPage = () => {
   const navigate = useNavigate();
@@ -49,8 +49,6 @@ const ExportPage = () => {
   const [storagePermission, setStoragePermission] = useState(false);
   const [userName, setUserName] = useState("");
   const [userSiteName, setUserSiteName] = useState("N/A");
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [exportedFileName, setExportedFileName] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -389,7 +387,7 @@ const ExportPage = () => {
       return fileName;
     } catch (error) {
       console.error("Error saving file:", error);
-      
+
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -410,65 +408,6 @@ const ExportPage = () => {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   };
 
-  const handleExport = async (exporter, fileType) => {
-    if (!startDate || !endDate) {
-      alert("Please select start and end dates first");
-      return;
-    }
-
-    if (!exportPermission) {
-      alert(
-        "You don't have permission to export data. Please contact your administrator."
-      );
-      return;
-    }
-
-    if (isMobileDevice() && !storagePermission) {
-      try {
-        const permResult = await Filesystem.requestPermissions();
-        if (permResult.publicStorage === "granted") {
-          setStoragePermission(true);
-        } else {
-          alert(
-            "Storage permission is required to save files. Please enable it in your device settings."
-          );
-          return;
-        }
-      } catch (error) {
-        console.error("Error requesting storage permission:", error);
-        alert(
-          "Failed to request storage permission. Please check your device settings."
-        );
-        return;
-      }
-    }
-
-    setExporting(true);
-    setExportStatus({ success: false, message: "" });
-
-    try {
-      const fileName = await exporter();
-      const location = isMobileDevice()
-        ? "Documents folder"
-        : "Downloads folder";
-
-      setExportStatus({
-        success: true,
-        message: `File saved successfully as ${fileName} in your ${location}!`,
-      });
-      setExportedFileName(fileName);
-      setShareModalOpen(true);
-    } catch (error) {
-      console.error("Export failed:", error);
-      setExportStatus({
-        success: false,
-        message: `Export failed: ${error.message}`,
-      });
-    } finally {
-      setExporting(false);
-    }
-  };
-
   const exportToPDF = async () => {
     const doc = new jsPDF({
       orientation: "portrait",
@@ -476,13 +415,6 @@ const ExportPage = () => {
       format: "a4",
     });
 
-    const exportDate = new Date().toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-    // --- Page 1: Financial Statement Summary ---
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
@@ -527,7 +459,7 @@ const ExportPage = () => {
       body: generateTransactionRows(),
       theme: "grid",
       headStyles: {
-        fillColor: [224, 242, 247], // Light blue header color
+        fillColor: [224, 242, 247],
         textColor: 0,
         fontStyle: "bold",
         fontSize: 10,
@@ -577,7 +509,6 @@ const ExportPage = () => {
       },
     });
 
-    // --- Page 2: MAXBOND INFRA LTD Template ---
     doc.addPage();
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
@@ -589,7 +520,6 @@ const ExportPage = () => {
     const padding = 2;
     const pageWidth = doc.internal.pageSize.width;
 
-    // Row 1: PAGE NO. (1) and SITE NAME
     const pageNoWidth = 50;
     const siteNameWidth = pageWidth - initialX * 2 - pageNoWidth;
 
@@ -603,7 +533,6 @@ const ExportPage = () => {
     doc.text(`SITE NAME: ${userSiteName}`, initialX + pageNoWidth + padding, currentY + rowHeight / 2, { baseline: "middle" });
     currentY += rowHeight;
 
-    // Row 2: ENGINEER NAME, MONTH, YEAR
     const engNameBoxWidth = 75;
     const monthBoxWidth = 50;
     const yearBoxWidth = pageWidth - initialX * 2 - engNameBoxWidth - monthBoxWidth;
@@ -624,7 +553,6 @@ const ExportPage = () => {
 
     currentY += rowHeight + 5;
 
-    // Main data table headers
     const colDateWidth = 30;
     const colReceivedWidth = 50;
     const colExpensesWidth = 50;
@@ -647,19 +575,17 @@ const ExportPage = () => {
 
     currentY += rowHeight;
 
-    // Start of the modified logic for page 2
     let runningBalancePage2 = 0;
     let totalReceivedPage2 = 0;
     let totalExpensesPage2 = 0;
 
-    const page1Data = generateTransactionRows(); // Use the same data generation function as page 1
+    const page1Data = generateTransactionRows();
     const openingEntryPage1 = page1Data[0];
     if (openingEntryPage1 && openingEntryPage1[3]) {
         runningBalancePage2 = parseFloat(openingEntryPage1[3]);
         totalReceivedPage2 += runningBalancePage2;
     }
 
-    // Process the data rows, skipping the header and total row
     for (let i = 0; i < page1Data.length - 1; i++) {
         const rowData = page1Data[i];
         if (rowData[1] === "Opening Balance") {
@@ -683,7 +609,6 @@ const ExportPage = () => {
         if (received) totalReceivedPage2 += parseFloat(received);
         if (expense) totalExpensesPage2 += parseFloat(expense);
 
-        // Check for page break
         if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
             doc.addPage();
             currentY = 20;
@@ -717,9 +642,7 @@ const ExportPage = () => {
 
         currentY += rowHeight;
     }
-    // End of the modified logic for page 2
 
-    // TOTAL row for Page 2
     if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
       doc.addPage();
       currentY = 20;
@@ -749,7 +672,6 @@ const ExportPage = () => {
 
     currentY += rowHeight + 10;
 
-    // ENGINEER SIGN... (modified to remove border and align left)
     if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
       doc.addPage();
       currentY = 20;
@@ -760,11 +682,9 @@ const ExportPage = () => {
     }
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    const engineerSignX = initialX; // Aligned to the left
+    const engineerSignX = initialX;
     const engineerSignHeight = 10;
-    // Removed doc.rect() to remove the border
     doc.text("ENGINEER SIGN...", engineerSignX, currentY + engineerSignHeight / 2, { align: "left", baseline: "middle" });
-
 
     const blob = doc.output("blob");
     const fileName = `MaxBond_Financial_Statement_${startDate}_to_${endDate}.pdf`;
@@ -851,7 +771,6 @@ const ExportPage = () => {
 
     let rowIndex = 1;
 
-    // Helper to ensure cell exists before styling
     const getCell = (sheet, row, col) => {
         const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
         if (!sheet[cellRef]) {
@@ -860,17 +779,14 @@ const ExportPage = () => {
         return sheet[cellRef];
     };
 
-    // Row 1: MAXBOND INFRA LTD.
     XLSX.utils.sheet_add_aoa(ws, [["MAXBOND INFRA LTD."]], { origin: `A${rowIndex}` });
     getCell(ws, rowIndex - 1, 0).s = headerMainTitleStyle;
     ws["!merges"] = ws["!merges"] || [];
     ws["!merges"].push({ s: { r: rowIndex - 1, c: 0 }, e: { r: rowIndex - 1, c: 4 } });
     rowIndex++;
 
-    // Row 2: Empty for spacing
     rowIndex++;
 
-    // Row 3: PAGE NO. (1) and SITE NAME
     XLSX.utils.sheet_add_aoa(ws, [
         ["PAGE NO. (1)", "", "SITE NAME:", userSiteName]
     ], { origin: `A${rowIndex}` });
@@ -886,7 +802,6 @@ const ExportPage = () => {
     ws["!merges"].push({ s: { r: rowIndex - 1, c: 3 }, e: { r: rowIndex - 1, c: 4 } });
     rowIndex++;
 
-    // Row 4: ENGINEER NAME, MONTH, YEAR
     const currentMonth = new Date(startDate).toLocaleString('en-GB', { month: 'long' });
     const currentYear = new Date(startDate).getFullYear();
     XLSX.utils.sheet_add_aoa(ws, [
@@ -902,7 +817,6 @@ const ExportPage = () => {
 
     rowIndex += 2;
 
-    // Table Headers
     XLSX.utils.sheet_add_aoa(ws, [["DATE", "RECEIVED AMT", "EXPENSES", "BALANCE AMT"]], { origin: `A${rowIndex}` });
     for (let c = 0; c < 4; c++) {
       const cellRef = XLSX.utils.encode_cell({ r: rowIndex - 1, c: c });
@@ -1005,7 +919,6 @@ const ExportPage = () => {
       rowIndex++;
     });
 
-    // Total row
     const finalBalancePage2 =
       runningBalancePage2 >= 0
         ? `${runningBalancePage2.toFixed(2)} Cr`
@@ -1026,20 +939,17 @@ const ExportPage = () => {
     }
     rowIndex++;
 
-    // Empty rows for spacing before Engineer Sign
     rowIndex += 2;
 
-    // Engineer Sign row
     XLSX.utils.sheet_add_aoa(ws, [["ENGINEER SIGN..."]], { origin: `A${rowIndex}` });
     getCell(ws, rowIndex - 1, 0).s = engineerSignStyle;
     ws["!merges"].push({ s: { r: rowIndex - 1, c: 0 }, e: { r: rowIndex - 1, c: 3 } });
 
-    // Column widths
     ws["!cols"] = [
-      { wch: 15 }, // DATE
-      { wch: 20 }, // RECEIVED AMT
-      { wch: 15 }, // EXPENSES
-      { wch: 20 }, // BALANCE AMT
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 20 },
     ];
 
     XLSX.utils.book_append_sheet(wb, ws, "Site Expenses");
@@ -1057,6 +967,428 @@ const ExportPage = () => {
     return fileName;
   };
 
+  const handleExport = async (exporter, fileType) => {
+    if (!startDate || !endDate) {
+      alert("Please select start and end dates first");
+      return;
+    }
+
+    if (!exportPermission) {
+      alert(
+        "You don't have permission to export data. Please contact your administrator."
+      );
+      return;
+    }
+
+    if (isMobileDevice() && !storagePermission) {
+      try {
+        const permResult = await Filesystem.requestPermissions();
+        if (permResult.publicStorage === "granted") {
+          setStoragePermission(true);
+        } else {
+          alert(
+            "Storage permission is required to save files. Please enable it in your device settings."
+          );
+          return;
+        }
+      } catch (error) {
+        console.error("Error requesting storage permission:", error);
+        alert(
+          "Failed to request storage permission. Please check your device settings."
+        );
+        return;
+      }
+    }
+
+    setExporting(true);
+    setExportStatus({ success: false, message: "" });
+
+    try {
+      const fileName = await exporter();
+      const location = isMobileDevice()
+        ? "Documents folder"
+        : "Downloads folder";
+
+      setExportStatus({
+        success: true,
+        message: `File saved successfully as ${fileName} in your ${location}!`,
+      });
+    } catch (error) {
+      console.error("Export failed:", error);
+      setExportStatus({
+        success: false,
+        message: `Export failed: ${error.message}`,
+      });
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (!startDate || !endDate) {
+      alert("Please select start and end dates first");
+      return;
+    }
+    if (!exportPermission) {
+      alert(
+        "You don't have permission to share data. Please contact your administrator."
+      );
+      return;
+    }
+
+    setExporting(true);
+    setExportStatus({ success: false, message: "" });
+
+    try {
+        const doc = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a4",
+        });
+
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont("helvetica", "bold");
+        doc.text("MAXBOND INFRA LTD.", 105, 10, { align: "center" });
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Exported by: ${userName}`, 105, 15, { align: "center" });
+        doc.text(`Site Name: ${userSiteName}`, 105, 20, { align: "center" });
+
+        doc.setFontSize(12);
+        doc.text(
+          `From: ${formatDate(startDate)} To: ${formatDate(endDate)}`,
+          105,
+          27,
+          { align: "center" }
+        );
+
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Opening Balance:", 20, 45);
+        doc.text(`${summary.openingBalance.toFixed(2)}`, 50, 45);
+
+        doc.text("Total Income:", 20, 50);
+        doc.text(`${summary.totalIncome.toFixed(2)}`, 50, 50);
+
+        doc.text("Total Expenses:", 20, 55);
+        doc.text(`${summary.totalExpenses.toFixed(2)}`, 50, 55);
+
+        doc.text("Net Balance:", 20, 60);
+        doc.text(
+          `${Math.abs(summary.netBalance).toFixed(2)} ${
+            summary.netBalance >= 0 ? "Cr" : "Dr"
+          }`,
+          50,
+          60
+        );
+
+        autoTable(doc, {
+          startY: 70,
+          head: [["Date", "Description", "Debit", "Credit", "Balance"]],
+          body: generateTransactionRows(),
+          theme: "grid",
+          headStyles: {
+            fillColor: [224, 242, 247],
+            textColor: 0,
+            fontStyle: "bold",
+            fontSize: 10,
+          },
+          styles: {
+            fontSize: 9,
+            cellPadding: 3,
+            textColor: [0, 0, 0],
+            lineColor: [0, 0, 0],
+            lineWidth: 0.1,
+          },
+          didParseCell: function (data) {
+            if (data.column.index === 2 && data.cell.raw !== "") {
+              data.cell.styles.textColor = [255, 0, 0];
+            }
+            if (data.column.index === 3 && data.cell.raw !== "") {
+              data.cell.styles.textColor = [0, 128, 0];
+            }
+          },
+          columnStyles: {
+            0: { cellWidth: 25, lineWidth: 0.1 },
+            1: { cellWidth: 70, lineWidth: 0.1 },
+            2: { cellWidth: 25, halign: "right", lineWidth: 0.1 },
+            3: { cellWidth: 25, halign: "right", lineWidth: 0.1 },
+            4: { cellWidth: 35, halign: "right", lineWidth: 0.1 },
+          },
+          didDrawPage: function (data) {
+            doc.setFontSize(8);
+            doc.setTextColor(0, 0, 0);
+            doc.text(
+              `Page ${data.pageNumber} of ${doc.internal.pages.length}`,
+              data.settings.margin.left,
+              doc.internal.pageSize.height - 10
+            );
+            doc.text(
+              "Generated by Maxbond Finance System",
+              doc.internal.pageSize.width / 2,
+              doc.internal.pageSize.height - 10,
+              { align: "center" }
+            );
+            doc.text(
+              "Support: 8818050651",
+              doc.internal.pageSize.width - 20,
+              doc.internal.pageSize.height - 10,
+              { align: "right" }
+            );
+          },
+        });
+
+        // Add the second page
+        doc.addPage();
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("MAXBOND INFRA LTD.", doc.internal.pageSize.width / 2, 20, { align: "center" });
+
+        const initialX = 20;
+        let currentY = 30;
+        const rowHeight = 8;
+        const padding = 2;
+        const pageWidth = doc.internal.pageSize.width;
+
+        const pageNoWidth = 50;
+        const siteNameWidth = pageWidth - initialX * 2 - pageNoWidth;
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+
+        doc.rect(initialX, currentY, pageNoWidth, rowHeight);
+        doc.text("PAGE NO. (1)", initialX + padding, currentY + rowHeight / 2, { baseline: "middle" });
+
+        doc.rect(initialX + pageNoWidth, currentY, siteNameWidth, rowHeight);
+        doc.text(`SITE NAME: ${userSiteName}`, initialX + pageNoWidth + padding, currentY + rowHeight / 2, { baseline: "middle" });
+        currentY += rowHeight;
+
+        const engNameBoxWidth = 75;
+        const monthBoxWidth = 50;
+        const yearBoxWidth = pageWidth - initialX * 2 - engNameBoxWidth - monthBoxWidth;
+
+        doc.rect(initialX, currentY, engNameBoxWidth, rowHeight);
+        doc.text("ENGINEER NAME:", initialX + padding, currentY + rowHeight / 2, { baseline: "middle" });
+        doc.text(userName, initialX + padding + 35, currentY + rowHeight / 2, { baseline: "middle" });
+
+        const currentMonth = new Date(startDate).toLocaleString('en-GB', { month: 'long' });
+        doc.rect(initialX + engNameBoxWidth, currentY, monthBoxWidth, rowHeight);
+        doc.text("MONTH:", initialX + engNameBoxWidth + padding, currentY + rowHeight / 2, { baseline: "middle" });
+        doc.text(currentMonth, initialX + engNameBoxWidth + padding + 15, currentY + rowHeight / 2, { baseline: "middle" });
+
+        const currentYear = new Date(startDate).getFullYear();
+        doc.rect(initialX + engNameBoxWidth + monthBoxWidth, currentY, yearBoxWidth, rowHeight);
+        doc.text("YEAR:", initialX + engNameBoxWidth + monthBoxWidth + padding, currentY + rowHeight / 2, { baseline: "middle" });
+        doc.text(String(currentYear), initialX + engNameBoxWidth + monthBoxWidth + padding + 10, currentY + rowHeight / 2, { baseline: "middle" });
+
+        currentY += rowHeight + 5;
+
+        const colDateWidth = 30;
+        const colReceivedWidth = 50;
+        const colExpensesWidth = 50;
+        const colBalanceWidth = pageWidth - initialX * 2 - colDateWidth - colReceivedWidth - colExpensesWidth;
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+
+        doc.rect(initialX, currentY, colDateWidth, rowHeight);
+        doc.text("DATE", initialX + colDateWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth, currentY, colReceivedWidth, rowHeight);
+        doc.text("RECEIVED AMT", initialX + colDateWidth + colReceivedWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth + colReceivedWidth, currentY, colExpensesWidth, rowHeight);
+        doc.text("EXPENSES", initialX + colDateWidth + colReceivedWidth + colExpensesWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth + colReceivedWidth + colExpensesWidth, currentY, colBalanceWidth, rowHeight);
+        doc.text("BALANCE AMT", initialX + colDateWidth + colReceivedWidth + colExpensesWidth + colBalanceWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+
+        currentY += rowHeight;
+
+        let runningBalancePage2 = 0;
+        let totalReceivedPage2 = 0;
+        let totalExpensesPage2 = 0;
+
+        const page1Data = generateTransactionRows();
+        const openingEntryPage1 = page1Data[0];
+        if (openingEntryPage1 && openingEntryPage1[3]) {
+            runningBalancePage2 = parseFloat(openingEntryPage1[3]);
+            totalReceivedPage2 += runningBalancePage2;
+        }
+
+        for (let i = 0; i < page1Data.length - 1; i++) {
+            const rowData = page1Data[i];
+            if (rowData[1] === "Opening Balance") {
+                doc.setFontSize(9);
+                doc.setFont("helvetica", "normal");
+                doc.rect(initialX, currentY, colDateWidth, rowHeight);
+                doc.text(rowData[0], initialX + padding, currentY + rowHeight / 2, { baseline: "middle" });
+                doc.rect(initialX + colDateWidth, currentY, colReceivedWidth, rowHeight);
+                doc.text(rowData[3], initialX + colDateWidth + colReceivedWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+                doc.rect(initialX + colDateWidth + colReceivedWidth, currentY, colExpensesWidth, rowHeight);
+                doc.text(rowData[2], initialX + colDateWidth + colReceivedWidth + colExpensesWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+                doc.rect(initialX + colDateWidth + colReceivedWidth + colExpensesWidth, currentY, colBalanceWidth, rowHeight);
+                doc.text(rowData[4], initialX + colDateWidth + colReceivedWidth + colExpensesWidth + colBalanceWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+                currentY += rowHeight;
+                continue;
+            }
+
+            let received = rowData[3];
+            let expense = rowData[2];
+
+            if (received) totalReceivedPage2 += parseFloat(received);
+            if (expense) totalExpensesPage2 += parseFloat(expense);
+
+            if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
+                doc.addPage();
+                currentY = 20;
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.text("MAXBOND INFRA LTD.", pageWidth / 2, 10, { align: "center" });
+                currentY += 10;
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "bold");
+                doc.rect(initialX, currentY, colDateWidth, rowHeight);
+                doc.text("DATE", initialX + colDateWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+                doc.rect(initialX + colDateWidth, currentY, colReceivedWidth, rowHeight);
+                doc.text("RECEIVED AMT", initialX + colDateWidth + colReceivedWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+                doc.rect(initialX + colDateWidth + colReceivedWidth, currentY, colExpensesWidth, rowHeight);
+                doc.text("EXPENSES", initialX + colDateWidth + colReceivedWidth + colExpensesWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+                doc.rect(initialX + colDateWidth + colReceivedWidth + colExpensesWidth, currentY, colBalanceWidth, rowHeight);
+                doc.text("BALANCE AMT", initialX + colDateWidth + colReceivedWidth + colExpensesWidth + colBalanceWidth / 2, currentY + rowHeight / 2, { align: "center", baseline: "middle" });
+                currentY += rowHeight;
+            }
+
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "normal");
+            doc.rect(initialX, currentY, colDateWidth, rowHeight);
+            doc.text(rowData[0], initialX + padding, currentY + rowHeight / 2, { baseline: "middle" });
+            doc.rect(initialX + colDateWidth, currentY, colReceivedWidth, rowHeight);
+            doc.text(received, initialX + colDateWidth + colReceivedWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+            doc.rect(initialX + colDateWidth + colReceivedWidth, currentY, colExpensesWidth, rowHeight);
+            doc.text(expense, initialX + colDateWidth + colReceivedWidth + colExpensesWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+            doc.rect(initialX + colDateWidth + colReceivedWidth + colExpensesWidth, currentY, colBalanceWidth, rowHeight);
+            doc.text(rowData[4], initialX + colDateWidth + colReceivedWidth + colExpensesWidth + colBalanceWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+
+            currentY += rowHeight;
+        }
+
+        if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
+            doc.addPage();
+            currentY = 20;
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("MAXBOND INFRA LTD.", pageWidth / 2, 10, { align: "center" });
+            currentY += 10;
+        }
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+
+        doc.rect(initialX, currentY, colDateWidth, rowHeight);
+        doc.text("TOTAL", initialX + padding, currentY + rowHeight / 2, { baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth, currentY, colReceivedWidth, rowHeight);
+        doc.text(totalReceivedPage2.toFixed(2), initialX + colDateWidth + colReceivedWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth + colReceivedWidth, currentY, colExpensesWidth, rowHeight);
+        doc.text(totalExpensesPage2.toFixed(2), initialX + colDateWidth + colReceivedWidth + colExpensesWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+
+        doc.rect(initialX + colDateWidth + colReceivedWidth + colExpensesWidth, currentY, colBalanceWidth, rowHeight);
+        const finalBalancePage2 =
+            (summary.netBalance) >= 0
+                ? `${(summary.netBalance).toFixed(2)} Cr`
+                : `${Math.abs(summary.netBalance).toFixed(2)} Dr`;
+        doc.text(finalBalancePage2, initialX + colDateWidth + colReceivedWidth + colExpensesWidth + colBalanceWidth - padding, currentY + rowHeight / 2, { align: "right", baseline: "middle" });
+
+        currentY += rowHeight + 10;
+
+        if (currentY + rowHeight > doc.internal.pageSize.height - 30) {
+            doc.addPage();
+            currentY = 20;
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("MAXBOND INFRA LTD.", pageWidth / 2, 10, { align: "center" });
+            currentY += 10;
+        }
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        const engineerSignX = initialX;
+        const engineerSignHeight = 10;
+        doc.text("ENGINEER SIGN...", engineerSignX, currentY + engineerSignHeight / 2, { align: "left", baseline: "middle" });
+
+      const blob = doc.output("blob");
+      const fileName = `MaxBond_Financial_Statement_${startDate}_to_${endDate}.pdf`;
+
+      if (navigator.share) {
+          const file = new File([blob], fileName, { type: "application/pdf" });
+          await navigator.share({
+              title: 'MaxBond Financial Statement',
+              text: `Here is the financial statement for MaxBond Infra from ${formatDate(startDate)} to ${formatDate(endDate)}.`,
+              files: [file],
+          });
+          setExportStatus({ success: true, message: "File shared successfully!" });
+      } else if (Share && Share.share) {
+          const base64Data = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                  const base64String = reader.result.split(",")[1];
+                  resolve(base64String);
+              };
+              reader.onerror = reject;
+              reader.readAsDataURL(blob);
+          });
+
+          // Save file to temp directory for sharing
+          const tempFileName = `temp_share_${Date.now()}.pdf`;
+          const result = await Filesystem.writeFile({
+              path: tempFileName,
+              data: base64Data,
+              directory: Directory.Cache,
+              recursive: true,
+          });
+
+          await Share.share({
+              title: 'MaxBond Financial Statement',
+              text: `Here is the financial statement for MaxBond Infra from ${formatDate(startDate)} to ${formatDate(endDate)}.`,
+              url: result.uri,
+              dialogTitle: 'Share Report',
+          });
+
+          // Clean up the temporary file
+          await Filesystem.deleteFile({
+              path: tempFileName,
+              directory: Directory.Cache,
+          });
+
+          setExportStatus({ success: true, message: "File shared successfully!" });
+      } else {
+          // Fallback to manual download if no share API is available
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          setExportStatus({
+              success: false,
+              message: "Sharing not supported. File downloaded automatically.",
+          });
+      }
+    } catch (error) {
+      console.error("Share failed:", error);
+      setExportStatus({
+        success: false,
+        message: `Share failed: ${error.message}`,
+      });
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const handlePrint = async () => {
     if (!exportPermission) {
       alert(
@@ -1066,6 +1398,8 @@ const ExportPage = () => {
     }
 
     if (isMobileDevice()) {
+      // On mobile, "Print" is often a "Save to PDF" or "Share" action.
+      // We will perform a normal PDF export and then let the user handle it.
       await handleExport(exportToPDF, "pdf");
     } else {
       const printWindow = window.open("", "_blank");
@@ -1297,82 +1631,6 @@ const ExportPage = () => {
       `);
       printWindow.document.close();
     }
-  };
-  
-  const shareOnWhatsApp = async () => {
-    if (!exportPermission) {
-      alert(
-        "You don't have permission to export data. Please contact your administrator."
-      );
-      return;
-    }
-    
-    // We export to PDF first
-    try {
-      const fileName = await exportToPDF();
-      if (isMobileDevice()) {
-        const message = encodeURIComponent(
-          `Hello, here is the financial statement for MaxBond Infra from ${formatDate(startDate)} to ${formatDate(endDate)}.`
-        );
-        const fileUri = await Filesystem.getUri({
-          directory: Directory.Documents,
-          path: fileName,
-        });
-
-        // This is a simplified approach, direct file sharing might require a plugin
-        window.open(`whatsapp://send?text=${message}&file=${fileUri.uri}`, '_system');
-
-        setExportStatus({
-          success: true,
-          message: `PDF saved as ${fileName} in your Documents folder. Attempting to open WhatsApp...`,
-        });
-      } else {
-        const message = encodeURIComponent(
-          `Check out the financial statement from ${formatDate(
-            startDate
-          )} to ${formatDate(endDate)} for MaxBond Infra. Please find the downloaded PDF in your downloads folder.`
-        );
-
-        window.open(`https://web.whatsapp.com/send?text=${message}`, "_blank");
-
-        setExportStatus({
-          success: true,
-          message:
-            "WhatsApp web opened. Please send the downloaded PDF file manually.",
-        });
-      }
-    } catch (error) {
-      console.error("Sharing failed", error);
-      setExportStatus({
-        success: false,
-        message: "Sharing failed. Please try downloading and sharing manually.",
-      });
-    }
-  };
-  
-  const handleShareOption = async (option) => {
-      setShareModalOpen(false);
-      const message = encodeURIComponent(`Hello, here is the financial report for MaxBond Infra from ${formatDate(startDate)} to ${formatDate(endDate)}.`);
-
-      if (option === 'whatsapp') {
-          if (isMobileDevice()) {
-              const fileUri = await Filesystem.getUri({
-                directory: Directory.Documents,
-                path: exportedFileName,
-              });
-              // Note: Direct file sharing via URL scheme can be inconsistent.
-              // A native plugin for file sharing is more reliable for production mobile apps.
-              window.open(`whatsapp://send?text=${message}&file=${fileUri.uri}`, '_system');
-          } else {
-              window.open(`https://web.whatsapp.com/send?text=${message}`, '_blank');
-              setExportStatus({
-                success: true,
-                message: "WhatsApp web opened. Please send the downloaded file manually.",
-              });
-          }
-      } else if (option === 'email') {
-          window.open(`mailto:?subject=${encodeURIComponent('MaxBond Financial Report')}&body=${message}`, '_self');
-      }
   };
   
   const generatePrintRows = () => {
@@ -1709,11 +1967,11 @@ const ExportPage = () => {
             <FaPrint /> {isMobileDevice() ? "Save PDF" : "Print Report"}
           </button>
           <button
-            onClick={shareOnWhatsApp}
+            onClick={handleShare}
             disabled={!startDate || !endDate || loading || exporting || !exportPermission}
-            className="whatsapp-btn"
+            className="share-btn"
           >
-            <FaWhatsapp /> Share via WhatsApp
+            <FaShare /> Share
           </button>
         </div>
       </div>
@@ -1841,13 +2099,6 @@ const ExportPage = () => {
             </div>
           </div>
         )}
-
-      <SharePromptModal
-        isOpen={shareModalOpen}
-        onClose={() => setShareModalOpen(false)}
-        onShare={handleShareOption}
-        fileName={exportedFileName}
-      />
     </div>
   );
 };
