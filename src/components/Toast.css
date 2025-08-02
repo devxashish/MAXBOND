@@ -1,0 +1,289 @@
+/* src/components/Toast.css */
+
+/* Main container for the toast */
+.toast-container {
+    position: fixed;
+    top: 50%; /* Vertically center by default */
+    left: 50%; /* Horizontally center by default */
+    transform: translate(-50%, -50%); /* Precisely center the element by default */
+    z-index: 10000; /* Increased z-index to be above modals and bottom bar */
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0; /* Initially hidden for animation */
+    animation-name: fadeInOutToast; /* Apply animation name */
+    animation-fill-mode: forwards; /* Keep the last state of the animation */
+    pointer-events: auto; /* Changed to auto so the undo button can be clicked */
+    text-align: center;
+    padding-right: 10px; /* Adjust if button needs more space */
+    transition: all 0.3s ease; /* Smooth transition for theme changes */
+}
+
+/* Specific styles for different toast types */
+.toast-container.success-toast {
+    background: linear-gradient(45deg, #4CAF50, #8BC34A); /* Green gradient for success */
+    border: 1px solid #388E3C;
+}
+
+.toast-container.error-toast {
+    background: linear-gradient(45deg, #f44336, #E57373); /* Red gradient for error */
+    border: 1px solid #D32F2F;
+}
+
+.toast-container.info-toast {
+    background: linear-gradient(45deg, #2196F3, #64B5F6); /* Blue gradient for info */
+    border: 1px solid #1976D2;
+}
+
+/* Premium style for the delete toast */
+.toast-container.premium-delete-toast {
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700); /* Golden/Orange gradient */
+    color: #333; /* Darker text for premium */
+    border: 2px solid #FFC107;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    animation: premiumFlash 0.5s ease-in-out, fadeInOutToast var(--animation-duration, 3.5s) forwards; /* Use CSS variable */
+}
+
+/* Icon styling */
+.toast-content i {
+    font-size: 1.3em;
+    margin-right: 8px;
+}
+
+/* UNDO Button Styling */
+.toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    color: inherit; /* Inherit text color from parent toast */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: 15px; /* Space between message and button */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.toast-undo-button:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Animation for the toast (fade in and out) for desktop */
+@keyframes fadeInOutToast {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -30px); /* Start slightly above center */
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Fade in and move to center */
+    }
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* Stay visible */
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -70px); /* Fade out and move up */
+    }
+}
+
+/* Optional: A quick flash for premium delete */
+@keyframes premiumFlash {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 35px rgba(255, 165, 0, 0.6);
+    }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .toast-container {
+        top: 20px; /* Position at the top, with some padding */
+        left: 50%;
+        transform: translateX(-50%); /* Only translateX needed for horizontal centering */
+        
+        /* Make it smaller */
+        max-width: 90%; /* Allow it to be a bit wider, but not too wide */
+        width: fit-content; /* Make the toast fit its content tightly */
+        font-size: 0.9em; /* Reduce font size for a smaller look */
+        padding: 8px 15px; /* Reduce overall padding */
+        gap: 8px; /* Reduce gap between icon/text and undo button */
+        
+        white-space: normal; /* Allow message to wrap on smaller screens */
+        text-overflow: unset; /* Remove ellipsis if wrapping */
+        word-break: break-word; /* Ensure long words break */
+    }
+
+    .toast-content {
+        display: flex; /* Ensure content is flexible */
+        align-items: center; /* Keep items centered */
+        flex-grow: 1; /* Allow content to grow */
+        max-width: calc(100% - 70px); /* Leave space for UNDO button (approx width) */
+        text-align: left; /* Align text left within its flexible container */
+    }
+
+    .toast-content span {
+        flex-grow: 1; /* Allow the message span to take available space */
+    }
+
+    .toast-content i {
+        font-size: 1.1em; /* Slightly reduce icon size */
+        margin-right: 5px; /* Reduce margin */
+    }
+
+    .toast-undo-button {
+        padding: 6px 10px; /* Smaller padding for button */
+        font-size: 0.8em; /* Smaller font for button */
+        margin-left: 10px; /* Reduce margin */
+    }
+
+    /* Adjust animation for mobile to come from top */
+    @keyframes fadeInOutToast {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50px); /* Start slightly above the new top position */
+        }
+        10% {
+            opacity: 1;
+            transform: translate(-50%, 0); /* Fade in and move to the new top position */
+        }
+        90% {
+            opacity: 1;
+            transform: translate(-50%, 0); /* Stay visible */
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -90px); /* Fade out and move further up */
+        }
+    }
+}
+
+
+/* --- NEW TOAST THEMES --- */
+
+/* Default Toast Theme (for reference, similar to success-toast green) */
+.default-toast-theme {
+    background: linear-gradient(45deg, #4CAF50, #8BC34A);
+    border: 1px solid #388E3C;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.default-toast-theme .toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Dark Toast Theme */
+.dark-toast-theme {
+    background: linear-gradient(45deg, #343a40, #212529);
+    border: 1px solid #495057;
+    color: #f8f9fa;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+.dark-toast-theme .toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Glassmorphism Toast Theme */
+.glassmorphism-toast-theme {
+    background: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px; /* More rounded for glass effect */
+    color: #fff;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    animation-duration: 4s; /* Extend animation for subtle effect */
+}
+.glassmorphism-toast-theme.success-toast { border-color: rgba(76, 175, 80, 0.5); }
+.glassmorphism-toast-theme.error-toast { border-color: rgba(244, 67, 54, 0.5); }
+.glassmorphism-toast-theme.info-toast { border-color: rgba(33, 150, 243, 0.5); }
+.glassmorphism-toast-theme .toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Gradient Toast Theme (Soft Blue/Purple) */
+.gradient-toast-theme {
+    background: linear-gradient(to right, #8A2BE2, #ADD8E6); /* Blue Violet to Light Blue */
+    border: 1px solid #6A0DAD;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.3);
+}
+.gradient-toast-theme .toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Neon Toast Theme (Bright, glowing) */
+.neon-toast-theme {
+    background-color: #1a1a1d; /* Dark background */
+    border: 2px solid; /* Border will be colored */
+    border-image: linear-gradient(45deg, #00FFFF, #FF00FF, #FFFF00) 1; /* Neon border */
+    color: #00FFFF; /* Neon text color */
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(255, 0, 255, 0.5); /* Glowing shadow */
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+    border-radius: 8px; /* Slightly less rounded */
+}
+.neon-toast-theme.success-toast { color: #00FF00; border-image: linear-gradient(45deg, #00FF00, #39FF14) 1;}
+.neon-toast-theme.error-toast { color: #FF00FF; border-image: linear-gradient(45deg, #FF00FF, #FF33FF) 1; }
+.neon-toast-theme.info-toast { color: #00FFFF; border-image: linear-gradient(45deg, #00FFFF, #33FFFF) 1;}
+.neon-toast-theme .toast-undo-button {
+    background-color: rgba(0, 255, 255, 0.1);
+    border-color: #00FFFF;
+    text-shadow: none;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+.neon-toast-theme .toast-undo-button:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+}
+
+
+/* Flat Toast Theme (Minimalist) */
+.flat-toast-theme {
+    background-color: #34495e; /* Dark blue-gray */
+    border: none;
+    color: #ecf0f1; /* Light gray */
+    box-shadow: none;
+    border-radius: 5px; /* Minimal border-radius */
+}
+.flat-toast-theme.success-toast { background-color: #27ae60; }
+.flat-toast-theme.error-toast { background-color: #e74c3c; }
+.flat-toast-theme.info-toast { background-color: #3498db; }
+.flat-toast-theme .toast-undo-button {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    text-decoration: underline; /* Emphasize undo */
+}
+
+/* Rounded Toast Theme (Pill shape) */
+.rounded-toast-theme {
+    background: #555;
+    border: none;
+    color: #fff;
+    border-radius: 50px; /* Highly rounded */
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1em;
+}
+.rounded-toast-theme.success-toast { background: linear-gradient(90deg, #4CAF50, #66BB6A); }
+.rounded-toast-theme.error-toast { background: linear-gradient(90deg, #f44336, #EF5350); }
+.rounded-toast-theme.info-toast { background: linear-gradient(90deg, #2196F3, #42A5F5); }
+.rounded-toast-theme .toast-undo-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 30px;
+}

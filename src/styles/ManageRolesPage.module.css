@@ -1,0 +1,347 @@
+/* ManageRolesPage.module.css */
+
+/* Reuse color palette from AdminPanel.module.css */
+:root {
+  --ds-dark-bg: #1A1A2E;
+  --ds-medium-bg: #16213E;
+  --ds-light-text: #E0E0E0;
+  --ds-accent-red: #E94560;
+  --ds-accent-purple: #723D47;
+  --ds-active-glow: #F6F6F6;
+  --ds-button-hover-bg: #533483;
+  --ds-header-flare-color: #ffd700;
+  --ds-border-color: #3f0071;
+}
+
+.manageRolesContainer {
+  /* This component is rendered inside AdminPanel's contentArea.
+     So, background/min-height will be inherited/managed by AdminPanel. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0; /* Padding handled by parent (AdminPanel's contentArea) */
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--ds-light-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.manageRolesContainer h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--ds-light-text);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.manageRolesContainer h2 {
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  color: var(--ds-light-text);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Section Styling */
+.addRoleSection, .bulkAddRolesSection, .roleListSection {
+  background-color: rgba(255, 255, 255, 0.08); /* Transparent section background */
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Deep shadow */
+  backdrop-filter: blur(8px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Light transparent border */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.addRoleSection:last-child, .bulkAddRolesSection:last-child, .roleListSection:last-child {
+    margin-bottom: 0; /* No margin for the last section */
+}
+
+
+/* Form Group and Input Styles */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center; /* Center items in form group */
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--ds-border-color);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3); /* Darker transparent input background */
+  color: var(--ds-light-text);
+  font-size: 1rem;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.inputField::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--ds-accent-red);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 0 10px var(--ds-accent-red);
+}
+
+.inputField:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+.textareaField {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 80px;
+}
+
+/* Buttons */
+.primaryButton {
+  background: var(--ds-accent-red);
+  background: linear-gradient(90deg, var(--ds-accent-red) 0%, #FF7F50 100%);
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  width: auto; /* Allow button to size based on content */
+  min-width: 150px;
+}
+
+.primaryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 0 20px var(--ds-accent-red);
+}
+
+.primaryButton:disabled {
+  background: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+.actionButtonsGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.15); /* Transparent action button */
+  color: var(--ds-light-text);
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.actionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.2);
+}
+
+.editButton:hover {
+  border-color: var(--ds-header-flare-color);
+  color: var(--ds-header-flare-color);
+}
+
+.deleteButton:hover {
+  border-color: var(--ds-accent-red);
+  color: var(--ds-accent-red);
+}
+
+.cancelButton { /* Specific for cancel in single role management */
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--ds-light-text);
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    min-width: 150px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.cancelButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+
+/* List Styling */
+.roleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roleListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.05); /* Very transparent */
+  border-radius: 10px;
+  padding: 15px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.roleListItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  transform: translateY(-3px);
+}
+
+.roleName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ds-light-text);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Messages */
+.message {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.message.success {
+  background-color: rgba(39, 174, 96, 0.2);
+  color: #27ae60;
+  border-color: #27ae60;
+}
+
+.message.error {
+  background-color: rgba(192, 57, 43, 0.2);
+  color: var(--ds-accent-red);
+  border-color: var(--ds-accent-red);
+}
+
+/* Loading/Error/Access Denied States (from previous AdminPanel CSS, reused) */
+.loadingState, .errorState {
+  background-color: rgba(255, 255, 255, 0.15); /* Transparent background */
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--ds-light-text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.loadingState p, .errorState p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid var(--ds-accent-red);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorMessageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ds-accent-red);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  margin-bottom: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .addRoleSection, .bulkAddRolesSection, .roleListSection {
+    padding: 20px;
+  }
+  .manageRolesContainer h1 {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+  .manageRolesContainer h2 {
+    font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+  }
+  .inputField, .primaryButton, .cancelButton {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+  }
+  .actionButton {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .roleListItem {
+    padding: 12px 15px;
+  }
+  .roleName {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .addRoleSection, .bulkAddRolesSection, .roleListSection {
+    padding: 15px;
+    border-radius: 10px;
+  }
+  .formGroup {
+    gap: 8px;
+  }
+  .primaryButton, .cancelButton {
+    width: 100%; /* Full width buttons on small screens */
+    min-width: unset;
+  }
+  .actionButtonsGroup {
+    flex-direction: column;
+  }
+}

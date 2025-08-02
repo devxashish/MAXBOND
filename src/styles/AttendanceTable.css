@@ -1,0 +1,76 @@
+/* AttendanceTable.css */
+.bg-white {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-lg {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+button.bg-green-600 {
+  background-color: #10b981;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s ease;
+}
+
+button.bg-green-600:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.min-w-full {
+  min-width: 100%;
+}
+
+.table-auto {
+  table-layout: auto;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  overflow: hidden;
+}
+
+.text-sm {
+  font-size: 0.88rem;
+}
+
+.text-left {
+  text-align: left;
+}
+
+thead.bg-gray-200 {
+  background-color: #e0f2fe;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background-color: #f1f5f9;
+  transition: background-color 0.2s ease;
+}
+
+td {
+  color: #374151;
+}

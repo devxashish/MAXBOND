@@ -1,0 +1,256 @@
+/* UserLocationMap.module.css */
+
+.pageContainer {
+  min-height: 100vh;
+  padding: 32px;
+  background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #f3f4f6;
+}
+
+.container:hover {
+  transform: scale(1.005);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 5px rgba(220, 230, 255, 0.5);
+}
+
+.pageTitle {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1e40af;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.pageTitle span:first-child,
+.pageTitle span:last-child {
+  font-size: 48px;
+}
+
+.userNameHighlight {
+  color: #4f46e5;
+}
+
+.summaryBox {
+  margin-bottom: 24px;
+  color: #374151;
+  font-size: 18px;
+  text-align: center;
+  background-color: #eff6ff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #bfdbfe;
+}
+
+.summaryText {
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.summaryCount {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+/* List Item Styles */
+.attendanceList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attendanceListItem {
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(to right, #f9fafb, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+  overflow: hidden;
+  will-change: transform, box-shadow;
+}
+
+.attendanceListItem:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.01);
+  border-color: #93c5fd;
+}
+
+.attendanceListItem:hover .listItemBackground {
+  opacity: 1;
+}
+
+.listItemBackground {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, #e0f2fe, #ede9fe); /* Match page background on hover */
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  z-index: 0;
+}
+
+.listItemContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.attendanceIconWrapper {
+  flex-shrink: 0;
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  transition: background-color 0.3s ease;
+}
+
+.attendanceListItem:hover .attendanceIconWrapper {
+  background-color: #dbeafe;
+}
+
+.attendanceIcon {
+  width: 32px;
+  height: 32px;
+  color: #6366f1;
+  transition: color 0.3s ease;
+}
+
+.attendanceListItem:hover .attendanceIcon {
+  color: #1e40af;
+}
+
+.recordLocation {
+  font-weight: 700;
+  font-size: 20px;
+  color: #1a202c;
+  transition: color 0.3s ease;
+}
+
+.attendanceListItem:hover .recordLocation {
+  color: #1e40af;
+}
+
+.recordTime {
+  font-size: 14px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.recordId {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+
+/* Reusing loading/error states from previous code */
+.loadingState, .errorState, .noDataState {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  background: linear-gradient(to bottom right, #e0f2fe, #ede9fe);
+}
+
+.loadingState > div, .errorState > div, .noDataState > div {
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingState p {
+  font-size: 20px;
+  color: #4b5563;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.errorState {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+}
+
+.errorMessageTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #b91c1c;
+  margin-bottom: 16px;
+}
+
+.retryButton {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 18px;
+}
+
+.retryButton:hover {
+  background-color: #b91c1c;
+}
+
+.noDataState { /* Renamed from noLocationState as it's more generic now */
+    background-color: #fffbeb;
+    border: 1px solid #fed7aa;
+}
+
+.noDataTitle { /* Renamed from noLocationTitle */
+  font-size: 24px;
+  font-weight: bold;
+  color: #ea580c;
+  margin-bottom: 16px;
+}

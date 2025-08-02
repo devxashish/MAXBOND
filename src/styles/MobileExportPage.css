@@ -1,0 +1,108 @@
+/* src/styles/MobileExportPage.css */
+
+.mobile-export-page-container {
+    padding: 20px;
+    background-color: #f0f2f5; /* Light grey background */
+    min-height: 100vh;
+}
+
+/* Specific styling for Material-UI components to give a cleaner look */
+.MuiCard-root {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.MuiTypography-h4 {
+    font-weight: 600;
+    color: #333;
+}
+
+.MuiTypography-h6 {
+    font-weight: 500;
+    color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.MuiButton-contained {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    text-transform: none; /* Keep text as is, no uppercase */
+}
+
+.MuiButton-contained:hover {
+    background-color: #0056b3;
+}
+
+.MuiButton-outlined {
+    border-color: #007bff;
+    color: #007bff;
+    font-weight: 600;
+    border-radius: 8px;
+    text-transform: none;
+}
+
+.MuiButton-outlined:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.MuiCircularProgress-root {
+    margin-right: 8px; /* Space between spinner and text */
+}
+
+/* Styles for the export status message */
+.MuiBox-root[sx*="fadeInOut"] {
+    position: relative;
+    overflow: hidden; /* Important for animation */
+}
+
+.MuiBox-root[sx*="backgroundColor: success.main"] {
+    background-color: #28a745 !important; /* Green */
+}
+
+.MuiBox-root[sx*="backgroundColor: error.main"] {
+    background-color: #dc3545 !important; /* Red */
+}
+
+.MuiBox-root[sx*="backgroundColor: warning.light"] {
+    background-color: #ffc107 !important; /* Yellow */
+    color: #343a40 !important; /* Dark text for warning */
+}
+
+/* Signature section */
+.signature-preview {
+    max-width: 100px;
+    max-height: 50px;
+    object-fit: contain;
+    margin-right: 15px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Date Pickers specific styling */
+.MuiFormControl-root .MuiInputBase-root {
+    border-radius: 8px;
+}
+
+/* Ensure text field inside date picker is styled */
+.MuiDatePicker-textField {
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .mobile-export-page-container {
+        padding: 15px;
+    }
+    .MuiButton-root {
+        width: 100%; /* Full width buttons on small screens */
+    }
+    .MuiBox-root[sx*="flexWrap: wrap"] {
+        justify-content: center !important;
+    }
+}

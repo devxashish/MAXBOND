@@ -1,0 +1,288 @@
+/* src/pages/MonthlyReportPage.css */
+
+/* Global styles for the page */
+.report-page-container {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(to bottom right, #f2f2f7, #e5e5ea);
+  color: #1c1c1e;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.report-hero-section {
+  text-align: center;
+  margin-bottom: 25px;
+  animation: slideDown 0.6s ease-out;
+}
+
+.report-main-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  margin-bottom: 5px;
+}
+
+.report-subtitle {
+  font-size: 1rem;
+  color: #8e8e93;
+  margin: 0;
+}
+
+/* Main report card */
+.monthly-report-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Header section with filter and add balance */
+.report-header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.filter-box,
+.add-starting-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-label,
+.add-starting-label {
+  font-weight: 600;
+  color: #1c1c1e;
+  flex-shrink: 0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d6;
+  background-color: #f8f8fa;
+  font-size: 16px;
+  color: #1c1c1e;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+}
+
+.primary-button {
+  padding: 12px 20px;
+  background-color: #007aff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.primary-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.add-starting-button {
+  min-width: 100px;
+}
+
+/* Summary section */
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.summary-item {
+  background-color: #f8f8fa;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.summary-label {
+  font-size: 0.9rem;
+  color: #636366;
+  margin: 0 0 5px 0;
+}
+
+.summary-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1c1c1e;
+}
+
+.expense-amount {
+  color: #ff3b30;
+}
+.credit-amount {
+  color: #34c759;
+}
+.debit-amount {
+  color: #ff9500;
+}
+.final-balance-item .summary-amount {
+  color: #007aff;
+}
+
+/* Breakdown table */
+.breakdown-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1c1c1e;
+  margin-bottom: 15px;
+}
+
+.breakdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f8fa;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s;
+}
+
+.breakdown-item:hover {
+  background-color: #f2f2f7;
+}
+
+.item-text {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.item-icon {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.item-value {
+  font-weight: 600;
+}
+
+.item-date {
+  font-size: 0.8em;
+  color: #8e8e93;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.item-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: 15px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  font-size: 1.1em;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-button:hover {
+  background-color: #e5e5ea;
+  transform: scale(1.1);
+}
+
+/* Specific item colors */
+.expense-item .item-value {
+  color: #ff3b30;
+}
+.credit-item .item-value {
+  color: #34c759;
+}
+.debit-item .item-value {
+  color: #ff9500;
+}
+.starting-item .item-value {
+  color: #007aff;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+  .report-page-container {
+    padding: 10px;
+  }
+  
+  .monthly-report-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .report-header-section {
+    flex-direction: column;
+  }
+  
+  .filter-box,
+  .add-starting-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-starting-box .primary-button {
+    width: 100%;
+  }
+
+  .report-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .breakdown-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+  
+  .item-text {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .item-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin: 0;
+  }
+}

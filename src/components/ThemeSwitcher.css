@@ -1,0 +1,128 @@
+/* src/components/ThemeSwitcher.css */
+
+.theme-switcher-container {
+    /* Changed from position: relative/fixed to use margin for flow within a parent */
+    margin: 30px auto 0 auto; /* Top margin, auto horizontal for centering */
+    width: fit-content; /* Shrink to content width */
+    min-width: 200px; /* Minimum width for the main button */
+
+    display: flex;
+    flex-direction: column; /* Stack main button and wrapper vertically */
+    align-items: center; /* Center content horizontally */
+
+    background: rgba(var(--card-bg-rgb), 0.8);
+    padding: 10px;
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(var(--border-color-rgb), 0.5);
+    z-index: 10; /* Ensures it's above other content within the card */
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    transition: all 0.3s ease-in-out;
+}
+
+.theme-switcher-main-button {
+    background: linear-gradient(var(--button-gradient-angle), var(--primary-color), color-mix(in srgb, var(--primary-color) 80%, white 20%));
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius-medium);
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    outline: none;
+    width: 100%; /* Make it fill its container */
+    justify-content: center;
+    position: relative;
+    z-index: 11; /* Above the wrapper when opened */
+}
+
+.theme-switcher-main-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(var(--button-gradient-angle), color-mix(in srgb, var(--primary-color) 80%, white 20%), var(--primary-color));
+}
+
+.theme-buttons-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    justify-content: center;
+    gap: 8px;
+    max-height: 0; /* HIDDEN BY DEFAULT */
+    overflow: hidden; /* Hide overflowing content */
+    padding-top: 0;
+    opacity: 0; /* Also fade out */
+    margin-top: 0; /* No margin when closed */
+    transition: max-height 0.4s ease-out, padding-top 0.4s ease-out, opacity 0.4s ease-out, margin-top 0.4s ease-out;
+}
+
+/* When the container is 'open', reveal the theme buttons */
+.theme-switcher-container.open .theme-buttons-wrapper {
+    max-height: 200px; /* Sufficient height to show all buttons (adjust if you have many more themes) */
+    padding-top: 15px; /* Space from the main button */
+    opacity: 1; /* Fade in */
+    margin-top: 15px; /* Add margin when opened */
+}
+
+/* Individual theme selection buttons */
+.theme-button {
+    background: rgba(var(--input-bg-rgb), 0.8);
+    color: var(--text-color);
+    border: 1px solid rgba(var(--border-color-rgb), 0.4);
+    border-radius: 50%;
+    width: 45px; /* Slightly larger circles */
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* Larger emojis */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.theme-button:hover {
+    background: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-color);
+}
+
+.theme-button.active {
+    background: var(--accent-color);
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.5), 0 0 10px rgba(0,0,0,0.5);
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments for ThemeSwitcher */
+@media (max-width: 768px) {
+    .theme-switcher-container {
+        padding: 8px;
+        border-radius: var(--border-radius-medium);
+        width: 90%; /* Take more width on smaller screens */
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .theme-switcher-main-button {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+    .theme-buttons-wrapper {
+        gap: 6px;
+    }
+    .theme-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3em;
+    }
+}

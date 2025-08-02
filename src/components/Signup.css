@@ -1,0 +1,196 @@
+/* src/pages/Signup.css */
+
+/* --- Base Variables for iOS-like Theme (Highly Recommended to be in a global CSS file like App.css or index.css) --- */
+/* If these are not already defined globally, copy the :root block from ManageUsersPage.css here */
+/* Example (if not global): */
+/*
+:root {
+    --ios-blue: #007AFF;
+    --ios-blue-light: #007AFF1A;
+    --ios-red: #FF3B30;
+    --ios-green: #34C759;
+    --ios-gray-light: #F2F2F7;
+    --ios-gray-medium: #E5E5EA;
+    --ios-gray-dark: #8E8E93;
+    --ios-black: #000000;
+    --ios-white: #FFFFFF;
+    --card-background: var(--ios-white);
+    --input-bg-color: var(--ios-white);
+    --text-color: var(--ios-black);
+    --text-color-secondary: var(--ios-gray-dark);
+    --border-color: var(--ios-gray-medium);
+    --button-primary-bg: var(--ios-blue);
+    --button-primary-text: var(--ios-white);
+    --button-disabled-bg: #E0E0E0;
+    --button-disabled-text: #A0A0A0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ios-blue: #0A84FF;
+        --ios-blue-light: #0A84FF1A;
+        --ios-red: #FF453A;
+        --ios-green: #30D158;
+        --ios-gray-light: #1C1C1E;
+        --ios-gray-medium: #3A3A3C;
+        --ios-gray-dark: #98989D;
+        --ios-black: #FFFFFF;
+        --ios-white: #000000;
+        --card-background: #2C2C2E;
+        --input-bg-color: #1C1C1E;
+        --text-color: var(--ios-black);
+        --text-color-secondary: var(--ios-gray-dark);
+        --border-color: var(--ios-gray-medium);
+        --button-primary-bg: var(--ios-blue);
+        --button-primary-text: var(--ios-white);
+        --button-disabled-bg: #3A3A3C;
+        --button-disabled-text: #8E8E93;
+    }
+}
+*/
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--ios-gray-light); /* Light subtle background */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.signup-card {
+    background-color: var(--card-background);
+    border-radius: 20px; /* More pronounced rounded corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger, softer shadow */
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.signup-title {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--ios-blue);
+    margin-bottom: 30px;
+    letter-spacing: -0.03em; /* Tighter letter spacing */
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between form groups */
+}
+
+.input-group {
+    text-align: left;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-color-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.signup-input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px; /* Consistent rounded inputs */
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    font-size: 1.05em;
+    appearance: none; /* Remove default browser styling */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.signup-input::placeholder {
+    color: var(--ios-gray-dark);
+    opacity: 0.7; /* Make placeholder text lighter */
+}
+
+.signup-input:focus {
+    border-color: var(--ios-blue);
+    outline: none;
+    box-shadow: 0 0 0 4px var(--ios-blue-light); /* iOS-like focus glow */
+}
+
+.signup-button {
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border: none;
+    border-radius: 15px; /* More rounded button */
+    padding: 15px 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Button shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.signup-button:hover:not(:disabled) {
+    background-color: #006EDC; /* Darker blue on hover */
+    transform: translateY(-2px); /* Lift effect */
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+}
+
+.signup-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-button:disabled {
+    background-color: var(--button-disabled-bg);
+    color: var(--button-disabled-text);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Spinner for loading state */
+.spinner {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Message styles */
+.message {
+    padding: 15px;
+    margin-top: 25px;
+    border-radius: 12px;
+    font-size: 0.95em;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.success-message {
+    background-color: #DFF0D8; /* Light green */
+    color: #3C763D; /* Dark green text */
+    border: 1px solid #D6E9C6;
+}
+
+.error-message {
+    background-color: #F2DEDE; /* Light red */
+    color: #A94442; /* Dark red text */
+    border: 1px solid #EBCCD1;
+}

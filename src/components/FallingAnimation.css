@@ -1,0 +1,130 @@
+/* src/components/FallingAnimation.css */
+
+.falling-animation-container {
+  position: fixed; /* Covers the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Allows clicks/interactions on elements below it */
+  overflow: hidden; /* Crucial to hide elements outside the viewport */
+  z-index: 2; /* Crucial: Above Login's specific overlay (z-index 1) and body (z-index 0), but below UI cards (z-index 3/4) and ThemeSwitcher (z-index 10) */
+}
+
+.falling-element {
+  position: absolute;
+  background-color: var(--leaf-color); /* Theme-dependent leaf color */
+  border-radius: 50%; /* Default, overridden by specific leaf types */
+  animation-name: fall, sway, spin; /* Changed 'rotate' to 'spin' to avoid conflict, added to @keyframes */
+  animation-timing-function: linear, ease-in-out, linear;
+  animation-iteration-count: infinite, infinite, infinite;
+  animation-direction: normal, alternate, normal; /* Sway alternates direction */
+  transform-origin: center center;
+  will-change: transform, opacity; /* Optimize for animation performance */
+  /* Subtle gradient for depth */
+  background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 70%); /* Subtle highlight */
+}
+
+/* Base falling animation */
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotateZ(var(--initial-rotation, 0deg)); opacity: 0; }
+  10% { opacity: var(--initial-opacity, 0.4); } /* Fade in */
+  90% { opacity: var(--initial-opacity, 0.4); }
+  100% { transform: translateY(110vh) rotateZ(calc(720deg + var(--initial-rotation, 0deg))); opacity: 0; } /* Fall past bottom, rotate */
+}
+
+/* Sway animation */
+@keyframes sway {
+  0% { transform: translateX(0px) rotateY(0deg); }
+  50% { transform: translateX(var(--sway-distance, 30px)) rotateY(30deg); }
+  100% { transform: translateX(0px) rotateY(0deg); }
+}
+
+/* Spin animation - separate from fall's Z rotation */
+@keyframes spin {
+  from { transform: rotateZ(var(--initial-rotation, 0deg)); }
+  to { transform: rotateZ(calc(360deg * var(--rotation-speed, 1) + var(--initial-rotation, 0deg))); }
+}
+
+
+/* --- Leaf Variants (Pure CSS - Refined and More Shapes) --- */
+
+/* Leaf Type 1: Simple Petal/Oval (soft edges) */
+.falling-element.leaf-type-1 {
+  width: var(--size);
+  height: calc(var(--size) * 1.6);
+  border-radius: 50% / 60% 60% 40% 40%;
+}
+
+/* Leaf Type 2: Pointed Oval (more defined point, slightly more organic) */
+.falling-element.leaf-type-2 {
+  width: calc(var(--size) * 0.8);
+  height: var(--size);
+  clip-path: polygon(50% 0%, 85% 35%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 15% 35%);
+  border-radius: 8% 8% 50% 50%; /* Smooth base */
+}
+
+/* Leaf Type 3: Maple-like (simplified, more jagged) */
+.falling-element.leaf-type-3 {
+  width: var(--size);
+  height: var(--size);
+  clip-path: polygon(
+    50% 0%, 90% 20%, 100% 60%, 75% 80%, 100% 100%,
+    50% 85%, 0% 100%, 25% 80%, 0% 60%, 10% 20%
+  );
+}
+
+/* Leaf Type 4: Wider Leaf (more curved, asymmetrical) */
+.falling-element.leaf-type-4 {
+  width: var(--size);
+  height: calc(var(--size) * 0.7);
+  border-radius: 60% 40% 70% 30% / 50%;
+}
+
+/* Leaf Type 5: Classic Teardrop (more elongated, pointed base) */
+.falling-element.leaf-type-5 {
+  width: calc(var(--size) * 0.9);
+  height: var(--size);
+  border-radius: 50% 50% 0 50%;
+  transform-origin: top; /* Rotate from the stem */
+}
+
+/* Leaf Type 6: Small, irregular blossom-like (soft, rounded) */
+.falling-element.leaf-type-6 {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+/* Leaf Type 7: Three-lobed leaf (clover-like or simplified oak) */
+.falling-element.leaf-type-7 {
+  width: var(--size);
+  height: var(--size);
+  clip-path: polygon(50% 0%, 100% 40%, 70% 40%, 70% 100%, 30% 100%, 30% 40%, 0% 40%);
+  border-radius: 10% 10% 30% 30%;
+}
+
+/* Leaf Type 8: Rounded blade (more symmetrical, smooth) */
+.falling-element.leaf-type-8 {
+  width: var(--size);
+  height: calc(var(--size) * 0.6);
+  border-radius: 10px 10px 50% 50%;
+  transform-origin: center left; /* Subtle spin around edge */
+}
+
+
+/* Add subtle color variation for realism */
+.falling-element:nth-child(3n) {
+  filter: brightness(0.95) saturate(1.05);
+}
+
+.falling-element:nth-child(5n + 2) {
+  filter: brightness(1.05) saturate(0.95);
+}
+
+/* Responsive adjustments for very small leaves if needed */
+@media (max-width: 480px) {
+  .falling-element {
+    --size: 8px; /* Slightly smaller base size on very small screens */
+  }
+}

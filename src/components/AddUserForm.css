@@ -1,0 +1,268 @@
+/* AddUserForm.module.css */
+
+/* Using the same color palette as AdminPanel.module.css for consistency */
+:root {
+  --ds-dark-bg: #1A1A2E;
+  --ds-medium-bg: #16213E;
+  --ds-light-text: #E0E0E0;
+  --ds-accent-red: #E94560;
+  --ds-accent-purple: #723D47;
+  --ds-active-glow: #F6F6F6;
+  --ds-button-hover-bg: #533483;
+  --ds-header-flare-color: #ffd700;
+  --ds-border-color: #3f0071;
+}
+
+.addUserFormContainer {
+  /* This component is now rendered inside AdminPanel's contentArea.
+     So, background/min-height will be inherited/managed by AdminPanel.
+     We only set styles for its direct children. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0; /* Padding handled by parent (AdminPanel's contentArea) */
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--ds-light-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.headerWithLogoText {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  margin-bottom: 30px;
+  gap: 15px;
+  position: relative; /* For character positioning */
+  width: 100%;
+  max-width: 500px; /* Limit width */
+}
+
+.backLogo {
+  width: 60px; /* Adjust size as needed */
+  height: 60px;
+  border-radius: 50%; /* Make it round */
+  object-fit: cover;
+  border: 3px solid var(--ds-accent-red);
+  box-shadow: 0 0 15px var(--ds-accent-red);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.backLogo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px var(--ds-accent-red);
+}
+
+.maxbondTitle {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+.characterContainer {
+  position: absolute;
+  right: -50px; /* Adjust position relative to the header */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px; /* Size of the character container */
+  height: 100px;
+  overflow: hidden; /* Ensure character stays within bounds */
+}
+
+.demonSlayerCharacter {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: floatCharacter 3s ease-in-out infinite alternate; /* Floating animation */
+}
+
+/* Form Card Styling */
+.addUserCard {
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Glassmorphism shadow */
+  backdrop-filter: blur(8px); /* Glassmorphism blur */
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Glassmorphism border */
+  width: 100%;
+  max-width: 500px; /* Max width for the form */
+  box-sizing: border-box;
+  animation: fadeInScale 0.8s ease-out; /* Animation for the form card */
+}
+
+.addUserCard h2 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--ds-light-text);
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.addUserForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-size: 1rem;
+  color: var(--ds-light-text);
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.formInput {
+  padding: 12px 15px;
+  border: 1px solid var(--ds-border-color);
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3); /* Darker input background */
+  color: var(--ds-light-text);
+  font-size: 1rem;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.formInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--ds-accent-red);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 0 10px var(--ds-accent-red);
+}
+
+.formInput:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+/* Submit Button */
+.submitButton {
+  background: var(--ds-accent-red);
+  background: linear-gradient(90deg, var(--ds-accent-red) 0%, #FF7F50 100%);
+  color: white;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 0 20px var(--ds-accent-red);
+}
+
+.submitButton:disabled {
+  background: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+/* Message Styles */
+.message {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid;
+}
+
+.message.success {
+  background-color: rgba(39, 174, 96, 0.2); /* Green success */
+  color: #27ae60; /* Use direct color here if var is not defined in this scope */
+  border-color: #27ae60;
+}
+
+.message.error {
+  background-color: rgba(192, 57, 43, 0.2); /* Red error */
+  color: var(--ds-accent-red);
+  border-color: var(--ds-accent-red);
+}
+
+/* React-Select Customizations (to match theme) */
+/* These are inline in JSX but typically would be defined here if not inline */
+/* Example:
+.react-select__control { ... }
+.react-select__menu { ... }
+*/
+
+
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes floatCharacter {
+  0% { transform: translateY(-50%) translateX(0px) rotate(0deg); }
+  25% { transform: translateY(-53%) translateX(5px) rotate(2deg); }
+  50% { transform: translateY(-50%) translateX(0px) rotate(0deg); }
+  75% { transform: translateY(-47%) translateX(-5px) rotate(-2deg); }
+  100% { transform: translateY(-50%) translateX(0px) rotate(0deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .headerWithLogoText {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  .maxbondTitle {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+  .characterContainer {
+    position: static; /* Remove absolute positioning on small screens */
+    transform: none;
+    margin-top: 15px;
+    width: 80px;
+    height: 80px;
+  }
+  .addUserCard {
+    padding: 20px;
+  }
+  .addUserCard h2 {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .addUserFormContainer {
+    padding: 0; /* No padding at container level, let parent handle it */
+  }
+  .addUserCard {
+    padding: 15px;
+  }
+  .formInput, .submitButton {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,2851 @@
+/* General Body and Container Styles */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f9fa; /* Very light grey background (Light Theme Default) */
+    overflow-x: hidden;
+    color: #343a40; /* Default text color for light theme - DARK */
+}
+
+.financial-dashboard-wrapper {
+    /* Removed max-width here to allow it to be full width */
+    width: 100%; /* Make it full width by default */
+    margin: 0 auto;
+    background-color: #ffffff; /* Light Theme Default */
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: background-color 0.4s ease, color 0.4s ease; /* Smooth transition for theme change */
+}
+
+/* iOS-style Header */
+/* iOS-style Header */
+.ios-header {
+    background-color: #f8f9fa; /* Light Theme Default */
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef; /* Light Theme Default */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06); /* Slightly more prominent shadow */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    /* justify-content: center; -- REMOVED: This was causing the issue */
+    position: relative;
+    /* Added space-between to push items to the edges initially */
+    justify-content: space-between;
+}
+
+.admin-back-button {
+    background: none;
+    border: none;
+    color: #007bff; /* Brighter blue for actions */
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* Position relative to flow, allowing title to shift based on its width */
+    position: relative; /* Changed from absolute */
+    left: 0;
+    padding: 5px;
+    transition: color 0.3s ease;
+    z-index: 2; /* Ensure it's above the title if they overlap */
+}
+
+.admin-back-button i {
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.header-title {
+    font-size: 28px; /* Slightly increased for prominence */
+    font-weight: 900; /* Extra bold for impact */
+    /* color: #343a40; -- This will be overridden by the specific color below */
+    margin: 0;
+    /* flex-grow: 1; -- REMOVED: This was causing title to fill remaining space */
+    text-align: center; /* Centers the text within the title's own content box */
+    letter-spacing: 1.5px; /* Increased for wider, bolder look */
+    transition: color 0.3s ease;
+
+    /* --- Key for centering when side elements exist --- */
+    position: absolute; /* Position it absolutely */
+    left: 50%; /* Start from the exact middle of the parent */
+    transform: translateX(-50%); /* Pull it back by half its own width */
+    width: auto; /* Allow content to dictate width */
+    white-space: nowrap; /* Prevent wrapping for the centering to work correctly */
+    z-index: 1; /* Keep it below interactive elements like buttons/icons */
+
+    /* --- 3D Text Effect --- */
+    text-shadow:
+        1px 1px 0px rgba(0, 0, 0, 0.1),
+        2px 2px 0px rgba(0, 0, 0, 0.1),
+        3px 3px 0px rgba(0, 0, 0, 0.08),
+        4px 4px 0px rgba(0, 0, 0, 0.05),
+        5px 5px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow for 3D effect */
+    color: #4CAF50; /* A primary color that stands out (Emerald Green example) */
+}
+
+.dark-theme .header-title {
+    color: #e0e0e0; /* Adjust for dark theme readability */
+    text-shadow:
+        1px 1px 0px rgba(255, 255, 255, 0.1),
+        2px 2px 0px rgba(255, 255, 255, 0.1),
+        3px 3px 0px rgba(255, 255, 255, 0.08),
+        4px 4px 0px rgba(255, 255, 255, 0.05),
+        5px 5px 8px rgba(0, 0, 0, 0.4); /* Deeper shadow for 3D effect in dark mode */
+}
+
+.header-icon {
+    color: #007bff;
+    font-size: 26px;
+    /* margin-left: auto; -- REMOVED */
+    /* position: absolute; -- REMOVED, now part of flex flow */
+    /* right: 20px; -- REMOVED */
+    /* top: 50%; -- REMOVED */
+    /* transform: translateY(-50%); -- REMOVED */
+    transition: color 0.3s ease;
+    z-index: 2; /* Ensure it's above the title if they overlap */
+    /* This element will now be pushed to the right by justify-content: space-between */
+}
+
+/* Theme Switch Button remains in its original position, outside header-content */
+.theme-switch-container {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 101; /* Should be higher than header-content's children if overlap is expected */
+}
+
+/* New Action Tabs (buttons converted to tabs) */
+.ios-action-tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 10px;
+    background-color: #ffffff; /* Light Theme Default */
+    border-bottom: 1px solid #e9ecef; /* Light Theme Default */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Slightly stronger shadow */
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.action-tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px 5px;
+    margin: 0 5px;
+    border-radius: 12px;
+    background-color: #f0f2f5; /* Light grey for inactive tabs (Light Theme Default) */
+    color: #343a40; /* Darker text */
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Smoother transition */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.action-tab-item i {
+    font-size: 22px;
+    color: #007bff; /* Brighter blue */
+    transition: color 0.3s ease;
+}
+
+.action-tab-item span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.action-tab-item.active,
+.action-tab-item:hover {
+    background-color: #007bff;
+    color: #ffffff;
+    transform: translateY(-4px); /* More pronounced lift */
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35); /* Stronger, more diffused shadow */
+}
+
+.action-tab-item.active i,
+.action-tab-item:hover i {
+    color: #ffffff;
+}
+
+
+/* iOS Segment Control (Daily/Weekly/Monthly) */
+.ios-segment-control {
+    display: flex;
+    background-color: #e9ecef; /* Lighter background (Light Theme Default) */
+    border-radius: 12px;
+    margin: 15px 20px;
+    overflow: hidden;
+    font-size: 14px;
+    transition: background-color 0.4s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+}
+
+.segment-item {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    color: #343a40; /* Darker text */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    font-weight: 600;
+}
+
+.segment-item.active {
+    background-color: #ffffff; /* Light Theme Default */
+    color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* More prominent active shadow */
+    border-radius: 10px;
+}
+/* Summary Cards Container */
+.summary-cards-container {
+    display: flex;
+    flex-direction: column; /* Forces items to stack vertically */
+    align-items: center;    /* Centers items horizontally in the column */
+    padding: 10px 20px;
+    gap: 15px; /* Adds space between stacked cards */
+}
+
+.ios-summary-card {
+    border-radius: 18px;
+    padding: 10px;
+    width: 100%; /* Make each card take full width of its container */
+    max-width: 350px; /* Optional: Set a max-width for the cards to prevent them from becoming too wide on very large screens, adjust as needed */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px; /* Adjusted min-height to make it thinner */
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    text-align: center;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.85));
+}
+
+.ios-summary-card:active {
+    transform: scale(0.98);
+}
+
+/* Specific card styles (no change) */
+/* ... (your existing background gradients) ... */
+
+/* Text colors within cards */
+.balance-title {
+    font-size: 14px; /* Slightly increased for better readability, adjust if too large */
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 5px;
+    color: #343a40;
+    transition: color 0.3s ease;
+    white-space: nowrap; /* Keep on one line */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis if truncated */
+    width: 100%; /* Important for ellipsis to work correctly */
+    line-height: 1.2;
+}
+
+.balance-amount {
+    font-size: 28px; /* Fixed font size as requested */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    color: #343a40;
+    transition: color 0.3s ease;
+    word-break: break-word; /* Allow long words to break and wrap */
+    overflow-wrap: break-word; /* Modern property for wrapping long words */
+    min-width: 0;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+.balance-amount.font-small {
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+/* REMOVE DYNAMIC FONT SIZING CLASSES */
+/*
+
+.balance-amount.font-x-small {
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.balance-amount.font-xx-small {
+    font-size: 14px;
+    line-height: 1.2;
+} */
+
+/* ... rest of your CSS ... */
+.balance-stats {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px 0;
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #495057; /* Darker text */
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: #343a40; /* Darker text */
+    transition: color 0.3s ease;
+}
+
+/* External Toggle */
+.ios-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #ffffff; /* Light Theme Default */
+    border-top: 1px solid #e9ecef; /* Light Theme Default */
+    border-bottom: 1px solid #e9ecef; /* Light Theme Default */
+    margin-top: 15px;
+    border-radius: 12px;
+    margin-left: 20px;
+    margin-right: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); /* Stronger shadow */
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.toggle-label {
+    font-size: 16px;
+    color: #343a40; /* Darker text */
+    transition: color 0.3s ease;
+}
+
+.ios-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.ios-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.ios-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ced4da; /* Light grey for off state */
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.ios-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .ios-toggle-slider {
+    background-color: #007bff;
+}
+
+input:focus + .ios-toggle-slider {
+    box-shadow: 0 0 1px #007bff;
+}
+
+input:checked + .ios-toggle-slider:before {
+    -webkit-transform: translateX(22px);
+    -ms-transform: translateX(22px);
+    transform: translateX(22px);
+}
+
+/* Transaction Sections Wrapper */
+.ios-transaction-sections-wrapper {
+    flex-grow: 1;
+    padding: 20px;
+    padding-bottom: 100px;
+    transition: background-color 0.4s ease;
+}
+
+.transaction-segment-control {
+    display: flex;
+    background-color: #e9ecef; /* Light Theme Default */
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Stronger shadow */
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.transaction-segment-item {
+    flex: 1;
+    padding: 12px 0;
+    text-align: center;
+    color: #343a40; /* Darker text */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.transaction-segment-item.active {
+    background-color: #007bff;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3); /* Stronger active shadow */
+    border-radius: 10px;
+}
+
+.ios-transaction-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #343a40; /* Darker text */
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease;
+}
+
+.ios-transaction-list {
+    background-color: #ffffff; /* Light Theme Default */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+    overflow: hidden;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.ios-transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 15px;
+    border-bottom: 1px solid #f0f2f5; /* Light Theme Default */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, border-color 0.3s ease;
+    animation: fadeInDown 0.3s ease-out forwards;
+    cursor: pointer;
+}
+
+.ios-transaction-item:last-child {
+    border-bottom: none;
+}
+
+.ios-transaction-item:active {
+    background-color: #f8f9fa;
+    transform: scale(0.99);
+}
+
+.transaction-icon {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 18px;
+    font-size: 20px;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Stronger shadow */
+}
+
+.transaction-icon.income-icon {
+    background-color: #28a745;
+}
+
+.transaction-icon.expense-icon {
+    background-color: #dc3545;
+}
+
+.transaction-icon.external-icon {
+    background-color: #6c757d;
+}
+
+.transaction-details {
+    flex-grow: 1;
+}
+
+.transaction-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #343a40; /* Darker text */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.transaction-meta {
+    font-size: 13px;
+    color: #495057; /* Darker text */
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s ease;
+}
+
+.transaction-category {
+    background-color: #e9ecef;
+    color: #343a40; /* Darker text */
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.transaction-method {
+    background-color: #e0f7fa;
+    color: #007bff;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.transaction-method i {
+    font-size: 10px;
+}
+
+
+.transaction-amount {
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 10px;
+    min-width: 90px;
+    text-align: right;
+    color: #343a40; /* Darker text */
+    transition: color 0.3s ease;
+}
+
+.transaction-amount.income {
+    color: #28a745; /* Specific color for income values */
+}
+
+.transaction-amount.expense {
+    color: #dc3545; /* Specific color for expense values */
+}
+
+
+.expense-tag, .external-tag {
+    background-color: #e9ecef;
+    color: #343a40; /* Darker text */
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* Empty State */
+.ios-empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #adb5bd;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.ios-empty-state i {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #ced4da;
+    transition: color 0.3s ease;
+}
+
+/* Modals - Balance & Expense Forms & Edit Transaction Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
+}
+
+.modal-content {
+    background: #ffffff; /* Light Theme Default */
+    border-radius: 20px;
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUpFadeIn 0.3s ease-out forwards;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-shrink: 0;
+}
+
+.modal-header h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #343a40; /* Darker text */
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.modal-header .close-btn,
+.modal-header .delete-btn {
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: color 0.2s;
+}
+
+.modal-header .delete-btn {
+    color: #dc3545;
+    margin-left: 15px;
+}
+.modal-header .close-btn:hover {
+    color: #343a40;
+}
+.modal-header .delete-btn:hover {
+    color: #c82333;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 15px;
+    color: #343a40; /* Darker text */
+    margin-bottom: 10px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.form-input, .form-textarea {
+    width: calc(100% - 24px);
+    padding: 14px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #343a40; /* Darker text */
+    transition: border-color 0.2s, box-shadow 0.2s, color 0.3s ease, background-color 0.3s ease;
+    -webkit-appearance: none;
+}
+
+input[type="date"].form-input {
+    min-height: 48px;
+    line-height: 1.2;
+}
+
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+.save-expense-btn, .save-balance-btn, .update-transaction-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    flex-shrink: 0;
+}
+
+.save-expense-btn:hover, .save-balance-btn:hover, .update-transaction-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.save-expense-btn:active, .save-balance-btn:active, .update-transaction-btn:active {
+    transform: translateY(0);
+}
+
+/* Spacer for fixed bottom elements */
+.bottom-spacer {
+    height: 90px;
+    width: 100%;
+}
+
+/* Bottom Tab Bar Container */
+.bottom-tab-bar-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%; /* Ensure it's full width */
+    max-width: none; /* Remove max-width to let it expand */
+    margin: 0 auto;
+    background-color: #ffffff; /* Light Theme Default */
+    box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+    z-index: 500;
+    padding-bottom: env(safe-area-inset-bottom);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loading-message {
+    text-align: center;
+    padding: 30px;
+    color: #888;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+@media (max-width: 450px) {
+    /* Removed or commented out previously */
+    /* .ios-summary-card {
+        flex: 1 1 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    } */
+}
+
+@media (max-width: 350px) {
+    /* Removed or commented out previously */
+    /* .ios-summary-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    } */
+    .summary-cards-container {
+        padding: 10px 15px; /* Adjust padding for smaller screens if needed */
+        gap: 10px;
+    }
+
+    /* Existing rules remain here */
+
+    .ios-segment-control, .transaction-segment-control {
+        margin: 15px;
+    }
+    .ios-header {
+        padding: 10px 15px;
+    }
+    .ios-transaction-sections-wrapper {
+        padding: 15px;
+    }
+}
+
+
+/* Theme Switch Button */
+.theme-switch-container {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 101;
+}
+
+.theme-switch-button {
+    background-color: #f0f2f5;
+    color: #343a40; /* Darker text for button */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.theme-switch-button:hover {
+    background-color: #e2e4e8; /* Slightly darker on hover */
+    color: #212529;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+
+/* --- THEME LIST MODAL STYLES --- */
+.theme-list-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Slightly darker overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
+}
+
+.theme-list-modal-content {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
+    width: 90%;
+    max-width: 380px; /* Slightly wider for better theme preview display */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUpFadeIn 0.3s ease-out forwards;
+    max-height: 80vh; /* Shorter to ensure it fits */
+    overflow-y: auto;
+    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.theme-list-modal-content h3 {
+    font-size: 22px; /* Slightly larger title */
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 25px; /* More space */
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.theme-list-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 26px; /* Larger close button */
+    color: #6c757d;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.theme-list-close-btn:hover {
+    color: #343a40;
+}
+
+.theme-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive grid for themes */
+    gap: 20px; /* More space between items */
+    justify-content: center; /* Center items in the grid */
+}
+
+.theme-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* More space */
+    padding: 18px; /* Larger clickable area */
+    border-radius: 18px; /* More rounded corners */
+    background-color: #f8f9fa; /* Lighter background for theme items */
+    cursor: pointer;
+    transition: all 0.25s ease-in-out; /* Smoother transition */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* Stronger default shadow */
+    text-align: center;
+}
+
+.theme-item:hover {
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.theme-item.active-theme {
+    border: 4px solid #007bff; /* Thicker, more prominent active theme indicator */
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4); /* Stronger active shadow */
+    transform: translateY(-2px); /* Slightly lifted to show selection */
+}
+
+.theme-preview {
+    width: 70px; /* Larger preview */
+    height: 70px;
+    border-radius: 12px; /* Consistent rounded corners */
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1), 0 3px 8px rgba(0,0,0,0.15); /* More depth */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px; /* Larger icon */
+    color: #fff; /* Default preview icon color */
+    transition: all 0.3s ease;
+}
+
+/* Theme preview colors - Adjusted for richer, more distinct gradients */
+.theme-preview.light-theme {
+    background: linear-gradient(135deg, #e0e7e9, #f0f4f5); /* Subtle cool grey */
+    color: #4f6a72;
+}
+.theme-preview.dark-theme {
+    background: linear-gradient(135deg, #1e1e1e, #333333);
+    color: #e0e0e0;
+}
+.theme-preview.ios-theme {
+    background: linear-gradient(135deg, #f0f0f5, #ffffff);
+    color: #007aff;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 3px 8px rgba(0,0,0,0.08);
+}
+.theme-preview.pink-gradient-theme {
+    background: linear-gradient(135deg, #ff6b8b, #ff8eaf); /* More vibrant pink */
+    color: #c0392b; /* Darker red-pink icon */
+}
+.theme-preview.emerald-zen-theme {
+    background: linear-gradient(135deg, #6fd080, #95d9a9); /* Brighter green */
+    color: #1f7a2f; /* Darker green icon */
+}
+.theme-preview.ocean-breeze-theme {
+    background: linear-gradient(135deg, #5dade2, #85c1e9); /* Calmer blue */
+    color: #1a5276; /* Darker blue icon */
+}
+.theme-preview.sunset-glow-theme {
+    background: linear-gradient(135deg, #ffab40, #ffc107); /* More orange-yellow */
+    color: #e65100; /* Deep orange icon */
+}
+/* New Real Estate Themes - Enhanced with more distinct real estate inspired palettes */
+.theme-preview.urban-loft-theme {
+    background: linear-gradient(135deg, #546e7a, #78909c); /* Deeper, industrial grey */
+    color: #eceff1;
+}
+.theme-preview.green-acre-theme {
+    background: linear-gradient(135deg, #66bb6a, #81c784); /* Lush, natural green */
+    color: #2e7d32;
+}
+.theme-preview.modern-haus-theme {
+    background: linear-gradient(135deg, #a7a7a7, #c4c4c4); /* Sleeker, lighter concrete */
+    color: #424242;
+}
+.theme-preview.vintage-estate-theme {
+    background: linear-gradient(135deg, #d2b48c, #e0c8a5); /* Softer, aged terracotta */
+    color: #7a4f21;
+}
+.theme-preview.coastal-home-theme {
+    background: linear-gradient(135deg, #81d4fa, #b3e5fc); /* Brighter, airy ocean blue */
+    color: #29b6f6;
+}
+.theme-preview.desert-oasis-theme {
+    background: linear-gradient(135deg, #ff8a65, #ffcc80); /* Warm, muted desert orange */
+    color: #bf360c;
+}
+.theme-preview.mountain-chalet-theme {
+    background: linear-gradient(135deg, #8d6e63, #a1887f); /* Richer, natural wood tone */
+    color: #dedede;
+}
+.theme-preview.skyline-view-theme {
+    background: linear-gradient(135deg, #263238, #455a64); /* Dark, sophisticated city night */
+    color: #cfd8dc;
+}
+.theme-preview.rustic-cabin-theme {
+    background: linear-gradient(135deg, #795548, #a1887f); /* Deep brown for rustic feel */
+    color: #efebe9;
+}
+.theme-preview.golden-gate-theme {
+    background: linear-gradient(135deg, #ff7043, #ffa726); /* More vibrant bridge orange */
+    color: #e64a19;
+}
+
+
+.theme-name {
+    font-size: 15px; /* Slightly larger name */
+    font-weight: 600;
+    color: #343a40;
+    transition: color 0.3s ease;
+}
+
+
+/* --- THEMES --- */
+
+/* --- Dark Theme Styles (Enhanced for Premium) --- */
+.financial-dashboard-wrapper.dark-theme {
+    background-color: #0d0d0d; /* Even deeper dark background */
+    color: #e0e0e0;
+}
+
+.dark-theme .ios-header {
+    background-color: #1a1a1a;
+    border-bottom-color: #333333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Stronger, deeper shadow */
+}
+
+.dark-theme .header-title,
+.dark-theme .header-icon,
+.dark-theme .admin-back-button {
+    color: #e0e0e0;
+}
+
+.dark-theme .ios-action-tabs {
+    background-color: #1a1a1a;
+    border-bottom-color: #333333;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+}
+
+.dark-theme .action-tab-item {
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+}
+
+.dark-theme .action-tab-item i {
+    color: #bb86fc; /* Slightly vibrant accent for icons */
+}
+
+.dark-theme .action-tab-item.active,
+.dark-theme .action-tab-item:hover {
+    background-color: #6200ee; /* Deeper purple */
+    color: #ffffff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(98, 0, 238, 0.6); /* More intense matching shadow */
+}
+
+.dark-theme .action-tab-item.active i,
+.dark-theme .action-tab-item:hover i {
+    color: #ffffff;
+}
+
+.dark-theme .ios-segment-control {
+    background-color: #2b2b2b;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .segment-item {
+    color: #e0e0e0;
+}
+
+.dark-theme .segment-item.active {
+    background-color: #3a3a3a;
+    color: #bb86fc; /* Accent color */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.dark-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(35, 35, 35, 0.95), rgba(50, 50, 50, 0.85)); /* Darker, richer gradient */
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55); /* Even more pronounced shadow */
+}
+
+.dark-theme .balance-title,
+.dark-theme .balance-amount,
+.dark-theme .stat-label,
+.dark-theme .stat-value {
+    color: #e0e0e0;
+}
+
+.dark-theme .ios-toggle-container {
+    background-color: #2b2b2b;
+    border-top-color: #3a3a3a;
+    border-bottom-color: #3a3a3a;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.dark-theme .toggle-label {
+    color: #e0e0e0;
+}
+
+.dark-theme .ios-toggle-slider {
+    background-color: #555;
+}
+
+.dark-theme .ios-transaction-sections-wrapper {
+    background-color: #0d0d0d;
+}
+
+.dark-theme .transaction-segment-control {
+    background-color: #2b2b2b;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.dark-theme .transaction-segment-item {
+    color: #e0e0e0;
+}
+
+.dark-theme .transaction-segment-item.active {
+    background-color: #3a3a3a;
+    color: #bb86fc; /* Accent color */
+    box-shadow: 0 3px 12px rgba(0, 123, 255, 0.55);
+}
+
+.dark-theme .ios-transaction-list {
+    background-color: #2b2b2b;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .ios-transaction-item {
+    border-bottom-color: #3a3a3a;
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+}
+
+.dark-theme .transaction-icon {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+.dark-theme .transaction-details {
+    color: #e0e0e0;
+}
+
+.dark-theme .transaction-title {
+    color: #e0e0e0;
+}
+
+.dark-theme .transaction-meta {
+    color: #b0b0b0;
+}
+
+.dark-theme .transaction-category,
+.dark-theme .transaction-method,
+.dark-theme .expense-tag,
+.dark-theme .external-tag {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.dark-theme .ios-empty-state {
+    color: #888;
+}
+
+.dark-theme .ios-empty-state i {
+    color: #666;
+}
+
+.dark-theme .modal-content {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+}
+
+.dark-theme .modal-header h3 {
+    color: #e0e0e0;
+}
+
+.dark-theme .modal-header .close-btn,
+.dark-theme .modal-header .delete-btn {
+    color: #e0e0e0;
+}
+
+.dark-theme .modal-header .close-btn:hover {
+    color: #ffffff;
+}
+
+.dark-theme .form-group label {
+    color: #e0e0e0;
+}
+
+.dark-theme .form-input,
+.dark-theme .form-textarea {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    border-color: #555;
+}
+
+.dark-theme .form-input:focus,
+.dark-theme .form-textarea:focus {
+    border-color: #bb86fc;
+    box-shadow: 0 0 0 4px rgba(187, 134, 252, 0.4);
+}
+
+.dark-theme .save-expense-btn,
+.dark-theme .save-balance-btn,
+.dark-theme .update-transaction-btn {
+    background-color: #bb86fc;
+    color: #121212;
+}
+
+.dark-theme .save-expense-btn:hover,
+.dark-theme .save-balance-btn:hover,
+.dark-theme .update-transaction-btn:hover {
+    background-color: #9d50ed;
+}
+
+.dark-theme .bottom-tab-bar-container {
+    background-color: #1a1a1a;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.dark-theme .theme-switch-button {
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+}
+
+.dark-theme .theme-switch-button:hover {
+    background-color: #3a3a3a;
+    color: #bb86fc;
+}
+
+.dark-theme .theme-list-modal-content {
+    background: #1f1f1f;
+    color: #e0e0e0;
+}
+
+.dark-theme .theme-list-modal-content h3 {
+    color: #e0e0e0;
+}
+
+.dark-theme .theme-list-close-btn {
+    color: #e0e0e0;
+}
+
+.dark-theme .theme-item {
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+
+.dark-theme .theme-item:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+.dark-theme .theme-preview {
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25), 0 3px 10px rgba(0,0,0,0.4);
+}
+
+.dark-theme .theme-name {
+    color: #e0e0e0;
+}
+
+
+/* --- iOS Theme Styles (Enhanced for Premium) --- */
+.financial-dashboard-wrapper.ios-theme {
+    background-color: #eef0f4; /* Slightly softer background */
+    color: #1a1a1a;
+}
+
+.ios-theme .ios-header {
+    background-color: #ffffff;
+    border-bottom-color: #dcdce1;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08); /* More prominent shadow */
+}
+
+.ios-theme .header-title,
+.ios-theme .header-icon,
+.ios-theme .admin-back-button {
+    color: #1a1a1a;
+}
+
+.ios-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-bottom-color: #dcdce1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ios-theme .action-tab-item {
+    background-color: #e9e9eb; /* Standard iOS light grey */
+    color: #4a4a4a;
+}
+
+.ios-theme .action-tab-item i {
+    color: #007aff;
+}
+
+.ios-theme .action-tab-item.active,
+.ios-theme .action-tab-item:hover {
+    background-color: #007aff;
+    color: #ffffff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 6px 15px rgba(0, 122, 255, 0.4); /* Stronger, more diffused shadow */
+}
+
+.ios-theme .action-tab-item.active i,
+.ios-theme .action-tab-item:hover i {
+    color: #ffffff;
+}
+
+.ios-theme .ios-segment-control {
+    background-color: #e9e9eb;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.ios-theme .segment-item {
+    color: #4a4a4a;
+}
+
+.ios-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #007aff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* More defined shadow */
+}
+
+.ios-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.9)), /* More opaque, subtle gradient */
+                 linear-gradient(225deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+    border-color: rgba(220, 220, 220, 0.9); /* Stronger border for subtle depth */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Slightly larger shadow */
+}
+
+.ios-theme .balance-title,
+.ios-theme .balance-amount,
+.ios-theme .stat-label,
+.ios-theme .stat-value {
+    color: #1a1a1a;
+}
+.ios-theme .transaction-amount.income { color: #28a745; }
+.ios-theme .transaction-amount.expense { color: #dc3545; }
+
+
+.ios-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #dcdce1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.ios-theme .toggle-label {
+    color: #1a1a1a;
+}
+
+.ios-theme .ios-toggle-slider {
+    background-color: #d1d1d6; /* Deeper off-state grey */
+}
+
+.ios-theme .ios-toggle-slider:before {
+    background-color: #ffffff;
+}
+
+.ios-theme input:checked + .ios-toggle-slider {
+    background-color: #007aff;
+}
+
+
+.ios-theme .ios-transaction-sections-wrapper {
+    background-color: #eef0f4;
+}
+
+.ios-theme .transaction-segment-control {
+    background-color: #e9e9eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.ios-theme .transaction-segment-item {
+    color: #4a4a4a;
+}
+
+.ios-theme .transaction-segment-item.active {
+    background-color: #007aff;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 122, 255, 0.3);
+}
+
+.ios-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ios-theme .ios-transaction-item {
+    border-bottom-color: #f5f5fa; /* Softer border */
+    background-color: #ffffff;
+}
+
+.ios-theme .transaction-icon {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+
+.ios-theme .transaction-title {
+    color: #1a1a1a;
+}
+
+.ios-theme .transaction-meta {
+    color: #6a6a6a;
+}
+
+.ios-theme .transaction-category,
+.ios-theme .expense-tag,
+.ios-theme .external-tag {
+    background-color: #f0f0f5; /* Match wrapper background */
+    color: #4a4a4a;
+}
+.ios-theme .transaction-method {
+    background-color: #e6f7ff;
+    color: #007aff;
+}
+
+.ios-theme .transaction-amount {
+    color: #1a1a1a;
+}
+
+.ios-theme .ios-empty-state {
+    color: #c0c0c0;
+}
+
+.ios-theme .ios-empty-state i {
+    color: #e0e0e0;
+}
+
+.ios-theme .modal-content {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.ios-theme .modal-header h3 {
+    color: #1a1a1a;
+}
+
+.ios-theme .modal-header .close-btn,
+.ios-theme .modal-header .delete-btn {
+    color: #6a6a6a;
+}
+
+.ios-theme .modal-header .close-btn:hover {
+    color: #1a1a1a;
+}
+
+.ios-theme .form-group label {
+    color: #4a4a4a;
+}
+
+.ios-theme .form-input,
+.ios-theme .form-textarea {
+    background-color: #f8f8fc; /* Slightly lighter input background */
+    color: #1a1a1a;
+    border-color: #d1d1d6;
+}
+
+.ios-theme .form-input:focus,
+.ios-theme .form-textarea:focus {
+    border-color: #007aff;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25);
+}
+
+.ios-theme .save-expense-btn,
+.ios-theme .save-balance-btn,
+.ios-theme .update-transaction-btn {
+    background-color: #007aff;
+    color: #ffffff;
+}
+
+.ios-theme .save-expense-btn:hover,
+.ios-theme .save-balance-btn:hover,
+.ios-theme .update-transaction-btn:hover {
+    background-color: #0056b3;
+}
+
+.ios-theme .bottom-tab-bar-container {
+    background-color: #ffffff;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ios-theme .theme-switch-button {
+    background-color: #e9e9eb;
+    color: #4a4a40;
+}
+.ios-theme .theme-switch-button:hover {
+    background-color: #d1d1d6;
+    color: #1a1a1a;
+}
+
+.ios-theme .theme-list-modal-content {
+    background: #ffffff;
+    color: #1a1a1a;
+}
+
+.ios-theme .theme-list-modal-content h3 {
+    color: #1a1a1a;
+}
+
+.ios-theme .theme-list-close-btn {
+    color: #4a4a4a;
+}
+
+.ios-theme .theme-item {
+    background-color: #f5f5f5; /* Lighter item background */
+    color: #343a40;
+}
+
+.ios-theme .theme-name {
+    color: #343a40;
+}
+
+
+/* --- Premium Theme 1: Pink Gradient (Enhanced) --- */
+.financial-dashboard-wrapper.pink-gradient-theme {
+    background: linear-gradient(135deg, #fce4ec, #f8bbd0); /* Softer, more pastel pink */
+    color: #880e4f; /* Deeper magenta text */
+}
+
+.pink-gradient-theme .ios-header {
+    background: linear-gradient(to right, #ec407a, #f06292); /* Richer pink gradient */
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+.pink-gradient-theme .header-title,
+.pink-gradient-theme .header-icon,
+.pink-gradient-theme .admin-back-button {
+    color: #fff;
+}
+
+.pink-gradient-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #f8bbd0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.pink-gradient-theme .action-tab-item {
+    background-color: #f8bbd0; /* Soft pink for inactive tabs */
+    color: #880e4f;
+}
+.pink-gradient-theme .action-tab-item i {
+    color: #e91e63; /* Vibrant pink */
+}
+.pink-gradient-theme .action-tab-item.active,
+.pink-gradient-theme .action-tab-item:hover {
+    background: linear-gradient(to right, #e91e63, #f06292); /* Matching gradient */
+    color: #fff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(233, 30, 99, 0.5);
+}
+.pink-gradient-theme .action-tab-item.active i,
+.pink-gradient-theme .action-tab-item:hover i {
+    color: #fff;
+}
+
+
+.pink-gradient-theme .ios-segment-control {
+    background-color: #f8bbd0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.pink-gradient-theme .segment-item {
+    color: #880e4f;
+}
+.pink-gradient-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #e91e63;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+.pink-gradient-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(233, 30, 99, 0.95), rgba(240, 98, 146, 0.85)); /* Deeper, more saturated pinks */
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+.pink-gradient-theme .balance-title,
+.pink-gradient-theme .balance-amount,
+.pink-gradient-theme .stat-label,
+.pink-gradient-theme .stat-value {
+    color: #ffffff; /* White text for better contrast on dark cards */
+}
+
+.pink-gradient-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #fce4ec;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.pink-gradient-theme .toggle-label {
+    color: #880e4f;
+}
+.pink-gradient-theme .ios-toggle-slider {
+    background-color: #f48fb1;
+}
+.pink-gradient-theme input:checked + .ios-toggle-slider {
+    background-color: #e91e63;
+}
+
+.pink-gradient-theme .ios-transaction-sections-wrapper {
+    background-color: #fce4ec;
+}
+.pink-gradient-theme .transaction-segment-control {
+    background-color: #f8bbd0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.pink-gradient-theme .transaction-segment-item {
+    color: #880e4f;
+}
+.pink-gradient-theme .transaction-segment-item.active {
+    background-color: #e91e63;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.pink-gradient-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.pink-gradient-theme .ios-transaction-item {
+    border-bottom-color: #fce4ec;
+    color: #880e4f;
+}
+.pink-gradient-theme .transaction-title {
+    color: #880e4f;
+}
+.pink-gradient-theme .transaction-meta {
+    color: #c2185b;
+}
+.pink-gradient-theme .transaction-category,
+.pink-gradient-theme .expense-tag,
+.pink-gradient-theme .external-tag {
+    background-color: #fce4ec;
+    color: #880e4f;
+}
+.pink-gradient-theme .transaction-method {
+    background-color: #ffebee;
+    color: #e91e63;
+}
+.pink-gradient-theme .transaction-amount {
+    color: #880e4f;
+}
+.pink-gradient-theme .transaction-amount.income { color: #28a745; }
+.pink-gradient-theme .transaction-amount.expense { color: #dc3545; }
+
+.pink-gradient-theme .modal-content {
+    background-color: #ffffff;
+    color: #880e4f;
+}
+.pink-gradient-theme .modal-header h3 {
+    color: #880e4f;
+}
+.pink-gradient-theme .form-group label {
+    color: #880e4f;
+}
+.pink-gradient-theme .form-input,
+.pink-gradient-theme .form-textarea {
+    border-color: #f48fb1;
+    color: #880e4f;
+}
+.pink-gradient-theme .form-input:focus,
+.pink-gradient-theme .form-textarea:focus {
+    border-color: #e91e63;
+    box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.3);
+}
+.pink-gradient-theme .save-expense-btn,
+.pink-gradient-theme .save-balance-btn,
+.pink-gradient-theme .update-transaction-btn {
+    background: linear-gradient(to right, #ec407a, #f06292);
+}
+.pink-gradient-theme .bottom-tab-bar-container {
+    background-color: #ffffff;
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.12);
+}
+.pink-gradient-theme .theme-switch-button {
+    background-color: #f8bbd0;
+    color: #c2185b;
+}
+.pink-gradient-theme .theme-switch-button:hover {
+    background-color: #f48fb1;
+    color: #fff;
+}
+.pink-gradient-theme .theme-list-modal-content {
+    background: #ffffff;
+    color: #880e4f;
+}
+.pink-gradient-theme .theme-name {
+    color: #880e4f;
+}
+
+
+/* --- Premium Theme 2: Emerald Zen (Enhanced) --- */
+.financial-dashboard-wrapper.emerald-zen-theme {
+    background-color: #e8f5e9; /* Very light green, slightly more saturated */
+    color: #1b5e20; /* Darker, richer green text */
+}
+.emerald-zen-theme .ios-header {
+    background: linear-gradient(to right, #4caf50, #66bb6a); /* Green gradient */
+    border-bottom-color: #66bb6a;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.emerald-zen-theme .header-title,
+.emerald-zen-theme .header-icon,
+.emerald-zen-theme .admin-back-button {
+    color: #ffffff; /* White text for contrast */
+}
+
+.emerald-zen-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #c8e6c9;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.emerald-zen-theme .action-tab-item {
+    background-color: #c8e6c9; /* Light green inactive tab */
+    color: #1b5e20;
+}
+.emerald-zen-theme .action-tab-item i { color: #43a047; }
+.emerald-zen-theme .action-tab-item.active,
+.emerald-zen-theme .action-tab-item:hover {
+    background: linear-gradient(to right, #43a047, #66bb6a); /* Matching gradient */
+    color: #fff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(67, 160, 71, 0.45);
+}
+
+.emerald-zen-theme .ios-segment-control {
+    background-color: #c8e6c9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.emerald-zen-theme .segment-item { color: #1b5e20; }
+.emerald-zen-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #43a047;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.emerald-zen-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(67, 160, 71, 0.95), rgba(76, 175, 80, 0.85)); /* Deeper, richer greens */
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+.emerald-zen-theme .balance-title, .emerald-zen-theme .balance-amount,
+.emerald-zen-theme .stat-label, .emerald-zen-theme .stat-value {
+    color: #ffffff;
+}
+
+.emerald-zen-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #c8e6c9;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.emerald-zen-theme .toggle-label { color: #1b5e20; }
+.emerald-zen-theme .ios-toggle-slider { background-color: #a5d6a7; }
+.emerald-zen-theme input:checked + .ios-toggle-slider { background-color: #43a047; }
+
+.emerald-zen-theme .ios-transaction-sections-wrapper { background-color: #e8f5e9; }
+.emerald-zen-theme .transaction-segment-control {
+    background-color: #c8e6c9;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.emerald-zen-theme .transaction-segment-item { color: #1b5e20; }
+.emerald-zen-theme .transaction-segment-item.active {
+    background-color: #43a047;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.emerald-zen-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.emerald-zen-theme .ios-transaction-item {
+    border-bottom-color: #e8f5e9;
+    color: #1b5e20;
+}
+.emerald-zen-theme .transaction-title { color: #1b5e20; }
+.emerald-zen-theme .transaction-meta { color: #388e3c; }
+.emerald-zen-theme .transaction-category, .emerald-zen-theme .expense-tag,
+.emerald-zen-theme .external-tag {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}
+.emerald-zen-theme .transaction-method { background-color: #d4edda; color: #43a047; }
+.emerald-zen-theme .transaction-amount { color: #1b5e20; }
+.emerald-zen-theme .transaction-amount.income { color: #28a745; }
+.emerald-zen-theme .transaction-amount.expense { color: #dc3545; }
+
+.emerald-zen-theme .modal-content { background-color: #ffffff; color: #1b5e20; }
+.emerald-zen-theme .modal-header h3 { color: #1b5e20; }
+.emerald-zen-theme .form-group label { color: #1b5e20; }
+.emerald-zen-theme .form-input, .emerald-zen-theme .form-textarea {
+    border-color: #a5d6a7;
+    color: #1b5e20;
+}
+.emerald-zen-theme .form-input:focus, .emerald-zen-theme .form-textarea:focus {
+    border-color: #43a047;
+    box-shadow: 0 0 0 4px rgba(67,160,71,0.25);
+}
+.emerald-zen-theme .save-expense-btn, .emerald-zen-theme .save-balance-btn,
+.emerald-zen-theme .update-transaction-btn {
+    background-color: #43a047;
+    color: #fff;
+}
+.emerald-zen-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.emerald-zen-theme .theme-switch-button { background-color: #c8e6c9; color: #2e7d32; }
+.emerald-zen-theme .theme-switch-button:hover { background-color: #a5d6a7; color: #1b5e20; }
+.emerald-zen-theme .theme-list-modal-content { background: #ffffff; color: #1b5e20; }
+.emerald-zen-theme .theme-name { color: #1b5e20; }
+
+
+/* --- Premium Theme 3: Ocean Breeze (Enhanced) --- */
+.financial-dashboard-wrapper.ocean-breeze-theme {
+    background-color: #e0f7fa; /* Very light blue */
+    color: #006064; /* Dark blue text */
+}
+.ocean-breeze-theme .ios-header {
+    background: linear-gradient(to right, #00acc1, #26c6da); /* Vibrant teal gradient */
+    border-bottom-color: #26c6da;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.ocean-breeze-theme .header-title,
+.ocean-breeze-theme .header-icon,
+.ocean-breeze-theme .admin-back-button {
+    color: #ffffff;
+}
+
+.ocean-breeze-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #b2ebf2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.ocean-breeze-theme .action-tab-item {
+    background-color: #b2ebf2; /* Light blue inactive tab */
+    color: #006064;
+}
+.ocean-breeze-theme .action-tab-item i { color: #00bcd4; }
+.ocean-breeze-theme .action-tab-item.active,
+.ocean-breeze-theme .action-tab-item:hover {
+    background: linear-gradient(to right, #00bcd4, #26c6da); /* Matching gradient */
+    color: #fff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(0,188,212,0.45);
+}
+
+.ocean-breeze-theme .ios-segment-control {
+    background-color: #b2ebf2;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.ocean-breeze-theme .segment-item { color: #006064; }
+.ocean-breeze-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #00bcd4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.ocean-breeze-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(0, 188, 212, 0.95), rgba(0, 150, 136, 0.85)); /* Deeper, more saturated blues/teals */
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+.ocean-breeze-theme .balance-title, .ocean-breeze-theme .balance-amount,
+.ocean-breeze-theme .stat-label, .ocean-breeze-theme .stat-value {
+    color: #ffffff;
+}
+
+.ocean-breeze-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #b2ebf2;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.ocean-breeze-theme .toggle-label { color: #006064; }
+.ocean-breeze-theme .ios-toggle-slider { background-color: #80deea; }
+.ocean-breeze-theme input:checked + .ios-toggle-slider { background-color: #00bcd4; }
+
+.ocean-breeze-theme .ios-transaction-sections-wrapper { background-color: #e0f7fa; }
+.ocean-breeze-theme .transaction-segment-control {
+    background-color: #b2ebf2;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.ocean-breeze-theme .transaction-segment-item { color: #006064; }
+.ocean-breeze-theme .transaction-segment-item.active {
+    background-color: #00bcd4;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.ocean-breeze-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.ocean-breeze-theme .ios-transaction-item {
+    border-bottom-color: #e0f7fa;
+    color: #006064;
+}
+.ocean-breeze-theme .transaction-title { color: #006064; }
+.ocean-breeze-theme .transaction-meta { color: #00838f; }
+.ocean-breeze-theme .transaction-category, .ocean-breeze-theme .expense-tag,
+.ocean-breeze-theme .external-tag {
+    background-color: #e0f7fa;
+    color: #006064;
+}
+.ocean-breeze-theme .transaction-method { background-color: #e6f7ff; color: #00bcd4; }
+.ocean-breeze-theme .transaction-amount { color: #006064; }
+.ocean-breeze-theme .transaction-amount.income { color: #28a745; }
+.ocean-breeze-theme .transaction-amount.expense { color: #dc3545; }
+
+.ocean-breeze-theme .modal-content { background-color: #ffffff; color: #006064; }
+.ocean-breeze-theme .modal-header h3 { color: #006064; }
+.ocean-breeze-theme .form-group label { color: #006064; }
+.ocean-breeze-theme .form-input, .ocean-breeze-theme .form-textarea {
+    border-color: #80deea;
+    color: #006064;
+}
+.ocean-breeze-theme .form-input:focus, .ocean-breeze-theme .form-textarea:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 0 4px rgba(0,188,212,0.25);
+}
+.ocean-breeze-theme .save-expense-btn, .ocean-breeze-theme .save-balance-btn,
+.ocean-breeze-theme .update-transaction-btn {
+    background-color: #00bcd4;
+    color: #fff;
+}
+.ocean-breeze-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.ocean-breeze-theme .theme-switch-button { background-color: #b2ebf2; color: #006064; }
+.ocean-breeze-theme .theme-switch-button:hover { background-color: #80deea; color: #ffffff; }
+.ocean-breeze-theme .theme-list-modal-content { background: #ffffff; color: #006064; }
+.ocean-breeze-theme .theme-name { color: #006064; }
+
+
+/* --- Premium Theme 4: Sunset Glow (Enhanced) --- */
+.financial-dashboard-wrapper.sunset-glow-theme {
+    background-color: #fff8e1; /* Very light yellow */
+    color: #a0522d; /* Sienna dark text */
+}
+.sunset-glow-theme .ios-header {
+    background: linear-gradient(to right, #ffb300, #ffca28); /* Warm yellow-orange gradient */
+    color: #a0522d;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.sunset-glow-theme .header-title,
+.sunset-glow-theme .header-icon,
+.sunset-glow-theme .admin-back-button {
+    color: #a0522d;
+}
+
+.sunset-glow-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #fff3e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.sunset-glow-theme .action-tab-item {
+    background-color: #fff3e0; /* Light yellow inactive tab */
+    color: #a0522d;
+}
+.sunset-glow-theme .action-tab-item i { color: #fb8c00; }
+.sunset-glow-theme .action-tab-item.active,
+.sunset-glow-theme .action-tab-item:hover {
+    background: linear-gradient(to right, #fb8c00, #ffb300); /* Matching gradient */
+    color: #fff;
+    transform: translateY(-5px); /* More pronounced lift */
+    box-shadow: 0 8px 18px rgba(251, 140, 0, 0.45);
+}
+.sunset-glow-theme .action-tab-item.active i,
+.sunset-glow-theme .action-tab-item:hover i {
+    color: #fff;
+}
+
+.sunset-glow-theme .ios-segment-control {
+    background-color: #fff3e0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.sunset-glow-theme .segment-item { color: #a0522d; }
+.sunset-glow-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #fb8c00;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.sunset-glow-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.95), rgba(251, 140, 0, 0.85)); /* Deeper, more saturated oranges */
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+.sunset-glow-theme .balance-title, .sunset-glow-theme .balance-amount,
+.sunset-glow-theme .stat-label, .sunset-glow-theme .stat-value {
+    color: #ffffff;
+}
+/* Ensure standard greens/reds for amounts */
+.sunset-glow-theme .transaction-amount.income { color: #28a745; }
+.sunset-glow-theme .transaction-amount.expense { color: #dc3545; }
+
+.sunset-glow-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #fff3e0;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.sunset-glow-theme .toggle-label { color: #a0522d; }
+.sunset-glow-theme .ios-toggle-slider { background-color: #ffecb3; }
+.sunset-glow-theme input:checked + .ios-toggle-slider { background-color: #fb8c00; }
+
+.sunset-glow-theme .ios-transaction-sections-wrapper { background-color: #fff8e1; }
+.sunset-glow-theme .transaction-segment-control {
+    background-color: #fff3e0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.sunset-glow-theme .transaction-segment-item { color: #a0522d; }
+.sunset-glow-theme .transaction-segment-item.active {
+    background-color: #fb8c00;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+.sunset-glow-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.sunset-glow-theme .ios-transaction-item {
+    border-bottom-color: #fff8e1;
+    color: #a0522d;
+}
+.sunset-glow-theme .transaction-title { color: #a0522d; }
+.sunset-glow-theme .transaction-meta { color: #c90; }
+.sunset-glow-theme .transaction-category, .sunset-glow-theme .expense-tag,
+.sunset-glow-theme .external-tag {
+    background-color: #fff8e1;
+    color: #a0522d;
+}
+.sunset-glow-theme .transaction-method { background-color: #ffeedd; color: #fb8c00; }
+.sunset-glow-theme .transaction-amount { color: #a0522d; }
+.sunset-glow-theme .transaction-amount.income { color: #28a745; }
+.sunset-glow-theme .transaction-amount.expense { color: #dc3545; }
+
+.sunset-glow-theme .modal-content { background-color: #ffffff; color: #a0522d; }
+.sunset-glow-theme .modal-header h3 { color: #a0522d; }
+.sunset-glow-theme .form-group label { color: #a0522d; }
+.sunset-glow-theme .form-input, .sunset-glow-theme .form-textarea {
+    border-color: #ffecb3;
+    color: #a0522d;
+}
+.sunset-glow-theme .form-input:focus, .sunset-glow-theme .form-textarea:focus {
+    border-color: #fb8c00;
+    box-shadow: 0 0 0 4px rgba(251, 140, 0, 0.25);
+}
+.sunset-glow-theme .save-expense-btn, .sunset-glow-theme .save-balance-btn,
+.sunset-glow-theme .update-transaction-btn {
+    background-color: #fb8c00;
+    color: #fff;
+}
+.sunset-glow-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.sunset-glow-theme .theme-switch-button { background-color: #fff3e0; color: #d84315; }
+.sunset-glow-theme .theme-switch-button:hover { background-color: #ffab91; color: #ffffff; }
+.sunset-glow-theme .theme-list-modal-content { background: #ffffff; color: #a0522d; }
+.sunset-glow-theme .theme-name { color: #a0522d; }
+
+/* --- NEW REAL ESTATE THEMES (Enhanced) --- */
+
+/* Urban Loft Theme */
+.financial-dashboard-wrapper.urban-loft-theme {
+    background-color: #e0e0e0; /* Slightly darker, more concrete-like base */
+    color: #3f3f3f;
+}
+.urban-loft-theme .ios-header {
+    background-color: #424242; /* Darker grey */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+.urban-loft-theme .header-title, .urban-loft-theme .header-icon, .urban-loft-theme .admin-back-button { color: #ffffff; }
+.urban-loft-theme .ios-action-tabs {
+    background-color: #f0f0f0; /* Lighter tab background */
+    border-color: #d8d8d8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.urban-loft-theme .action-tab-item { background-color: #d8d8d8; color: #3f3f3f; }
+.urban-loft-theme .action-tab-item i { color: #757575; }
+.urban-loft-theme .action-tab-item.active, .urban-loft-theme .action-tab-item:hover {
+    background-color: #757575;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(117,117,117,0.45);
+}
+.urban-loft-theme .ios-segment-control {
+    background-color: #d8d8d8;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.urban-loft-theme .segment-item { color: #3f3f3f; }
+.urban-loft-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #757575;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.urban-loft-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(97, 97, 97, 0.95), rgba(66, 66, 66, 0.85)); /* Darker, more concrete-like gradient */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.urban-loft-theme .balance-title, .urban-loft-theme .balance-amount, .urban-loft-theme .stat-label, .urban-loft-theme .stat-value { color: #ffffff; }
+.urban-loft-theme .ios-toggle-container {
+    background-color: #f0f0f0;
+    border-color: #d8d8d8;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.urban-loft-theme .toggle-label { color: #3f3f3f; }
+.urban-loft-theme .ios-toggle-slider { background-color: #b0b0b0; }
+.urban-loft-theme input:checked + .ios-toggle-slider { background-color: #757575; }
+.urban-loft-theme .ios-transaction-sections-wrapper { background-color: #e0e0e0; }
+.urban-loft-theme .transaction-segment-control {
+    background-color: #d8d8d8;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.urban-loft-theme .transaction-segment-item { color: #3f3f3f; }
+.urban-loft-theme .transaction-segment-item.active { background-color: #757575; color: #fff; }
+.urban-loft-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.urban-loft-theme .ios-transaction-item { border-bottom-color: #d8d8d8; color: #3f3f3f; }
+.urban-loft-theme .transaction-title { color: #3f3f3f; }
+.urban-loft-theme .transaction-meta { color: #8d8d8d; }
+.urban-loft-theme .transaction-category, .urban-loft-theme .expense-tag, .urban-loft-theme .external-tag { background-color: #d8d8d8; color: #3f3f3f; }
+.urban-loft-theme .transaction-method { background-color: #e0e0e0; color: #757575; }
+.urban-loft-theme .transaction-amount { color: #3f3f3f; }
+.urban-loft-theme .modal-content { background-color: #ffffff; color: #3f3f3f; }
+.urban-loft-theme .modal-header h3 { color: #3f3f3f; }
+.urban-loft-theme .form-group label { color: #3f3f3f; }
+.urban-loft-theme .form-input, .urban-loft-theme .form-textarea { border-color: #b0b0b0; color: #3f3f3f; }
+.urban-loft-theme .form-input:focus, .urban-loft-theme .form-textarea:focus { border-color: #757575; box-shadow: 0 0 0 4px rgba(117,117,117,0.3); }
+.urban-loft-theme .save-expense-btn, .urban-loft-theme .save-balance-btn, .urban-loft-theme .update-transaction-btn { background-color: #757575; }
+.urban-loft-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.urban-loft-theme .theme-switch-button { background-color: #d8d8d8; color: #3f3f3f; }
+.urban-loft-theme .theme-switch-button:hover { background-color: #b0b0b0; color: #ffffff; }
+.urban-loft-theme .theme-list-modal-content { background: #ffffff; color: #3f3f3f; }
+.urban-loft-theme .theme-name { color: #3f3f3f; }
+
+
+/* Green Acre Theme */
+.financial-dashboard-wrapper.green-acre-theme {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+.green-acre-theme .ios-header {
+    background-color: #4caf50;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.green-acre-theme .header-title, .green-acre-theme .header-icon, .green-acre-theme .admin-back-button { color: #ffffff; }
+.green-acre-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #c8e6c9;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.green-acre-theme .action-tab-item { background-color: #c8e6c9; color: #2e7d32; }
+.green-acre-theme .action-tab-item i { color: #43a047; }
+.green-acre-theme .action-tab-item.active, .green-acre-theme .action-tab-item:hover {
+    background-color: #43a047;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(67,160,71,0.45);
+}
+.green-acre-theme .ios-segment-control {
+    background-color: #c8e6c9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.green-acre-theme .segment-item { color: #2e7d32; }
+.green-acre-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #43a047;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.green-acre-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(46, 125, 50, 0.85)); /* Richer greens */
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+.green-acre-theme .balance-title, .green-acre-theme .balance-amount, .green-acre-theme .stat-label, .green-acre-theme .stat-value { color: #ffffff; }
+.green-acre-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #c8e6c9;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.green-acre-theme .toggle-label { color: #2e7d32; }
+.green-acre-theme .ios-toggle-slider { background-color: #a5d6a7; }
+.green-acre-theme input:checked + .ios-toggle-slider { background-color: #43a047; }
+.green-acre-theme .ios-transaction-sections-wrapper { background-color: #e8f5e9; }
+.green-acre-theme .transaction-segment-control {
+    background-color: #c8e6c9;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.green-acre-theme .transaction-segment-item { color: #2e7d32; }
+.green-acre-theme .transaction-segment-item.active { background-color: #43a047; color: #fff; }
+.green-acre-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.green-acre-theme .ios-transaction-item { border-bottom-color: #e8f5e9; color: #2e7d32; }
+.green-acre-theme .transaction-title { color: #2e7d32; }
+.green-acre-theme .transaction-meta { color: #66bb6a; }
+.green-acre-theme .transaction-category, .green-acre-theme .expense-tag, .green-acre-theme .external-tag { background-color: #e8f5e9; color: #2e7d32; }
+.green-acre-theme .transaction-method { background-color: #d4edda; color: #43a047; }
+.green-acre-theme .transaction-amount { color: #2e7d32; }
+.green-acre-theme .modal-content { background-color: #ffffff; color: #2e7d32; }
+.green-acre-theme .modal-header h3 { color: #2e7d32; }
+.green-acre-theme .form-group label { color: #2e7d32; }
+.green-acre-theme .form-input, .green-acre-theme .form-textarea { border-color: #a5d6a7; color: #2e7d32; }
+.green-acre-theme .form-input:focus, .green-acre-theme .form-textarea:focus { border-color: #43a047; box-shadow: 0 0 0 4px rgba(67,160,71,0.25); }
+.green-acre-theme .save-expense-btn, .green-acre-theme .save-balance-btn, .green-acre-theme .update-transaction-btn { background-color: #43a047; }
+.green-acre-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.green-acre-theme .theme-switch-button { background-color: #c8e6c9; color: #2e7d32; }
+.green-acre-theme .theme-switch-button:hover { background-color: #a5d6a7; color: #ffffff; }
+.green-acre-theme .theme-list-modal-content { background: #ffffff; color: #2e7d32; }
+.green-acre-theme .theme-name { color: #2e7d32; }
+
+/* Modern Haus Theme */
+.financial-dashboard-wrapper.modern-haus-theme {
+    background-color: #eceff1; /* Light, cool grey */
+    color: #263238; /* Dark, sophisticated text */
+}
+.modern-haus-theme .ios-header {
+    background-color: #607d8b; /* Blue-grey header */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.modern-haus-theme .header-title, .modern-haus-theme .header-icon, .modern-haus-theme .admin-back-button { color: #ffffff; }
+.modern-haus-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #cfd8dc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.modern-haus-theme .action-tab-item { background-color: #cfd8dc; color: #263238; }
+.modern-haus-theme .action-tab-item i { color: #546e7a; }
+.modern-haus-theme .action-tab-item.active, .modern-haus-theme .action-tab-item:hover {
+    background-color: #546e7a;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(84,110,122,0.45);
+}
+.modern-haus-theme .ios-segment-control {
+    background-color: #cfd8dc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.modern-haus-theme .segment-item { color: #263238; }
+.modern-haus-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #546e7a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.modern-haus-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(84, 110, 122, 0.95), rgba(69, 90, 100, 0.85)); /* Deeper blue-grey */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.modern-haus-theme .balance-title, .modern-haus-theme .balance-amount, .modern-haus-theme .stat-label, .modern-haus-theme .stat-value { color: #ffffff; }
+.modern-haus-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #cfd8dc;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.modern-haus-theme .toggle-label { color: #263238; }
+.modern-haus-theme .ios-toggle-slider { background-color: #90a4ae; }
+.modern-haus-theme input:checked + .ios-toggle-slider { background-color: #546e7a; }
+.modern-haus-theme .ios-transaction-sections-wrapper { background-color: #eceff1; }
+.modern-haus-theme .transaction-segment-control {
+    background-color: #cfd8dc;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.modern-haus-theme .transaction-segment-item { color: #263238; }
+.modern-haus-theme .transaction-segment-item.active { background-color: #546e7a; color: #fff; }
+.modern-haus-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.modern-haus-theme .ios-transaction-item { border-bottom-color: #eceff1; color: #263238; }
+.modern-haus-theme .transaction-title { color: #263238; }
+.modern-haus-theme .transaction-meta { color: #78909c; }
+.modern-haus-theme .transaction-category, .modern-haus-theme .expense-tag, .modern-haus-theme .external-tag { background-color: #eceff1; color: #263238; }
+.modern-haus-theme .transaction-method { background-color: #e0f2f7; color: #546e7a; }
+.modern-haus-theme .transaction-amount { color: #263238; }
+.modern-haus-theme .modal-content { background-color: #ffffff; color: #263238; }
+.modern-haus-theme .modal-header h3 { color: #263238; }
+.modern-haus-theme .form-group label { color: #263238; }
+.modern-haus-theme .form-input, .modern-haus-theme .form-textarea { border-color: #90a4ae; color: #263238; }
+.modern-haus-theme .form-input:focus, .modern-haus-theme .form-textarea:focus { border-color: #546e7a; box-shadow: 0 0 0 4px rgba(84,110,122,0.3); }
+.modern-haus-theme .save-expense-btn, .modern-haus-theme .save-balance-btn, .modern-haus-theme .update-transaction-btn { background-color: #546e7a; }
+.modern-haus-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.modern-haus-theme .theme-switch-button { background-color: #cfd8dc; color: #263238; }
+.modern-haus-theme .theme-switch-button:hover { background-color: #90a4ae; color: #ffffff; }
+.modern-haus-theme .theme-list-modal-content { background: #ffffff; color: #263238; }
+.modern-haus-theme .theme-name { color: #263238; }
+
+/* Vintage Estate Theme */
+.financial-dashboard-wrapper.vintage-estate-theme {
+    background-color: #f5f5dc; /* Creamy beige */
+    color: #5d4037; /* Dark brown text */
+}
+.vintage-estate-theme .ios-header {
+    background-color: #8d6e63; /* Medium brown */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.vintage-estate-theme .header-title, .vintage-estate-theme .header-icon, .vintage-estate-theme .admin-back-button { color: #ffffff; }
+.vintage-estate-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.vintage-estate-theme .action-tab-item { background-color: #d7ccc8; color: #5d4037; }
+.vintage-estate-theme .action-tab-item i { color: #795548; }
+.vintage-estate-theme .action-tab-item.active, .vintage-estate-theme .action-tab-item:hover {
+    background-color: #795548;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(121,85,72,0.45);
+}
+.vintage-estate-theme .ios-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.vintage-estate-theme .segment-item { color: #5d4037; }
+.vintage-estate-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #795548;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.vintage-estate-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(121, 85, 72, 0.95), rgba(93, 64, 55, 0.85)); /* Richer, earthy brown */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.vintage-estate-theme .balance-title, .vintage-estate-theme .balance-amount, .vintage-estate-theme .stat-label, .vintage-estate-theme .stat-value { color: #ffffff; }
+.vintage-estate-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.vintage-estate-theme .toggle-label { color: #5d4037; }
+.vintage-estate-theme .ios-toggle-slider { background-color: #bcaaa4; }
+.vintage-estate-theme input:checked + .ios-toggle-slider { background-color: #795548; }
+.vintage-estate-theme .ios-transaction-sections-wrapper { background-color: #f5f5dc; }
+.vintage-estate-theme .transaction-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.vintage-estate-theme .transaction-segment-item { color: #5d4037; }
+.vintage-estate-theme .transaction-segment-item.active { background-color: #795548; color: #fff; }
+.vintage-estate-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.vintage-estate-theme .ios-transaction-item { border-bottom-color: #f5f5dc; color: #5d4037; }
+.vintage-estate-theme .transaction-title { color: #5d4037; }
+.vintage-estate-theme .transaction-meta { color: #8d6e63; }
+.vintage-estate-theme .transaction-category, .vintage-estate-theme .expense-tag, .vintage-estate-theme .external-tag { background-color: #f5f5dc; color: #5d4037; }
+.vintage-estate-theme .transaction-method { background-color: #fdfaf5; color: #795548; }
+.vintage-estate-theme .transaction-amount { color: #5d4037; }
+.vintage-estate-theme .modal-content { background-color: #ffffff; color: #5d4037; }
+.vintage-estate-theme .modal-header h3 { color: #5d4037; }
+.vintage-estate-theme .form-group label { color: #5d4037; }
+.vintage-estate-theme .form-input, .vintage-estate-theme .form-textarea { border-color: #bcaaa4; color: #5d4037; }
+.vintage-estate-theme .form-input:focus, .vintage-estate-theme .form-textarea:focus { border-color: #795548; box-shadow: 0 0 0 4px rgba(121,85,72,0.3); }
+.vintage-estate-theme .save-expense-btn, .vintage-estate-theme .save-balance-btn, .vintage-estate-theme .update-transaction-btn { background-color: #795548; }
+.vintage-estate-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.vintage-estate-theme .theme-switch-button { background-color: #d7ccc8; color: #5d4037; }
+.vintage-estate-theme .theme-switch-button:hover { background-color: #bcaaa4; color: #ffffff; }
+.vintage-estate-theme .theme-list-modal-content { background: #ffffff; color: #5d4037; }
+.vintage-estate-theme .theme-name { color: #5d4037; }
+
+/* Coastal Home Theme */
+.financial-dashboard-wrapper.coastal-home-theme {
+    background-color: #e3f2fd; /* Light, airy blue */
+    color: #1565c0; /* Deep ocean blue text */
+}
+.coastal-home-theme .ios-header {
+    background-color: #42a5f5; /* Sky blue header */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.coastal-home-theme .header-title, .coastal-home-theme .header-icon, .coastal-home-theme .admin-back-button { color: #ffffff; }
+.coastal-home-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #bbdefb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.coastal-home-theme .action-tab-item { background-color: #bbdefb; color: #1565c0; }
+.coastal-home-theme .action-tab-item i { color: #2196f3; }
+.coastal-home-theme .action-tab-item.active, .coastal-home-theme .action-tab-item:hover {
+    background-color: #2196f3;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(33,150,243,0.45);
+}
+.coastal-home-theme .ios-segment-control {
+    background-color: #bbdefb;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.coastal-home-theme .segment-item { color: #1565c0; }
+.coastal-home-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #2196f3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.coastal-home-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.95), rgba(25, 118, 210, 0.85)); /* Deeper ocean blues */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.coastal-home-theme .balance-title, .coastal-home-theme .balance-amount, .coastal-home-theme .stat-label, .coastal-home-theme .stat-value { color: #ffffff; }
+.coastal-home-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #bbdefb;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.coastal-home-theme .toggle-label { color: #1565c0; }
+.coastal-home-theme .ios-toggle-slider { background-color: #90caf9; }
+.coastal-home-theme input:checked + .ios-toggle-slider { background-color: #2196f3; }
+.coastal-home-theme .ios-transaction-sections-wrapper { background-color: #e3f2fd; }
+.coastal-home-theme .transaction-segment-control {
+    background-color: #bbdefb;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.coastal-home-theme .transaction-segment-item { color: #1565c0; }
+.coastal-home-theme .transaction-segment-item.active { background-color: #2196f3; color: #fff; }
+.coastal-home-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.coastal-home-theme .ios-transaction-item { border-bottom-color: #e3f2fd; color: #1565c0; }
+.coastal-home-theme .transaction-title { color: #1565c0; }
+.coastal-home-theme .transaction-meta { color: #42a5f5; }
+.coastal-home-theme .transaction-category, .coastal-home-theme .expense-tag, .coastal-home-theme .external-tag { background-color: #e3f2fd; color: #1565c0; }
+.coastal-home-theme .transaction-method { background-color: #e0f7fa; color: #2196f3; }
+.coastal-home-theme .transaction-amount { color: #1565c0; }
+.coastal-home-theme .modal-content { background-color: #ffffff; color: #1565c0; }
+.coastal-home-theme .modal-header h3 { color: #1565c0; }
+.coastal-home-theme .form-group label { color: #1565c0; }
+.coastal-home-theme .form-input, .coastal-home-theme .form-textarea { border-color: #90caf9; color: #1565c0; }
+.coastal-home-theme .form-input:focus, .coastal-home-theme .form-textarea:focus { border-color: #2196f3; box-shadow: 0 0 0 4px rgba(33,150,243,0.3); }
+.coastal-home-theme .save-expense-btn, .coastal-home-theme .save-balance-btn, .coastal-home-theme .update-transaction-btn { background-color: #2196f3; }
+.coastal-home-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.coastal-home-theme .theme-switch-button { background-color: #bbdefb; color: #1565c0; }
+.coastal-home-theme .theme-switch-button:hover { background-color: #90caf9; color: #ffffff; }
+.coastal-home-theme .theme-list-modal-content { background: #ffffff; color: #1565c0; }
+.coastal-home-theme .theme-name { color: #1565c0; }
+
+/* Desert Oasis Theme */
+.financial-dashboard-wrapper.desert-oasis-theme {
+    background-color: #fff3e0; /* Light sandy orange */
+    color: #d84315; /* Deep burnt orange text */
+}
+.desert-oasis-theme .ios-header {
+    background-color: #ff9800; /* Vibrant orange header */
+    color: #d84315;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.desert-oasis-theme .header-title, .desert-oasis-theme .header-icon, .desert-oasis-theme .admin-back-button { color: #d84315; }
+.desert-oasis-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #ffe0b2;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.desert-oasis-theme .action-tab-item { background-color: #ffe0b2; color: #d84315; }
+.desert-oasis-theme .action-tab-item i { color: #fb8c00; }
+.desert-oasis-theme .action-tab-item.active, .desert-oasis-theme .action-tab-item:hover {
+    background-color: #fb8c00;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(251,140,0,0.45);
+}
+.desert-oasis-theme .ios-segment-control {
+    background-color: #ffe0b2;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.desert-oasis-theme .segment-item { color: #d84315; }
+.desert-oasis-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #fb8c00;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.desert-oasis-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(251, 140, 0, 0.95), rgba(255, 87, 34, 0.85)); /* Intense desert oranges */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.desert-oasis-theme .balance-title, .desert-oasis-theme .balance-amount, .desert-oasis-theme .stat-label, .desert-oasis-theme .stat-value { color: #ffffff; }
+.desert-oasis-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #ffe0b2;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.desert-oasis-theme .toggle-label { color: #d84315; }
+.desert-oasis-theme .ios-toggle-slider { background-color: #ffcc80; }
+.desert-oasis-theme input:checked + .ios-toggle-slider { background-color: #fb8c00; }
+.desert-oasis-theme .ios-transaction-sections-wrapper { background-color: #fff3e0; }
+.desert-oasis-theme .transaction-segment-control {
+    background-color: #ffe0b2;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.desert-oasis-theme .transaction-segment-item { color: #d84315; }
+.desert-oasis-theme .transaction-segment-item.active { background-color: #fb8c00; color: #fff; }
+.desert-oasis-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.desert-oasis-theme .ios-transaction-item { border-bottom-color: #fff3e0; color: #d84315; }
+.desert-oasis-theme .transaction-title { color: #d84315; }
+.desert-oasis-theme .transaction-meta { color: #ff9800; }
+.desert-oasis-theme .transaction-category, .desert-oasis-theme .expense-tag, .desert-oasis-theme .external-tag { background-color: #fff3e0; color: #d84315; }
+.desert-oasis-theme .transaction-method { background-color: #ffeedd; color: #fb8c00; }
+.desert-oasis-theme .transaction-amount { color: #d84315; }
+.desert-oasis-theme .modal-content { background-color: #ffffff; color: #d84315; }
+.desert-oasis-theme .modal-header h3 { color: #d84315; }
+.desert-oasis-theme .form-group label { color: #d84315; }
+.desert-oasis-theme .form-input, .desert-oasis-theme .form-textarea { border-color: #ffcc80; color: #d84315; }
+.desert-oasis-theme .form-input:focus, .desert-oasis-theme .form-textarea:focus { border-color: #fb8c00; box-shadow: 0 0 0 4px rgba(251,140,0,0.3); }
+.desert-oasis-theme .save-expense-btn, .desert-oasis-theme .save-balance-btn, .desert-oasis-theme .update-transaction-btn { background-color: #fb8c00; }
+.desert-oasis-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.desert-oasis-theme .theme-switch-button { background-color: #ffe0b2; color: #d84315; }
+.desert-oasis-theme .theme-switch-button:hover { background-color: #ffcc80; color: #ffffff; }
+.desert-oasis-theme .theme-list-modal-content { background: #ffffff; color: #d84315; }
+.desert-oasis-theme .theme-name { color: #d84315; }
+
+/* Mountain Chalet Theme */
+.financial-dashboard-wrapper.mountain-chalet-theme {
+    background-color: #e9e5e3; /* Light, warm grey-brown */
+    color: #4e342e; /* Dark chocolate brown text */
+}
+.mountain-chalet-theme .ios-header {
+    background-color: #6d4c41; /* Coffee brown header */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.mountain-chalet-theme .header-title, .mountain-chalet-theme .header-icon, .mountain-chalet-theme .admin-back-button { color: #ffffff; }
+.mountain-chalet-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.mountain-chalet-theme .action-tab-item { background-color: #d7ccc8; color: #4e342e; }
+.mountain-chalet-theme .action-tab-item i { color: #5d4037; }
+.mountain-chalet-theme .action-tab-item.active, .mountain-chalet-theme .action-tab-item:hover {
+    background-color: #5d4037;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(93,64,55,0.45);
+}
+.mountain-chalet-theme .ios-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.mountain-chalet-theme .segment-item { color: #4e342e; }
+.mountain-chalet-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #5d4037;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.mountain-chalet-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(93, 64, 55, 0.95), rgba(77, 47, 40, 0.85)); /* Deep browns, rustic feel */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.mountain-chalet-theme .balance-title, .mountain-chalet-theme .balance-amount, .mountain-chalet-theme .stat-label, .mountain-chalet-theme .stat-value { color: #ffffff; }
+.mountain-chalet-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.mountain-chalet-theme .toggle-label { color: #4e342e; }
+.mountain-chalet-theme .ios-toggle-slider { background-color: #bcaaa4; }
+.mountain-chalet-theme input:checked + .ios-toggle-slider { background-color: #5d4037; }
+.mountain-chalet-theme .ios-transaction-sections-wrapper { background-color: #e9e5e3; }
+.mountain-chalet-theme .transaction-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.mountain-chalet-theme .transaction-segment-item { color: #4e342e; }
+.mountain-chalet-theme .transaction-segment-item.active { background-color: #5d4037; color: #fff; }
+.mountain-chalet-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.mountain-chalet-theme .ios-transaction-item { border-bottom-color: #e9e5e3; color: #4e342e; }
+.mountain-chalet-theme .transaction-title { color: #4e342e; }
+.mountain-chalet-theme .transaction-meta { color: #8d6e63; }
+.mountain-chalet-theme .transaction-category, .mountain-chalet-theme .expense-tag, .mountain-chalet-theme .external-tag { background-color: #e9e5e3; color: #4e342e; }
+.mountain-chalet-theme .transaction-method { background-color: #f5f2f0; color: #5d4037; }
+.mountain-chalet-theme .transaction-amount { color: #4e342e; }
+.mountain-chalet-theme .modal-content { background-color: #ffffff; color: #4e342e; }
+.mountain-chalet-theme .modal-header h3 { color: #4e342e; }
+.mountain-chalet-theme .form-group label { color: #4e342e; }
+.mountain-chalet-theme .form-input, .mountain-chalet-theme .form-textarea { border-color: #bcaaa4; color: #4e342e; }
+.mountain-chalet-theme .form-input:focus, .mountain-chalet-theme .form-textarea:focus { border-color: #5d4037; box-shadow: 0 0 0 4px rgba(93,64,55,0.3); }
+.mountain-chalet-theme .save-expense-btn, .mountain-chalet-theme .save-balance-btn, .mountain-chalet-theme .update-transaction-btn { background-color: #5d4037; }
+.mountain-chalet-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.mountain-chalet-theme .theme-switch-button { background-color: #d7ccc8; color: #4e342e; }
+.mountain-chalet-theme .theme-switch-button:hover { background-color: #bcaaa4; color: #ffffff; }
+.mountain-chalet-theme .theme-list-modal-content { background: #ffffff; color: #4e342e; }
+.mountain-chalet-theme .theme-name { color: #4e342e; }
+
+/* Skyline View Theme */
+.financial-dashboard-wrapper.skyline-view-theme {
+    background-color: #1a1a1a; /* Dark almost black background */
+    color: #e0e0e0; /* Light text */
+}
+.skyline-view-theme .ios-header {
+    background-color: #212121; /* Slightly lighter black */
+    color: #e0e0e0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+.skyline-view-theme .header-title, .skyline-view-theme .header-icon, .skyline-view-theme .admin-back-button { color: #e0e0e0; }
+.skyline-view-theme .ios-action-tabs {
+    background-color: #212121;
+    border-color: #333333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.skyline-view-theme .action-tab-item { background-color: #333333; color: #e0e0e0; }
+.skyline-view-theme .action-tab-item i { color: #bdbdbd; }
+.skyline-view-theme .action-tab-item.active, .skyline-view-theme .action-tab-item:hover {
+    background-color: #424242;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(66,66,66,0.5);
+}
+.skyline-view-theme .ios-segment-control {
+    background-color: #333333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.skyline-view-theme .segment-item { color: #e0e0e0; }
+.skyline-view-theme .segment-item.active {
+    background-color: #424242;
+    color: #bdbdbd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.skyline-view-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(50, 50, 50, 0.95), rgba(30, 30, 30, 0.85)); /* Darker greys, metallic feel */
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.55);
+}
+.skyline-view-theme .balance-title, .skyline-view-theme .balance-amount, .skyline-view-theme .stat-label, .skyline-view-theme .stat-value { color: #ffffff; }
+.skyline-view-theme .ios-toggle-container {
+    background-color: #2b2b2b;
+    border-color: #3a3a3a;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+}
+.skyline-view-theme .toggle-label { color: #e0e0e0; }
+.skyline-view-theme .ios-toggle-slider { background-color: #555555; }
+.skyline-view-theme input:checked + .ios-toggle-slider { background-color: #424242; }
+.skyline-view-theme .ios-transaction-sections-wrapper { background-color: #1a1a1a; }
+.skyline-view-theme .transaction-segment-control {
+    background-color: #333333;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.skyline-view-theme .transaction-segment-item { color: #e0e0e0; }
+.skyline-view-theme .transaction-segment-item.active { background-color: #424242; color: #fff; }
+.skyline-view-theme .ios-transaction-list {
+    background-color: #2b2b2b;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.45);
+}
+.skyline-view-theme .ios-transaction-item { border-bottom-color: #3a3a3a; color: #e0e0e0; }
+.skyline-view-theme .transaction-title { color: #e0e0e0; }
+.skyline-view-theme .transaction-meta { color: #9e9e9e; }
+.skyline-view-theme .transaction-category, .skyline-view-theme .expense-tag, .skyline-view-theme .external-tag { background-color: #3a3a3a; color: #e0e0e0; }
+.skyline-view-theme .transaction-method { background-color: #3a3a3a; color: #bdbdbd; }
+.skyline-view-theme .transaction-amount { color: #e0e0e0; }
+.skyline-view-theme .modal-content { background-color: #1f1f1f; color: #e0e0e0; }
+.skyline-view-theme .modal-header h3 { color: #e0e0e0; }
+.skyline-view-theme .form-group label { color: #e0e0e0; }
+.skyline-view-theme .form-input, .skyline-view-theme .form-textarea { border-color: #555555; color: #e0e0e0; }
+.skyline-view-theme .form-input:focus, .skyline-view-theme .form-textarea:focus { border-color: #424242; box-shadow: 0 0 0 4px rgba(66,66,66,0.4); }
+.skyline-view-theme .save-expense-btn, .skyline-view-theme .save-balance-btn, .skyline-view-theme .update-transaction-btn { background-color: #424242; }
+.skyline-view-theme .bottom-tab-bar-container { background-color: #212121; }
+.skyline-view-theme .theme-switch-button { background-color: #333333; color: #e0e0e0; }
+.skyline-view-theme .theme-switch-button:hover { background-color: #424242; color: #ffffff; }
+.skyline-view-theme .theme-list-modal-content { background: #1f1f1f; color: #e0e0e0; }
+.skyline-view-theme .theme-name { color: #e0e0e0; }
+
+/* Rustic Cabin Theme */
+.financial-dashboard-wrapper.rustic-cabin-theme {
+    background-color: #f0ede9; /* Warm off-white */
+    color: #4e342e; /* Dark brown text */
+}
+.rustic-cabin-theme .ios-header {
+    background-color: #795548; /* Rustic brown header */
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.rustic-cabin-theme .header-title, .rustic-cabin-theme .header-icon, .rustic-cabin-theme .admin-back-button { color: #ffffff; }
+.rustic-cabin-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.rustic-cabin-theme .action-tab-item { background-color: #d7ccc8; color: #4e342e; }
+.rustic-cabin-theme .action-tab-item i { color: #8d6e63; }
+.rustic-cabin-theme .action-tab-item.active, .rustic-cabin-theme .action-tab-item:hover {
+    background-color: #8d6e63;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(141,110,99,0.45);
+}
+.rustic-cabin-theme .ios-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.rustic-cabin-theme .segment-item { color: #4e342e; }
+.rustic-cabin-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #8d6e63;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.rustic-cabin-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(141, 110, 99, 0.95), rgba(121, 85, 72, 0.85)); /* Warm, inviting browns */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.rustic-cabin-theme .balance-title, .rustic-cabin-theme .balance-amount, .rustic-cabin-theme .stat-label, .rustic-cabin-theme .stat-value { color: #ffffff; }
+.rustic-cabin-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #d7ccc8;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.rustic-cabin-theme .toggle-label { color: #4e342e; }
+.rustic-cabin-theme .ios-toggle-slider { background-color: #bcaaa4; }
+.rustic-cabin-theme input:checked + .ios-toggle-slider { background-color: #8d6e63; }
+.rustic-cabin-theme .ios-transaction-sections-wrapper { background-color: #f0ede9; }
+.rustic-cabin-theme .transaction-segment-control {
+    background-color: #d7ccc8;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.rustic-cabin-theme .transaction-segment-item { color: #4e342e; }
+.rustic-cabin-theme .transaction-segment-item.active { background-color: #8d6e63; color: #fff; }
+.rustic-cabin-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.rustic-cabin-theme .ios-transaction-item { border-bottom-color: #f0ede9; color: #4e342e; }
+.rustic-cabin-theme .transaction-title { color: #4e342e; }
+.rustic-cabin-theme .transaction-meta { color: #a1887f; }
+.rustic-cabin-theme .transaction-category, .rustic-cabin-theme .expense-tag, .rustic-cabin-theme .external-tag { background-color: #f0ede9; color: #4e342e; }
+.rustic-cabin-theme .transaction-method { background-color: #f5f2f0; color: #8d6e63; }
+.rustic-cabin-theme .transaction-amount { color: #4e342e; }
+.rustic-cabin-theme .modal-content { background-color: #ffffff; color: #4e342e; }
+.rustic-cabin-theme .modal-header h3 { color: #4e342e; }
+.rustic-cabin-theme .form-group label { color: #4e342e; }
+.rustic-cabin-theme .form-input, .rustic-cabin-theme .form-textarea { border-color: #bcaaa4; color: #4e342e; }
+.rustic-cabin-theme .form-input:focus, .rustic-cabin-theme .form-textarea:focus { border-color: #8d6e63; box-shadow: 0 0 0 4px rgba(141,110,99,0.3); }
+.rustic-cabin-theme .save-expense-btn, .rustic-cabin-theme .save-balance-btn, .rustic-cabin-theme .update-transaction-btn { background-color: #8d6e63; }
+.rustic-cabin-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.rustic-cabin-theme .theme-switch-button { background-color: #d7ccc8; color: #4e342e; }
+.rustic-cabin-theme .theme-switch-button:hover { background-color: #bcaaa4; color: #ffffff; }
+.rustic-cabin-theme .theme-list-modal-content { background: #ffffff; color: #4e342e; }
+.rustic-cabin-theme .theme-name { color: #4e342e; }
+
+/* Golden Gate Theme */
+.financial-dashboard-wrapper.golden-gate-theme {
+    background-color: #fff3e0; /* Light orange-peach */
+    color: #e64a19; /* Deep orange-red text */
+}
+.golden-gate-theme .ios-header {
+    background-color: #ff7043; /* Vibrant orange header */
+    color: #e64a19;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+.golden-gate-theme .header-title, .golden-gate-theme .header-icon, .golden-gate-theme .admin-back-button { color: #e64a19; }
+.golden-gate-theme .ios-action-tabs {
+    background-color: #ffffff;
+    border-color: #ffccbc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.golden-gate-theme .action-tab-item { background-color: #ffccbc; color: #e64a19; }
+.golden-gate-theme .action-tab-item i { color: #ff5722; }
+.golden-gate-theme .action-tab-item.active, .golden-gate-theme .action-tab-item:hover {
+    background-color: #ff5722;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(255,87,34,0.45);
+}
+.golden-gate-theme .ios-segment-control {
+    background-color: #ffccbc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.golden-gate-theme .segment-item { color: #e64a19; }
+.golden-gate-theme .segment-item.active {
+    background-color: #ffffff;
+    color: #ff5722;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.golden-gate-theme .ios-summary-card {
+    background: linear-gradient(135deg, rgba(255, 87, 34, 0.95), rgba(229, 57, 53, 0.85)); /* Vibrant, warm orange-reds */
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+.golden-gate-theme .balance-title, .golden-gate-theme .balance-amount, .golden-gate-theme .stat-label, .golden-gate-theme .stat-value { color: #ffffff; }
+.golden-gate-theme .ios-toggle-container {
+    background-color: #ffffff;
+    border-color: #ffccbc;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+.golden-gate-theme .toggle-label { color: #e64a19; }
+.golden-gate-theme .ios-toggle-slider { background-color: #ffab91; }
+.golden-gate-theme input:checked + .ios-toggle-slider { background-color: #ff5722; }
+.golden-gate-theme .ios-transaction-sections-wrapper { background-color: #fff3e0; }
+.golden-gate-theme .transaction-segment-control {
+    background-color: #ffccbc;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.golden-gate-theme .transaction-segment-item { color: #e64a19; }
+.golden-gate-theme .transaction-segment-item.active { background-color: #ff5722; color: #fff; }
+.golden-gate-theme .ios-transaction-list {
+    background-color: #ffffff;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+}
+.golden-gate-theme .ios-transaction-item { border-bottom-color: #fff3e0; color: #e64a19; }
+.golden-gate-theme .transaction-title { color: #e64a19; }
+.golden-gate-theme .transaction-meta { color: #ff7043; }
+.golden-gate-theme .transaction-category, .golden-gate-theme .expense-tag, .golden-gate-theme .external-tag { background-color: #fff3e0; color: #e64a19; }
+.golden-gate-theme .transaction-method { background-color: #ffe6dd; color: #ff5722; }
+.golden-gate-theme .transaction-amount { color: #e64a19; }
+.golden-gate-theme .modal-content { background-color: #ffffff; color: #e64a19; }
+.golden-gate-theme .modal-header h3 { color: #e64a19; }
+.golden-gate-theme .form-group label { color: #e64a19; }
+.golden-gate-theme .form-input, .golden-gate-theme .form-textarea { border-color: #ffab91; color: #e64a19; }
+.golden-gate-theme .form-input:focus, .golden-gate-theme .form-textarea:focus { border-color: #ff5722; box-shadow: 0 0 0 4px rgba(255,87,34,0.3); }
+.golden-gate-theme .save-expense-btn, .golden-gate-theme .save-balance-btn, .golden-gate-theme .update-transaction-btn { background-color: #ff5722; }
+.golden-gate-theme .bottom-tab-bar-container { background-color: #ffffff; }
+.golden-gate-theme .theme-switch-button { background-color: #ffccbc; color: #e64a19; }
+.golden-gate-theme .theme-switch-button:hover { background-color: #ffab91; color: #ffffff; }
+.golden-gate-theme .theme-list-modal-content { background: #ffffff; color: #e64a19; }
+.golden-gate-theme .theme-name { color: #e64a19; }

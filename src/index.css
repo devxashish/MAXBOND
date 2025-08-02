@@ -1,0 +1,193 @@
+/* src/index.css */
+
+/* --- Global CSS Variables (Themed) --- */
+:root {
+  --ds-dark-bg: #1a1a1a;
+  --ds-medium-bg: #2a2a2a;
+  --ds-light-text: #f0f0f0;
+  --ds-accent-red: #ff3333;
+  --ds-border-color: #444;
+  --ds-glowing-red: #ff0000;
+  --ds-glowing-shadow: rgba(255, 0, 0, 0.6);
+  --ds-transition-speed: 0.3s ease;
+
+  --admin-header-bg: #333333;
+  --admin-header-text: #f0f0f0;
+  --admin-tab-bg: #2a2a2a;
+  --admin-tab-text: #cccccc;
+  --admin-tab-active-bg: var(--ds-accent-red);
+  --admin-tab-active-text: white;
+  --admin-content-bg: #1a1a1a;
+
+  --primary-color: #007bff;
+  --secondary-color: #5856d6;
+  --text-color-dark: #3a3a3c;
+  --text-color-light: #f0f0f0;
+  --border-radius-default: 8px;
+  --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* --- Global Body Styles --- */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: var(--ds-dark-bg); /* Applies theme background to body */
+  color: var(--ds-light-text); /* Applies theme text color to body */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Global react-toastify Overrides --- */
+/* These are CRITICAL to remove the default blank boxes/styling */
+
+.Toastify__toast-container {
+  z-index: 9999 !important; /* Ensure toasts are always on top */
+  padding: 0px !important; /* Remove default padding from container */
+  /* You can adjust default positions here if needed, e.g.,
+  top: 20px !important;
+  right: 20px !important;
+  */
+}
+
+.Toastify__toast {
+  background-color: transparent !important; /* Make the default toast wrapper transparent */
+  padding: 0 !important; /* Remove default padding from toast wrapper */
+  box-shadow: none !important; /* Remove default shadow from toast wrapper */
+  border-radius: 0 !important; /* Remove default border radius from toast wrapper */
+  min-height: auto !important; /* Allow custom content to dictate height */
+  overflow: visible !important; /* Ensure custom content is fully visible */
+}
+
+/* Style for the progress bar that appears in the toast */
+.Toastify__progress-bar {
+  background: linear-gradient(to right, var(--ds-accent-red), rgba(255, 51, 51, 0.5)) !important;
+  height: 3px !important;
+  opacity: 0.8 !important;
+}
+
+/* Any other global styles */
+html, #root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:focus {
+  outline: none;
+}
+/* src/index.css */
+
+/* --- Global CSS Variables (Themed) --- */
+/* These variables should be defined ONCE in your primary global CSS file */
+:root {
+  /* Default variables, will be overridden by specific theme classes on body */
+  --main-bg-start-rgb: 25, 30, 45; /* Neon Dark default */
+  --main-bg-end-rgb: 10, 15, 25;
+  --card-bg-rgb: 35, 45, 65;
+  --text-color: #e0e7ff;
+  --primary-color: #6a82fb;
+  --primary-color-rgb: 106, 130, 251;
+  --secondary-color: #a4b0be;
+  --accent-color: #00e0ff;
+  --accent-color-rgb: 0, 224, 255;
+  --input-bg-rgb: 25, 30, 45;
+  --border-color: rgba(106, 130, 251, 0.3);
+  --border-color-rgb: 106, 130, 251;
+  --error-color: #ff4757;
+  --error-color-rgb: 255, 71, 87;
+  --success-color: #2ed573;
+  --success-color-rgb: 46, 213, 115;
+  --warning-color: #ffa502;
+  --warning-color-rgb: 255, 165, 2;
+  --box-shadow-color: rgba(0, 0, 0, 0.5);
+  --glass-blur: 15px; /* Default blur for glassmorphism */
+
+  /* Premium UI Enhancements (General values for the entire app) */
+  --font-family-body: 'Poppins', sans-serif; /* Example font */
+  --font-family-heading: 'Montserrat', sans-serif; /* Example font */
+  --border-radius-large: 20px;
+  --border-radius-medium: 12px;
+  --transition-speed: 0.3s;
+  --button-gradient-angle: 90deg;
+}
+
+/* --- Global Body Styles --- */
+body {
+  margin: 0;
+  font-family: var(--font-family-body);
+  background-color: var(--ds-dark-bg); /* Applies theme background to body */
+  color: var(--ds-light-text); /* Applies theme text color to body */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- CRITICAL react-toastify Overrides --- */
+/* These rules target the specific classes injected by react-toastify
+   and force them to be visually transparent/invisible or to adopt your theme.
+   Use !important to ensure they override react-toastify's default styles.
+*/
+
+/* Main container for all toasts */
+.Toastify__toast-container {
+  z-index: 999999 !important; /* Ensure toasts are always on top */
+  padding: 0px !important; /* Remove default padding from container */
+}
+
+/* Individual toast wrapper (this is often the "blank box") */
+.Toastify__toast {
+  background-color: transparent !important; /* Make the default toast wrapper transparent */
+  padding: 0 !important; /* Remove default padding from toast wrapper */
+  box-shadow: none !important; /* Remove default shadow from toast wrapper */
+  border-radius: 0 !important; /* Remove default border radius from toast wrapper */
+  min-height: auto !important; /* Allow custom content to dictate height */
+  overflow: hidden !important; /* Important for border-radius and clean edges */
+  margin-bottom: 0px !important; /* Control spacing with margin on custom content */
+}
+
+/* For specific toast types - ensure their default backgrounds are also transparent */
+.Toastify__toast--info,
+.Toastify__toast--success,
+.Toastify__toast--warning,
+.Toastify__toast--error,
+.Toastify__toast--default {
+  background-color: transparent !important;
+}
+
+/* The inner body of the toast where custom content is placed */
+.Toastify__toast-body {
+  background-color: transparent !important; /* Ensure the content wrapper is also transparent */
+  padding: 0 !important; /* Remove react-toastify's default inner padding */
+  color: inherit !important; /* Inherit text color from our custom content */
+}
+
+/* Styling for the progress bar */
+.Toastify__progress-bar {
+  background: linear-gradient(to right, var(--primary-color), var(--accent-color)) !important;
+  height: 3px !important;
+  opacity: 0.9 !important;
+}
+
+/* Any other global styles */
+html, #root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:focus {
+  outline: none;
+}

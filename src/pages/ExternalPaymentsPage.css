@@ -1,0 +1,155 @@
+/* Animated Gradient Background */
+.external-payments-wrapper {
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  background: linear-gradient(-45deg, #141e30, #243b55, #141e30, #0f2027);
+  background-size: 300% 300%;
+  animation: animateBG 20s ease infinite;
+  position: relative;
+  overflow-x: hidden;
+}
+
+@keyframes animateBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.external-logo {
+  width: 55px;
+  height: 55px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff9800;
+  transition: transform 0.3s ease;
+  margin-bottom: 15px;
+}
+.external-logo:hover {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.external-title {
+  text-align: center;
+  font-size: 30px;
+  color: #ffca28;
+  margin-bottom: 25px;
+  animation: slideDown 0.6s ease-in-out;
+}
+
+/* Form Style */
+.external-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+.external-form input,
+.external-form select {
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  transition: 0.3s ease;
+}
+.external-form input::placeholder {
+  color: #ccc;
+}
+.external-form input:focus,
+.external-form select:focus {
+  box-shadow: 0 0 10px #ff9800;
+}
+
+.external-form button {
+  padding: 12px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4);
+}
+.external-form button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+/* Table Records */
+.external-table {
+  max-width: 700px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  max-height: 400px;
+  overflow-y: auto;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.external-table h3 {
+  text-align: center;
+  color: #ffe082;
+  margin-bottom: 15px;
+}
+
+.external-table ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.external-table li {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border-left: 6px solid #ffffff33;
+  transition: 0.3s ease;
+}
+.external-table li:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.015);
+}
+.external-table li strong {
+  color: #ffe082;
+}
+.external-table li small {
+  display: block;
+  color: #ccc;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Credit/Debit Color Tag */
+.external-table li.credit {
+  border-left-color: #00e676;
+}
+.external-table li.debit {
+  border-left-color: #ff5252;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

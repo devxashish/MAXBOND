@@ -1,0 +1,264 @@
+/* AdminUserList.module.css */
+
+/* Reuse color palette from AdminPanel.module.css for consistency */
+:root {
+  --ds-dark-bg: #1A1A2E;
+  --ds-medium-bg: #16213E;
+  --ds-light-text: #E0E0E0;
+  --ds-accent-red: #E94560;
+  --ds-accent-purple: #723D47;
+  --ds-active-glow: #F6F6F6;
+  --ds-button-hover-bg: #533483;
+  --ds-header-flare-color: #ffd700;
+  --ds-border-color: #3f0071;
+}
+
+/* Main container for the list content. It should be transparent to show AdminPanel's video BG */
+.adminUserListContent {
+  width: 100%;
+  padding: 0; /* Padding is handled by AdminPanel's contentArea */
+  box-sizing: border-box;
+  /* No background here, it will be transparent */
+}
+
+/* Page Title - If used, but generally handled by AdminPanel's cardTitle now */
+/* .pageTitle {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  color: var(--ds-light-text);
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+} */
+
+/* Loading State */
+.loadingState {
+  text-align: center;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent */
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--ds-light-text);
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid var(--ds-accent-red); /* Demon Slayer accent */
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingState p {
+  font-size: 1.1rem;
+  color: var(--ds-light-text);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Error State */
+.errorState {
+  text-align: center;
+  padding: 24px;
+  background-color: rgba(233, 69, 96, 0.2); /* Light red transparent */
+  border: 1px solid var(--ds-accent-red);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--ds-light-text);
+}
+
+.errorMessageTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ds-light-text);
+  text-shadow: 0 0 5px var(--ds-accent-red);
+  margin-bottom: 8px;
+}
+
+.errorState p {
+  color: var(--ds-light-text);
+  margin-bottom: 15px;
+}
+
+.retryButton {
+  padding: 10px 24px;
+  background-color: var(--ds-accent-red);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.retryButton:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* No Users State */
+.noUsersState {
+  text-align: center;
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--ds-border-color);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--ds-light-text);
+}
+
+.noUsersTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ds-light-text);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  margin-bottom: 8px;
+}
+
+.noUsersState p {
+  color: var(--ds-light-text);
+}
+
+/* User List */
+.userList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.userListItem {
+  position: relative;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.08); /* Highly transparent background for list items */
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Light transparent border */
+  overflow: hidden;
+  will-change: transform, box-shadow;
+  backdrop-filter: blur(8px); /* Apply blur directly to list items */
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.userListItem:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 0 15px var(--ds-accent-red); /* Intense glow on hover */
+  transform: translateY(-5px) scale(1.02); /* Lift and enlarge on hover */
+  border-color: var(--ds-accent-red); /* Red border on hover */
+}
+
+.userListItem:active {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5), 0 0 10px var(--ds-accent-red);
+}
+
+.listItemBackground {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(233, 69, 96, 0.2) 0%, rgba(114, 61, 71, 0.2) 100%); /* Subtle transparent gradient */
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  z-index: 0;
+}
+
+.userListItem:hover .listItemBackground {
+  opacity: 1;
+}
+
+.listItemContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.userIconWrapper {
+  flex-shrink: 0;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2); /* More transparent for glass effect */
+  border-radius: 50%;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.userListItem:hover .userIconWrapper {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--ds-active-glow);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 10px var(--ds-active-glow);
+}
+
+.userIcon {
+  width: 35px;
+  height: 35px;
+  color: var(--ds-light-text); /* Icon color */
+  transition: color 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); /* Glow on icon */
+}
+
+.userListItem:hover .userIcon {
+  color: var(--ds-accent-red);
+  filter: drop-shadow(0 0 8px var(--ds-accent-red));
+}
+
+.userName {
+  font-weight: 700;
+  font-size: clamp(1.2rem, 4vw, 1.6rem); /* Responsive font size */
+  color: var(--ds-light-text);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8), 0 0 5px rgba(255,255,255,0.2); /* Stronger text shadow */
+  transition: color 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.userListItem:hover .userName {
+  color: var(--ds-active-glow); /* Brighter text on hover */
+  text-shadow: 1px 1px 5px rgba(0,0,0,1), 0 0 10px var(--ds-accent-red);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .loadingState, .errorState, .noUsersState {
+    padding: 15px;
+  }
+  .loadingState p, .errorState p, .noUsersState p {
+    font-size: 1rem;
+  }
+  .userListItem {
+    padding: 15px;
+    border-radius: 10px;
+  }
+  .userIconWrapper {
+    padding: 8px;
+  }
+  .userIcon {
+    width: 30px;
+    height: 30px;
+  }
+  .userName {
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+  }
+}

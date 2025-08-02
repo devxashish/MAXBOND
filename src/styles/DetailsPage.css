@@ -1,0 +1,98 @@
+/* src/styles/DetailsPage.css */
+
+/* General page container styling */
+.details-page-container {
+  padding: 24px;
+  background-color: #f8f9fa; /* Light background for the page */
+}
+
+/* Styles for quantity summary cards (if not using MUI Card directly) */
+/* .summary-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.summary-card-received {
+  color: #28a745; 
+}
+
+.summary-card-consumed {
+  color: #dc3545;
+}
+
+.summary-card-balance {
+  color: #007bff;
+} */
+
+/* Date range filter and export buttons section */
+.filter-export-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  align-items: center;
+}
+
+/* Styles for the transactions table */
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+.transactions-table th,
+.transactions-table td {
+  border: 1px solid #dddddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.transactions-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  position: sticky; /* Sticky header for the table */
+  top: 0;
+  z-index: 1; /* Ensures the header stays on top */
+}
+
+.transactions-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.transactions-table tbody tr:hover {
+  background-color: #e6f7ff;
+}
+
+/* Pagination container (if not using MUI pagination) */
+/* .pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+} */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .details-page-container {
+    padding: 16px;
+  }
+
+  .filter-export-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* .summary-cards-grid {
+    grid-template-columns: 1fr;
+  } */
+}

@@ -1,0 +1,919 @@
+/* src/styles/received-used.css */
+
+/* --- Root CSS Variables for Theming --- */
+:root {
+  /* Light Theme (iOS-like) */
+  --bg-primary: #f2f2f7; /* Overall page background - Light Gray */
+  --bg-secondary: #ffffff; /* Card/section background - White */
+  --text-primary: #1c1c1e; /* Main text color - Very Dark Gray/Black */
+  --text-secondary: #000000; /* LABELS, HEADERS - EXPLICITLY DARK BLACK IN LIGHT THEME */
+  --text-placeholder: #8e8e93; /* Placeholder text, inactive elements - Muted Gray */
+  --border-color: #e0e0e0; /* General border color - Light Gray */
+  --shadow-light: rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  --shadow-medium: rgba(0, 0, 0, 0.1); /* Medium shadow */
+  --shadow-strong: rgba(0, 0, 0, 0.06); /* Stronger shadow */
+
+  /* Accent Colors (Consistent across themes for branding, but adjusted for contrast) */
+  --accent-blue: #007aff; /* iOS Blue */
+  --accent-blue-hover: #005bb5; /* Darker Blue on hover */
+  --accent-orange: #ff9500; /* iOS Orange */
+  --accent-orange-hover: #cc7000;
+  --accent-red: #ff3b30; /* iOS Red */
+  --accent-red-hover: #cc0000;
+  --accent-green: #34c759; /* iOS Green */
+  --accent-green-hover: #21a144;
+
+  /* Specific element backgrounds/colors */
+  --neutral-gray: #d1d1d6; /* General light gray for buttons/elements */
+  --neutral-gray-hover: #c0c0c0;
+  --table-header-bg: #f8f8f8; /* Table header background - Off-White */
+  --table-row-hover: #eef4f9; /* Table row hover - Very Light Blue-Gray */
+  --success-message-bg: #e6ffe6; /* Light green for success background */
+  --success-message-text: #28a745; /* Dark green for success text */
+  --error-message-bg: #ffe6e6; /* Light red for error background */
+  --error-message-text: #dc3545; /* Dark red for error text */
+  --input-bg: #fefefe; /* Input field background - Near White */
+  --toggle-inactive: #ccc; /* Inactive toggle background */
+  --table-cell-bg: #ffffff; /* Default table cell background */
+
+  /* Specific SVG arrow for light theme (black arrow) */
+  --select-arrow-svg-light: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+}
+
+/* Dark Theme overrides */
+body.dark-theme {
+  --bg-primary: #1a1a1a; /* Overall page background - Darker Gray/Near Black */
+  --bg-secondary: #2a2a2a; /* Card/section background - Slightly Lighter Dark Gray */
+  --text-primary: #f8f8f8; /* Main text color - Off-White (for dark mode) */
+  --text-secondary: #e0e0e0; /* LABELS, HEADERS - LIGHT GRAY IN DARK THEME */
+  --text-placeholder: #7a7a7a; /* Placeholder text, inactive elements - Muted Dark Gray */
+  --border-color: #444444; /* General border color - Dark Gray */
+  --shadow-light: rgba(255, 255, 255, 0.05);
+  --shadow-medium: rgba(255, 255, 255, 0.1);
+  --shadow-strong: rgba(255, 255, 255, 0.06);
+
+  /* Accent Colors (Adjusted for dark mode visibility, slightly brighter) */
+  --accent-blue: #0a84ff;
+  --accent-blue-hover: #409cff;
+  --accent-orange: #ff9f0a;
+  --accent-orange-hover: #e08e00;
+  --accent-red: #ff453a;
+  --accent-red-hover: #e0322b;
+  --accent-green: #30d158;
+  --accent-green-hover: #21b34a;
+
+  /* Specific element backgrounds/colors for dark theme */
+  --neutral-gray: #48484a; /* Darker gray for neutral elements */
+  --neutral-gray-hover: #636366;
+  --table-header-bg: #3a3a3c; /* Table header background - Dark Gray */
+  --table-row-hover: #3a3a3c; /* Table row hover - Darker Gray */
+  --success-message-bg: #1c4d23; /* Darker green for success background */
+  --success-message-text: #66bb6a; /* Lighter green for success text */
+  --error-message-bg: #4d1c1c; /* Darker red for error background */
+  --error-message-text: #ef5350; /* Lighter red for error text */
+  --input-bg: #3a3a3c; /* Input field background - Dark Gray */
+  --toggle-inactive: #48484a; /* Darker gray for inactive toggle */
+  --table-cell-bg: #2a2a2a; /* Default table cell background in dark mode */
+
+  /* Specific SVG arrow for dark theme (white arrow) */
+  --select-arrow-svg-dark: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+}
+
+/* Basic Reset and Box Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    "SF Pro Display",
+    "SF Pro Text",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow:
+    0 4px 6px -1px var(--shadow-medium),
+    0 2px 4px -1px var(--shadow-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* --- Utility Section (for toggles) --- */
+.utility-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 15px;
+  padding: 15px 20px;
+  background-color: var(--table-header-bg); /* Use a slightly different background */
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: inset 0 1px 0 var(--shadow-light);
+}
+
+.calendar-toggle-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.theme-toggle-section {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--neutral-gray);
+  color: var(--text-secondary); /* This button's text color */
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--neutral-gray-hover);
+}
+
+
+/* Calendar Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-inactive);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white; /* Always white for the thumb */
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-blue);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--accent-blue);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+
+/* --- Section Styling --- */
+.transaction-section,
+.data-table-section {
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-bottom: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* --- Form Layout (Grid) --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary); /* LABELS: Use text-secondary */
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--text-primary);
+  background-color: var(--input-bg);
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out; /* Smooth transition for theme change */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.input-field::placeholder {
+  color: var(--text-placeholder); /* PLACEHOLDERS: Use text-placeholder */
+}
+
+.input-field:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 20%, transparent);
+  outline: none;
+}
+
+/* For selects with custom arrow */
+select.input-field {
+  background-image: var(--select-arrow-svg-light);
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+}
+
+body.dark-theme select.input-field {
+  background-image: var(--select-arrow-svg-dark);
+}
+
+
+/* --- React-Select Specific Styling --- */
+.react-select-container {
+  width: 100%;
+  font-size: 16px;
+}
+
+.react-select__control {
+  min-height: 44px !important;
+  border-color: var(--border-color) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
+  background-color: var(--input-bg) !important;
+}
+
+.react-select__control--is-focused {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 20%, transparent) !important;
+}
+
+.react-select__value-container {
+  padding: 0 15px;
+}
+
+.react-select__placeholder {
+  color: var(--text-placeholder) !important; /* React-Select Placeholder */
+}
+
+.react-select__single-value {
+  color: var(--text-primary) !important; /* React-Select Selected Value */
+}
+
+.react-select__indicator-separator {
+  background-color: var(--border-color) !important;
+}
+
+.react-select__dropdown-indicator {
+  color: var(--text-placeholder) !important; /* React-Select Dropdown Arrow */
+}
+
+.react-select__menu {
+  border-radius: 10px !important;
+  box-shadow:
+    0 4px 6px -1px var(--shadow-medium),
+    0 2px 4px -1px var(--shadow-strong) !important;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary) !important;
+}
+
+.react-select__option {
+  padding: 12px 15px !important;
+  font-size: 16px !important;
+  color: var(--text-primary) !important; /* React-Select Option Text */
+  background-color: transparent !important;
+}
+
+.react-select__option--is-focused {
+  background-color: var(--table-row-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.react-select__option--is-selected {
+  background-color: var(--accent-blue) !important;
+  color: #ffffff !important;
+}
+
+/* Specific styling for react-select in tables */
+.table-select-container .react-select__control {
+    min-height: 38px !important;
+    padding: 0 5px;
+}
+.table-select-container .react-select__value-container {
+    padding: 0 5px;
+}
+.table-select-container .react-select__placeholder,
+.table-select-container .react-select__single-value {
+    font-size: 14px !important;
+}
+
+
+/* --- Date Picker Styling --- */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.date-picker-input {
+  cursor: pointer;
+}
+
+
+/* --- Tab Navigation --- */
+.tab-container {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 4px var(--shadow-light),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  margin-bottom: 25px;
+  background-color: var(--border-color);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 15px 20px;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+  color: var(--text-placeholder); /* Inactive tab text */
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+  position: relative;
+}
+
+.tab-button.active {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--accent-blue) 20%, transparent);
+}
+
+.tab-button:not(.active):hover {
+  background-color: var(--neutral-gray-hover);
+}
+
+/* --- Buttons --- */
+.primary-button {
+  grid-column: 1 / -1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.primary-button:hover:not(:disabled) {
+  background-color: var(--accent-blue-hover);
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Action buttons for tables and edit forms */
+.action-buttons-group {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.edit-button {
+  background-color: var(--accent-orange);
+  color: #ffffff;
+}
+
+.edit-button:hover:not(:disabled) {
+  background-color: var(--accent-orange-hover);
+}
+
+.delete-button {
+  background-color: var(--accent-red);
+  color: #ffffff;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: var(--accent-red-hover);
+}
+
+.save-button {
+  background-color: var(--accent-green);
+  color: #ffffff;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: var(--accent-green-hover);
+}
+
+.cancel-button {
+  background-color: var(--neutral-gray);
+  color: var(--text-secondary); /* Cancel button text */
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: var(--neutral-gray-hover);
+}
+
+.action-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Tables --- */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 15px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 600px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 15px;
+  color: var(--text-primary); /* ALL TABLE TEXT: Uses text-primary */
+  background-color: var(--table-cell-bg); /* Default cell background */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.data-table th {
+  background-color: var(--table-header-bg);
+  font-weight: 600;
+  color: var(--text-secondary); /* Table header text */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--table-row-hover);
+}
+
+/* Table specific input fields for editing */
+.table-input-field {
+  padding: 8px 10px;
+  font-size: 14px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+}
+
+/* --- Messages --- */
+.message {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.loading-message {
+  background-color: var(--neutral-gray);
+  color: var(--text-secondary);
+}
+
+.error-message {
+  background-color: var(--error-message-bg);
+  color: var(--error-message-text);
+}
+
+.success-message {
+  background-color: var(--success-message-bg);
+  color: var(--success-message-text);
+}
+
+.no-data-message {
+  color: var(--text-placeholder);
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* --- Dividers --- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 25px 0;
+}
+
+/* --- Inventory Summary Specifics --- */
+.inventory-summary-section .data-table th,
+.inventory-summary-section .data-table td {
+  text-align: center;
+}
+
+.stock-status {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
+.stock-status:not(.negative) {
+  background-color: var(--success-message-bg);
+  color: var(--success-message-text);
+}
+
+.stock-status.negative {
+  background-color: var(--error-message-bg);
+  color: var(--error-message-text);
+}
+
+/* Custom remark colors for transferred items */
+.remark-red {
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.remark-green {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.current-default-site {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  text-align: center;
+}
+
+.current-default-site strong {
+  color: var(--accent-blue);
+}
+
+
+/* Styles for Add/Manage Items section (copied from AddPage) */
+.add-page-styles .add-section,
+.add-page-styles .edit-section {
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 var(--shadow-light);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.add-page-styles .sub-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-secondary); /* Sub-section titles */
+    margin-bottom: 15px;
+}
+
+.add-page-styles .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: var(--text-primary); /* Checkbox label text */
+    cursor: pointer;
+}
+
+.add-page-styles .checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--accent-blue); /* Style checkbox itself */
+}
+
+.add-page-styles .variants-section,
+.add-page-styles .units-section {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    background-color: var(--table-header-bg); /* Lighter background for nested sections */
+}
+
+.add-page-styles .variant-input-group,
+.add-page-styles .unit-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.add-page-styles .add-variant-button,
+.add-page-styles .remove-variant-button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.add-page-styles .add-variant-button {
+    background-color: var(--accent-green);
+    color: #ffffff;
+    border: none;
+    margin-top: 10px;
+}
+
+.add-page-styles .add-variant-button:hover:not(:disabled) {
+    background-color: var(--accent-green-hover);
+}
+
+.add-page-styles .remove-variant-button {
+    background-color: var(--accent-red);
+    color: #ffffff;
+    border: none;
+    line-height: 1; /* For 'x' character */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.add-page-styles .remove-variant-button:hover:not(:disabled) {
+    background-color: var(--accent-red-hover);
+}
+
+.add-page-styles .add-item-final-button {
+    margin-top: 20px;
+}
+
+/* Styles for the edit list in "Manage Your Items" */
+.add-page-styles .edit-list {
+    list-style: none;
+    padding: 0;
+}
+
+.add-page-styles .edit-list-item {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: var(--input-bg); /* Use input background for list items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping of content */
+    gap: 10px;
+}
+
+.add-page-styles .edit-list-item .item-name {
+    flex-grow: 1;
+    font-weight: 600;
+    color: var(--text-secondary); /* Edit list item name */
+}
+
+.add-page-styles .edit-list-item .item-variants-summary,
+.add-page-styles .edit-list-item .item-creator-info {
+    font-size: 0.9em;
+    color: var(--text-placeholder); /* Summary and creator info */
+    font-weight: normal;
+}
+
+.add-page-styles .edit-form-expanded {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.add-page-styles .edit-form-expanded .full-width-checkbox {
+    grid-column: 1 / -1; /* Make checkbox span full width in edit form */
+}
+
+.add-page-styles .edit-form-expanded .action-buttons-group.full-width-group {
+    grid-column: 1 / -1;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 10px;
+}
+
+/* Searchable dropdown specific overrides for clarity */
+.searchable-dropdown-wrapper .input-field.select-field {
+  padding-right: 35px; /* Make space for the clear button */
+}
+
+.searchable-dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.searchable-dropdown-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%; /* Position below the input */
+  left: 0;
+  right: 0;
+  background-color: var(--bg-secondary); /* Matches card background */
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100; /* Ensure it appears above other content */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.searchable-dropdown-option-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: var(--text-primary); /* Use text-primary for options */
+}
+
+.searchable-dropdown-option-item:hover {
+  background-color: var(--table-row-hover); /* Use table row hover for options */
+}
+
+.no-matches-message {
+  padding: 10px 15px;
+  color: var(--text-placeholder);
+  font-style: italic;
+  font-size: 0.9em;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  text-align: center;
+}
+
+.clear-search-button {
+  position: absolute;
+  right: 10px; /* Position next to the input */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: var(--text-placeholder); /* Gray 'x' */
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+}
+
+.clear-search-button:hover {
+  color: var(--text-secondary); /* Darker on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .page-container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .primary-button {
+    grid-column: auto;
+  }
+
+  .data-table {
+    min-width: 100%;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .action-buttons-group {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tab-container {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    border-radius: 8px;
+    margin-bottom: 5px;
+  }
+  .tab-button:last-child {
+    margin-bottom: 0;
+  }
+
+  .utility-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .theme-toggle-section, .calendar-toggle-section {
+    width: 100%;
+    justify-content: center;
+  }
+}

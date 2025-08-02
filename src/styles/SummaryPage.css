@@ -1,0 +1,320 @@
+/* SummaryPage.css */
+
+/* Base styles for the entire page */
+body {
+    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f0f2f5; /* Light grey background */
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    -moz-osx-font-smoothing: grayscale; /* Smoother fonts */
+}
+
+.summary-page-container {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #ffffff; /* White background for the main content area */
+    border-radius: 12px; /* Rounded corners for the container */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typography */
+.MuiTypography-h4 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1c1c1e; /* Darker text for headings */
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.MuiTypography-h5 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c2c2e;
+    margin-bottom: 15px;
+}
+
+.MuiTypography-h6 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #3a3a3c;
+}
+
+.MuiTypography-body2 {
+    color: #6a6a6f;
+}
+
+/* Cards (Digital Signature & Report Filters) */
+.MuiCard-root {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04); /* Lighter shadow for cards */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.MuiCard-root:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.MuiCardContent-root {
+    padding: 20px;
+}
+
+/* Form Controls (Select, TextField, DatePicker) */
+.MuiFormControl-root,
+.MuiTextField-root {
+    margin-bottom: 18px !important; /* Consistent spacing */
+}
+
+.MuiInputLabel-root {
+    color: #8e8e93 !important; /* Muted label color */
+    font-size: 15px;
+}
+
+.MuiOutlinedInput-root {
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #007aff !important; /* iOS blue focus */
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2); /* Soft blue glow on focus */
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: #e0e0e0 !important; /* Light grey border */
+}
+
+.MuiSelect-select {
+    padding: 12px 14px;
+}
+
+/* DatePicker specific adjustments */
+.MuiDatePicker-root .MuiInputBase-root {
+    border-radius: 8px;
+}
+
+/* Buttons */
+.MuiButton-contained {
+    background-color: #007aff; /* iOS blue */
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-transform: none; /* Keep natural casing */
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.25);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.MuiButton-contained:hover {
+    background-color: #005bb8; /* Darker blue on hover */
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+    transform: translateY(-1px);
+}
+
+.MuiButton-contained:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 122, 255, 0.2);
+}
+
+.MuiButton-outlined {
+    border-color: #007aff;
+    color: #007aff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-transform: none;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.MuiButton-outlined:hover {
+    background-color: rgba(0, 122, 255, 0.05);
+}
+
+.MuiButton-contained.Mui-disabled,
+.MuiButton-outlined.Mui-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: auto; /* Allow hover to still show cursor */
+}
+
+/* Export Buttons Group */
+.export-buttons-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 15px; /* Spacing between buttons */
+    justify-content: flex-end; /* Align to end on larger screens */
+    margin-top: 25px;
+}
+
+/* Table styles */
+.site-report-container {
+    padding: 25px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stock-table .MuiTableContainer-root {
+    border-radius: 10px;
+    overflow: hidden; /* Ensures sticky header and borders work well */
+    border: 1px solid #e0e0e0; /* Light border around the table container */
+}
+
+.stock-table .MuiTableHead-root {
+    background-color: #f8f8f8; /* Very light grey header background */
+}
+
+.stock-table .MuiTableCell-head {
+    font-weight: 600;
+    color: #4a4a4d; /* Slightly darker text for headers */
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.stock-table .MuiTableCell-body {
+    padding: 10px 16px;
+    color: #3a3a3c;
+    border-bottom: 1px solid #f0f0f0; /* Lighter border for body cells */
+}
+
+.stock-table .MuiTableRow-root:last-child .MuiTableCell-body {
+    border-bottom: none; /* No border for the last row */
+}
+
+.stock-table .MuiTableRow-root:hover {
+    background-color: #fbfbfb; /* Subtle hover effect for rows */
+}
+
+/* Signature Preview */
+.signature-preview {
+    max-width: 150px;
+    max-height: 80px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    object-fit: contain;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+/* Export Status Message */
+.export-status-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+    background-color: #e6f7ff; /* Light blue for success */
+    color: #007aff; /* Darker blue for success text */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    animation: fadeAndSlideIn 0.5s ease-out forwards;
+}
+
+.export-status-message.error {
+    background-color: #ffebeb; /* Light red for error */
+    color: #d32f2f; /* Darker red for error text */
+}
+
+@keyframes fadeAndSlideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .summary-page-container {
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }
+
+    .MuiTypography-h4 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .MuiTypography-h5 {
+        font-size: 20px;
+    }
+
+    .MuiCardContent-root {
+        padding: 15px;
+    }
+
+    .export-buttons-group {
+        justify-content: center; /* Center buttons on mobile */
+        gap: 10px;
+    }
+
+    .MuiButton-contained,
+    .MuiButton-outlined {
+        width: 100%; /* Full width buttons on small screens */
+        max-width: 280px; /* Max width to prevent overly wide buttons */
+    }
+
+    .stock-table .MuiTableCell-head,
+    .stock-table .MuiTableCell-body {
+        padding: 8px 12px; /* Smaller padding for table cells */
+        font-size: 13px; /* Slightly smaller font for table */
+    }
+
+    .stock-table .MuiTableCell-body:nth-of-type(4), /* Total Received */
+    .stock-table .MuiTableCell-body:nth-of-type(5), /* Total Consumed */
+    .stock-table .MuiTableCell-body:nth-of-type(6) { /* Balance */
+        white-space: nowrap; /* Prevent wrapping for numbers */
+    }
+
+    /* Adjust date pickers for mobile */
+    .MuiBox-root > .MuiFormControl-root {
+        width: 100%;
+    }
+}
+
+/* Optional: Add a subtle frosted glass effect for modern feel (requires -webkit-backdrop-filter for Safari/iOS) */
+/* This can be applied to elements like cards or modals if you have them */
+/* .MuiCard-root {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+} */
+
+/* Specific warning message styling */
+.MuiBox-root[sx*="warning.light"] {
+    background-color: #fff3cd; /* Light warning yellow */
+    color: #856404; /* Darker warning text */
+    border: 1px solid #ffeeba;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.MuiBox-root[sx*="warning.light"] .MuiButton-outlined {
+    border-color: #856404;
+    color: #856404;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.MuiBox-root[sx*="warning.light"] .MuiButton-outlined:hover {
+    background-color: rgba(133, 100, 4, 0.05);
+}
+
+/* Export status box */
+.MuiBox-root[sx*="@keyframes fadeInOut"] {
+    position: relative; /* Needed for animation to work */
+    overflow: hidden; /* Hide content during animation */
+}

@@ -1,0 +1,204 @@
+/* src/styles/CustomToast.module.css */
+
+/*
+   IMPORTANT:
+   Global CSS variables (like --main-bg-start-rgb, --primary-color, etc.)
+   must be defined in your src/styles/ThemeContext.css (or src/index.css)
+   and loaded globally in index.js.
+*/
+
+/* --- Global Overrides for react-toastify's default elements --- */
+/* These are CRITICAL to strip away react-toastify's default styling and prevent "blank boxes" */
+
+/* The main container for all toasts */
+.Toastify__toast-container {
+  z-index: 999999 !important; /* Ensure it's on top of everything */
+  padding: 0px !important; /* Remove default padding */
+  /* You can adjust global positions here if needed, e.g.,
+  top: 15px !important;
+  right: 15px !important;
+  */
+}
+
+/* The individual toast wrapper element */
+.Toastify__toast {
+  background-color: transparent !important; /* Make the default toast wrapper transparent */
+  box-shadow: none !important; /* Remove default shadow */
+  border-radius: 0 !important; /* Remove default border radius */
+  padding: 0 !important; /* Remove default padding */
+  overflow: hidden !important; /* Important for border-radius and clean edges */
+  min-height: auto !important; /* Let content dictate height */
+  margin-bottom: 0px !important; /* Control spacing with margin on .toastContent */
+}
+
+/* Specific toast types - ensure their default backgrounds are also transparent */
+.Toastify__toast--info,
+.Toastify__toast--success,
+.Toastify__toast--warning,
+.Toastify__toast--error,
+.Toastify__toast--default {
+  background-color: transparent !important;
+}
+
+/* The inner body of the toast where custom content is placed */
+.Toastify__toast-body {
+  background-color: transparent !important; /* Ensure the content wrapper is also transparent */
+  padding: 0 !important; /* Remove react-toastify's default inner padding */
+  color: inherit !important; /* Inherit text color from our custom content */
+}
+
+/* Styling for the progress bar */
+.Toastify__progress-bar {
+  background: linear-gradient(to right, var(--primary-color), var(--accent-color)) !important;
+  height: 3px !important;
+  opacity: 0.9 !important;
+}
+
+/* --- Premium iOS-Level Custom Toast Content Styling --- */
+
+.toastContent {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px; /* Slightly refined padding */
+  margin: 8px; /* Spacing between toasts */
+  border-radius: 12px; /* iOS-like rounded corners */
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-family-body);
+  color: var(--text-color);
+  background-color: rgba(var(--card-bg-rgb), 0.9); /* Card background with slight transparency */
+  backdrop-filter: blur(var(--glass-blur, 10px)); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
+  border: 1px solid rgba(var(--border-color-rgb), 0.2); /* Subtle border */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0px 1px rgba(255, 255, 255, 0.05) inset; /* Soft outer shadow, subtle inner glow */
+  animation: slideInFromTop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Smooth entrance */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 280px; /* Minimum width for small screens */
+  max-width: 380px; /* Max width for larger screens */
+}
+
+/* Animation for toast entrance */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* General hover effect */
+.toastContent:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Icon Section --- */
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.toastIcon {
+  font-size: 1.8em; /* Adjusted icon size */
+  line-height: 1;
+}
+
+/* --- Text Content --- */
+.textContent {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.toastTitle {
+  font-weight: 700; /* Bolder title */
+  font-size: 1.05em;
+  margin-bottom: 4px;
+  color: white; /* Ensure title is bright */
+  letter-spacing: 0.2px;
+}
+
+.toastMessage {
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: rgba(var(--text-color-rgb, 224, 231, 255), 0.85); /* Slightly muted message text */
+}
+
+/* --- Close Button --- */
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(var(--text-color-rgb, 224, 231, 255), 0.6); /* Muted color */
+  font-size: 1.4em;
+  font-weight: bold;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.closeButton:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+/* --- Type-Specific Styling (Colors & Special Effects) --- */
+
+.info.toastContent {
+  border-left: 4px solid var(--primary-color, #6a82fb); /* Primary color accent */
+}
+
+.success.toastContent {
+  border-left: 4px solid var(--success-color, #2ed573); /* Success color accent */
+}
+
+.warning.toastContent {
+  border-left: 4px solid var(--warning-color, #ffa502); /* Warning color accent */
+}
+
+.error.toastContent {
+  /* Urgent Alert Styling - more aggressive */
+  border-left: 4px solid var(--error-color, #ff4757);
+  box-shadow: 0 0 15px rgba(var(--error-color-rgb), 0.6), 0 0 25px rgba(var(--error-color-rgb), 0.3); /* Stronger glow */
+  animation: urgentGlow 1.5s infinite alternate ease-in-out; /* Pulsing glow for urgent alerts */
+}
+
+@keyframes urgentGlow {
+  0% { box-shadow: 0 0 10px rgba(var(--error-color-rgb), 0.5), 0 0 20px rgba(var(--error-color-rgb), 0.2); }
+  100% { box-shadow: 0 0 20px rgba(var(--error-color-rgb), 0.8), 0 0 35px rgba(var(--error-color-rgb), 0.4); }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 600px) {
+  .toastContent {
+    max-width: 90vw; /* Take more width on small screens */
+    padding: 12px 15px;
+    font-size: 0.9em;
+    margin: 6px;
+  }
+  .iconContainer {
+    margin-right: 10px;
+  }
+  .toastIcon {
+    font-size: 1.5em;
+  }
+  .toastTitle {
+    font-size: 1em;
+  }
+  .toastMessage {
+    font-size: 0.85em;
+  }
+  .closeButton {
+    font-size: 1.2em;
+    top: 5px;
+    right: 5px;
+  }
+}

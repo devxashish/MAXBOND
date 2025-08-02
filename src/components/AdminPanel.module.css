@@ -1,0 +1,796 @@
+/* AdminPanel.module.css */
+
+/* Demon Slayer inspired color palette & fonts */
+:root {
+  --ds-dark-bg: #1A1A2E;     /* Dark Blue-Violet for main background */
+  --ds-medium-bg: #16213E;   /* Slightly lighter dark background for elements */
+  --ds-light-text: #E0E0E0;  /* Light gray for general text */
+  --ds-accent-red: #E94560;  /* Vibrant Red for accents/active states */
+  --ds-accent-purple: #723D47; /* Muted red-purple for subtle accents */
+  --ds-active-glow: #F6F6F6; /* Near white for intense glow */
+  --ds-button-hover-bg: #533483; /* Deeper purple for button hover */
+  --ds-header-flare-color: #ffd700; /* Gold for flares */
+  --ds-border-color: #3f0071; /* Dark purple for borders */
+}
+
+/* Base Styles for the whole panel */
+.adminPanelContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  color: var(--ds-light-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Background Video Styling */
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  /* REDUCED BLUR FOR BETTER QUALITY */
+  filter: brightness(0.6) saturate(1.2) blur(1px); /* Less blur for sharper video */
+  transition: filter 0.5s ease;
+}
+
+/* Video Overlay for better readability */
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: -1;
+  backdrop-filter: blur(2px); /* Still subtle blur on overlay */
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Custom Image Background */
+.customImageBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: brightness(0.7) saturate(1.1);
+}
+
+/* Solid Dark Background */
+.solidDarkBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ds-dark-bg); /* Use the darkest theme color */
+    z-index: -2;
+}
+
+/* Header Section */
+.header {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.headerTitle {
+  font-size: clamp(2.5rem, 8vw, 3.8rem);
+  font-weight: 900;
+  color: var(--ds-light-text);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+.headerFlare {
+  position: absolute;
+  right: -30px;
+  top: -10px;
+  font-size: 0.8em;
+  color: var(--ds-header-flare-color);
+  animation: flarePulse 1.5s infinite alternate;
+}
+
+/* Decorative Blades/Lines for header */
+.headerBladeLeft, .headerBladeRight {
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 5px;
+  background: linear-gradient(to right, transparent, var(--ds-accent-red));
+  transform: translateY(-50%) rotate(15deg);
+  box-shadow: 0 0 8px var(--ds-accent-red);
+  animation: bladeFlow 3s ease-in-out infinite;
+  z-index: 2;
+}
+
+.headerBladeLeft {
+  left: -60px;
+  transform-origin: right center;
+  animation-delay: 0.2s;
+}
+
+.headerBladeRight {
+  right: -60px;
+  transform-origin: left center;
+  transform: translateY(-50%) rotate(-15deg);
+  background: linear-gradient(to left, transparent, var(--ds-accent-red));
+  animation-delay: 0.5s;
+}
+
+/* Tab Navigation */
+.tabNav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 900px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding: 10px;
+  /* Make background more transparent */
+  background-color: rgba(0, 0, 0, 0.2); /* Increased transparency */
+  border-radius: 15px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Keep some inner shadow */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: fadeInUp 0.8s ease-out 0.2s;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Increased transparency */
+}
+
+.tabButton {
+  flex: 1 1 auto;
+  min-width: 120px;
+  /* Make button background transparent or very subtle */
+  background: rgba(255, 255, 255, 0.05); /* Increased transparency */
+  border: 2px solid rgba(255, 255, 255, 0.08); /* Increased transparency */
+  color: var(--ds-light-text);
+  padding: 12px 18px;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.tabButton:hover {
+  background: rgba(255, 255, 255, 0.1); /* Slightly more visible on hover */
+  border-color: var(--ds-accent-red);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 15px var(--ds-accent-red);
+}
+
+/* Active Tab Styling - Focused on animation, not solid fill */
+.tabButton.active {
+  /* Remove background-color and linear-gradient here */
+  background: rgba(255, 255, 255, 0.1); /* Keep a very subtle base transparent color */
+  border-color: var(--ds-active-glow); /* Bright border */
+  color: var(--ds-active-glow); /* Bright text */
+  /* Enhance box-shadow animation to create the pulsing transparent glow */
+  box-shadow: 0 0 20px var(--ds-accent-red), 0 0 30px var(--ds-accent-red) inset,
+              0 0 5px var(--ds-active-glow); /* Add a lighter inner glow */
+  transform: translateY(-2px);
+  animation: activeTabPulse 1.5s infinite alternate, activeTextPulse 1.5s infinite alternate; /* New animation for text */
+}
+
+/* Content Area - This is the main container for tab content */
+.contentArea {
+  width: 100%;
+  max-width: 900px;
+  background-color: rgba(255, 255, 255, 0.1); /* Increased transparency */
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7), 0 10px 30px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Increased transparency */
+  animation: fadeIn 1s ease-out 0.4s forwards;
+  opacity: 0;
+  flex-grow: 1;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Placeholder for content not yet implemented (e.g., ManageRolesPage) */
+.placeholderContent {
+    background-color: rgba(255, 255, 255, 0.15); /* Increased transparency */
+    padding: 20px;
+    border-radius: 10px;
+    color: var(--ds-light-text);
+    text-align: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1); /* Increased transparency */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .adminPanelContainer {
+    padding: 15px;
+  }
+
+  .headerTitle {
+    font-size: clamp(2rem, 7vw, 3rem);
+  }
+
+  .headerBladeLeft, .headerBladeRight {
+    width: 30px;
+    left: -40px;
+    right: -40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminPanelContainer {
+    padding: 10px;
+  }
+
+  .tabNav {
+    gap: 8px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+
+  .tabButton {
+    min-width: 100px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes flarePulse {
+  0% {
+    transform: scale(1) translateY(-10px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1) translateY(-12px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(-10px);
+    opacity: 0.8;
+  }
+}
+
+/* Active Tab Pulse - More emphasis on shadow and border */
+@keyframes activeTabPulse {
+  0% {
+    box-shadow: 0 0 15px var(--ds-accent-red), 0 0 25px var(--ds-accent-red) inset, 0 0 5px var(--ds-active-glow);
+    border-color: var(--ds-active-glow);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--ds-accent-red), 0 0 40px var(--ds-accent-red) inset, 0 0 10px var(--ds-active-glow);
+    border-color: var(--ds-accent-red); /* Border pulsates too */
+  }
+  100% {
+    box-shadow: 0 0 15px var(--ds-accent-red), 0 0 25px var(--ds-accent-red) inset, 0 0 5px var(--ds-active-glow);
+    border-color: var(--ds-active-glow);
+  }
+}
+
+/* New animation for active tab text/icon */
+@keyframes activeTextPulse {
+  0% {
+    color: var(--ds-active-glow);
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  }
+  50% {
+    color: white; /* Brighter white */
+    text-shadow: 0 0 10px rgba(255,255,255,1);
+  }
+  100% {
+    color: var(--ds-active-glow);
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+  }
+}
+
+
+@keyframes bladeFlow {
+    0%, 100% {
+        transform: translateY(-50%) rotate(15deg) scaleX(1);
+        box-shadow: 0 0 8px var(--ds-accent-red);
+    }
+    50% {
+        transform: translateY(-50%) rotate(15deg) scaleX(1.1);
+        box-shadow: 0 0 15px var(--ds-accent-red);
+    }
+}
+
+/* For right blade, adjust rotation and background */
+.headerBladeRight {
+  animation: bladeFlowRight 3s ease-in-out infinite;
+}
+
+@keyframes bladeFlowRight {
+    0%, 100% {
+        transform: translateY(-50%) rotate(-15deg) scaleX(1);
+        box-shadow: 0 0 8px var(--ds-accent-red);
+    }
+    50% {
+        transform: translateY(-50%) rotate(-15deg) scaleX(1.1);
+        box-shadow: 0 0 15px var(--ds-accent-red);
+    }
+}
+
+/* --- CommunicationDashboard specific styles --- */
+.communicationDashboardContainer {
+    padding: 25px; /* p-6 */
+    background-color: rgba(255, 255, 255, 0.1); /* bg-gray-700 with transparency - Increased transparency */
+    border-radius: 10px; /* rounded-lg */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* shadow-md */
+    max-width: 900px; /* max-w-2xl, adjusted for wider layout */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* space-y-8 */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Increased transparency */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.dashboardTitle {
+    font-size: 2.5rem; /* text-3xl */
+    font-weight: 600; /* font-semibold */
+    margin-bottom: 20px; /* mb-6 */
+    color: var(--ds-light-text); /* text-white */
+    text-align: center;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.sectionCard {
+    background-color: rgba(255, 255, 255, 0.08); /* bg-gray-800 with transparency - Increased transparency */
+    padding: 25px; /* p-6 */
+    border-radius: 10px; /* rounded-lg */
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6); /* shadow-lg */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Increased transparency */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.infoText {
+    font-size: 0.95rem; /* text-sm */
+    color: var(--ds-light-text); /* text-gray-400 */
+    margin-bottom: 15px; /* mb-4 */
+    line-height: 1.5;
+}
+
+.noteText {
+    font-weight: 700; /* font-bold */
+    color: var(--ds-accent-red); /* text-red-400 */
+}
+
+.inputGroup {
+    margin-bottom: 20px; /* mb-6 */
+}
+
+.inputGroupSmallMargin {
+    margin-bottom: 15px; /* mb-4 */
+}
+
+.inputLabel {
+    display: block;
+    color: var(--ds-light-text); /* text-gray-300 */
+    font-size: 0.9rem; /* text-sm */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 8px; /* mb-2 */
+}
+
+.textInput {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* shadow */
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* border border-gray-600 */
+    border-radius: 8px; /* rounded */
+    width: 100%; /* w-full */
+    padding: 10px 15px; /* py-2 px-3 */
+    color: #1a1a2e; /* text-gray-900, changed to dark theme text */
+    line-height: 1.5; /* leading-tight */
+    outline: none;
+    background-color: var(--ds-light-text); /* bg-gray-300, changed to a lighter background for input */
+    transition: all 0.3s ease;
+}
+
+.textInput:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(114, 61, 71, 0.5); /* focus:ring-2 focus:ring-blue-500, using ds-accent-purple */
+    border-color: var(--ds-accent-red);
+}
+
+.textInput.resizable {
+    resize: vertical; /* resize-none changed to vertical for textarea */
+    min-height: 100px; /* h-24 */
+}
+
+.actionButton {
+    margin-top: 15px; /* mt-4 */
+    width: 100%; /* w-full */
+    background-color: #3f0071; /* bg-blue-600, custom dark purple */
+    color: #fff; /* text-white */
+    font-weight: 700; /* font-bold */
+    padding: 10px 15px; /* py-2 px-4 */
+    border-radius: 8px; /* rounded-lg */
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* focus:shadow-outline */
+    transition: all 0.3s ease-in-out; /* transition duration-300 ease-in-out */
+    transform: scale(1); /* transform */
+    border: none;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.actionButton:hover {
+    background-color: #533483; /* hover:bg-blue-700, deeper purple */
+    transform: scale(1.03); /* hover:scale-105 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 10px var(--ds-active-glow);
+}
+
+.actionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: scale(1);
+}
+
+.alertButton {
+    width: 100%; /* w-full */
+    background-color: var(--ds-accent-red); /* bg-yellow-600, using accent red */
+    color: #fff; /* text-white */
+    font-weight: 700; /* font-bold */
+    padding: 10px 15px; /* py-2 px-4 */
+    border-radius: 8px; /* rounded-lg */
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* focus:shadow-outline */
+    transition: all 0.3s ease-in-out; /* transition duration-300 ease-in-out */
+    transform: scale(1); /* transform */
+    border: none;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.alertButton:hover {
+    background-color: #f75c75; /* hover:bg-yellow-700, lighter red */
+    transform: scale(1.03); /* hover:scale-105 */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 10px var(--ds-active-glow);
+}
+
+.alertButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: scale(1);
+}
+
+.userIdDisplay {
+    font-size: 0.875rem; /* text-sm */
+    color: var(--ds-light-text); /* text-gray-400 */
+    margin-top: 20px; /* mt-4 */
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.userIdMono {
+    font-family: monospace; /* font-mono */
+    word-break: break-all; /* break-all */
+    color: var(--ds-active-glow); /* text-gray-300 */
+}
+
+
+/* BackgroundSettings Styles */
+.backgroundSettingsContainer {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.15); /* Increased transparency */
+    border-radius: 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Increased transparency */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.backgroundSettingsContainer label {
+    color: var(--ds-light-text);
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.backgroundSettingsContainer select,
+.backgroundSettingsContainer input[type="file"] {
+    background-color: rgba(255, 255, 255, 0.15); /* Increased transparency */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Increased transparency */
+    color: var(--ds-light-text);
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backgroundSettingsContainer select:hover,
+.backgroundSettingsContainer input[type="file"]:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slightly more visible on hover */
+    border-color: var(--ds-accent-red);
+}
+
+.backgroundSettingsContainer select option {
+    background-color: var(--ds-medium-bg); /* For dropdown options */
+    color: var(--ds-light-text);
+}
+
+/* Hide default file input button, style custom button if needed */
+.backgroundSettingsContainer input[type="file"]::file-selector-button {
+  display: none;
+}
+
+.backgroundSettingsContainer input[type="file"] {
+  width: auto; /* Adjust width for file input */
+}
+
+/* Specific button style for file input if custom button is used */
+/* This is an example, you might create a span and style it as a button */
+.fileInputLabel {
+    display: inline-block;
+    background-color: var(--ds-button-hover-bg);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.fileInputLabel:hover {
+    background-color: #6a4f9a;
+}
+/* src/components/AdminPanel.module.css */
+
+/* Global Variables - Ensure these are defined in src/index.css (your global root CSS) */
+/*
+:root {
+  --ds-dark-bg: #1a1a1a;
+  --ds-medium-bg: #2a2a2a;
+  --ds-light-text: #f0f0f0;
+  --ds-accent-red: #ff3333;
+  --ds-border-color: #444;
+  --ds-glowing-red: #ff0000;
+  --ds-glowing-shadow: rgba(255, 0, 0, 0.6);
+  --ds-transition-speed: 0.3s ease;
+}
+*/
+
+.adminPanelContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  /* NEW: Dark Purple Theme Background */
+  background: linear-gradient(135deg, #2c004a, #1a002e); /* Dark purple gradient */
+  color: #e0e0f0; /* Lighter text for dark background */
+}
+
+/* REMOVED: .backgroundVideo styles */
+/* REMOVED: .videoOverlay styles */
+
+.header {
+  text-align: center;
+  padding: 30px 20px;
+  /* NEW: Header background */
+  background-color: rgba(30, 0, 50, 0.9); /* Darker purple semi-transparent */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid #8a2be2; /* Accent purple border */
+}
+
+.headerTitle {
+  font-size: 3.5em;
+  color: #f0f0f0; /* White/light text */
+  margin: 0;
+  text-shadow: 0 0 10px rgba(138, 43, 226, 0.7); /* Purple glow */
+  position: relative;
+  z-index: 1;
+  font-family: 'Times New Roman', serif;
+  letter-spacing: 3px;
+}
+
+.headerFlare {
+  color: #8a2be2; /* Purple flare */
+  font-size: 1.2em;
+  margin-left: 10px;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { text-shadow: 0 0 5px rgba(138, 43, 226, 0.5); transform: scale(1); }
+  100% { text-shadow: 0 0 20px rgba(138, 43, 226, 0.9); transform: scale(1.05); }
+}
+
+.headerBladeLeft,
+.headerBladeRight {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, transparent, #8a2be2, transparent); /* Purple gradient */
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.headerBladeRight {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+
+.tabNav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* NEW: Tab nav background */
+  background-color: rgba(20, 0, 35, 0.8); /* Even darker purple semi-transparent */
+  padding: 15px 10px;
+  border-bottom: 1px solid #6a0dad; /* Darker purple border */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  gap: 10px;
+}
+
+.tabButton {
+  /* NEW: Button background */
+  background-color: rgba(40, 0, 70, 0.7); /* Medium purple */
+  color: #e0e0f0; /* Light text */
+  border: 1px solid #8a2be2; /* Purple border */
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  background-color: rgba(138, 43, 226, 0.2); /* Lighter purple hover */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tabButton.active {
+  background-color: #8a2be2; /* Active tab background */
+  color: white;
+  border-color: #8a2be2;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.9); /* Stronger purple glow for active tab */
+  transform: translateY(-3px);
+}
+
+.tabButton .tabIcon {
+  font-size: 1.2em;
+}
+
+.contentArea {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* No specific background here, will inherit from adminPanelContainer */
+}
+
+.cardTitle {
+  color: #f0f0f0; /* Light text */
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  padding-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .headerTitle {
+    font-size: 2.5em;
+  }
+  .tabNav {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  .tabButton {
+    width: 90%;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+  }
+  .contentArea {
+    padding: 15px;
+  }
+  .cardTitle {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerTitle {
+    font-size: 1.8em;
+  }
+  .tabButton {
+    font-size: 0.9em;
+    padding: 8px 10px;
+  }
+  .cardTitle {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+}

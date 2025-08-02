@@ -1,0 +1,84 @@
+/* src/components/SharePromptModal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.share-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.share-modal-content h2 {
+    font-size: 1.5rem;
+    color: #0f2e53;
+    margin-bottom: 10px;
+}
+
+.share-modal-content p {
+    color: #4a5568;
+    margin-bottom: 25px;
+}
+
+.share-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.share-option-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background-color: #f0f7ff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f2e53;
+    transition: all 0.2s ease;
+}
+
+.share-option-button:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.share-option-button .share-icon {
+    font-size: 1.5rem;
+}
+
+.close-modal-button {
+    margin-top: 20px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #4a5568;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.close-modal-button:hover {
+    background-color: #e2e8f0;
+}
