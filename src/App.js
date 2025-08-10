@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import AllSitesExportPage from './pages/AllSitesExportPage';
 // Custom Contexts and Components
 import { ThemeProvider } from './contexts/ThemeContext';
 import Signup from './components/Signup';
@@ -407,7 +407,7 @@ function AppContent() {
                             <Route path="/dashboard/daily-report" element={user ? <DailyReport /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/weekly-report" element={user ? <WeeklyReport /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/monthly-report" element={user ? <MonthlyReportPage /> : <Navigate to="/login" replace />} />
-
+                            <Route path="/dashboard/monthly-report" element={user ? <AllSitesExportPage /> : <Navigate to="/login" replace />} />
                             {/* Admin-Only Routes (conditional rendering based on user email) */}
                             <Route path="/admin" element={user && adminEmailSet.has(user.email) ? <AdminPanel /> : <Navigate to="/login" replace />} />
                             <Route path="/admin/user-attendance/:userId" element={user && adminEmailSet.has(user.email) ? <UserLocationMap /> : <Navigate to="/login" replace />} />
