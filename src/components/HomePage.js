@@ -207,41 +207,45 @@ const HomePage = () => {
         const currentMediaType = getBackgroundMediaType(activeBackgroundMediaUrl);
         setIsMediaLoading(true);
         setShowPlayOverlay(false);
-        if (currentMediaType === 'video') {
-            if (activeBackgroundMediaUrl === DEFAULT_VIDEO_BACKGROUND && defaultVideoPreloader.current && defaultVideoPreloader.current.readyState >= 3) {
-                mediaElement.currentTime = defaultVideoPreloader.current.currentTime;
-                mediaElement.play().then(() => {
-                    setIsMediaLoading(false);
-                    setShowPlayOverlay(false);
-                }).catch(e => {
-                    console.warn("Default video autoplay blocked instantly:", e);
-                    setIsMediaLoading(false);
-                    setShowPlayOverlay(true);
-                });
-            } else {
-                mediaElement.load();
-                const playPromise = mediaElement.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
+        
+        // Fix: Added check for mediaElement before attempting to load/play
+        if (mediaElement) {
+            if (currentMediaType === 'video') {
+                if (activeBackgroundMediaUrl === DEFAULT_VIDEO_BACKGROUND && defaultVideoPreloader.current && defaultVideoPreloader.current.readyState >= 3) {
+                    mediaElement.currentTime = defaultVideoPreloader.current.currentTime;
+                    mediaElement.play().then(() => {
                         setIsMediaLoading(false);
                         setShowPlayOverlay(false);
-                    }).catch(error => {
-                        console.warn("Video autoplay blocked or error for custom URL:", error);
+                    }).catch(e => {
+                        console.warn("Default video autoplay blocked instantly:", e);
                         setIsMediaLoading(false);
                         setShowPlayOverlay(true);
-                        console.log("Failed to play custom background video. It might be incompatible or autoplay blocked. Continuing theme cycle.");
                     });
+                } else {
+                    mediaElement.load();
+                    const playPromise = mediaElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            setIsMediaLoading(false);
+                            setShowPlayOverlay(false);
+                        }).catch(error => {
+                            console.warn("Video autoplay blocked or error for custom URL:", error);
+                            setIsMediaLoading(false);
+                            setShowPlayOverlay(true);
+                            console.log("Failed to play custom background video. It might be incompatible or autoplay blocked. Continuing theme cycle.");
+                        });
+                    }
                 }
+            } else if (currentMediaType === 'image') {
+                setIsMediaLoading(false);
+            } else if (currentMediaType === 'youtube' || currentMediaType === 'iframe') {
+                setIsMediaLoading(false);
+            } else {
+                setIsMediaLoading(false);
+                console.warn("Unsupported or invalid background media URL detected. Falling back to Dark Theme.");
+                setCurrentTheme(DARK_THEME_KEY);
+                setActiveBackgroundMediaUrl(DEFAULT_VIDEO_BACKGROUND);
             }
-        } else if (currentMediaType === 'image') {
-            setIsMediaLoading(false);
-        } else if (currentMediaType === 'youtube' || currentMediaType === 'iframe') {
-            setIsMediaLoading(false);
-        } else {
-            setIsMediaLoading(false);
-            console.warn("Unsupported or invalid background media URL detected. Falling back to Dark Theme.");
-            setCurrentTheme(DARK_THEME_KEY);
-            setActiveBackgroundMediaUrl(DEFAULT_VIDEO_BACKGROUND);
         }
     }, [currentTheme, activeBackgroundMediaUrl]);
 
@@ -568,6 +572,12 @@ const HomePage = () => {
                 <Link to="/fuel-entry" className={styles.navButton}>
                     <i className="fas fa-gas-pump"></i>
                     <span className={styles.text}>Fuel Entry</span>
+                </Link>
+
+                {/* Yahan naya button add kiya gaya hai */}
+                <Link to="/all-sites-inventory" className={`${styles.navButton} ${styles.navButton_5}`}>
+                    <i className="fas fa-boxes icon"></i>
+                    <span className={styles.text}>All Sites Inventory</span>
                 </Link>
             </div>
 

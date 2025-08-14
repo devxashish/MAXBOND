@@ -758,3 +758,323 @@
     font-size: 14px;
   }
 }
+/* HomePage.module.css */
+
+/* --- GLOBAL THEME VARIABLES (Default/Fallback) --- */
+/* These variables are the base definitions. Specific themes override them. */
+:root {
+    /* --- General Colors & Backgrounds --- */
+    --general-bg-gradient-start: #f5f7fa;
+    --general-bg-gradient-end: #c3cfe2;
+    --main-bg-color: #f8f9fa;
+
+    --text-color: #343a40;
+    --text-color-muted: #6c757d;
+    --text-color-strong: #212529;
+    --heading-color: #343a40;
+    --label-color: #555;
+    --link-color: #007bff;
+    --link-hover-color: #0056b3;
+
+    /* --- Header Specifics --- */
+    --header-bg: #ffffff;
+    --header-border-color: #e9ecef;
+    --header-text-color: #343a40;
+    --header-title-color: #343a40;
+    --header-icon-color: #007bff;
+    --header-icon-hover-color: #0056b3;
+    --header-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+
+    /* --- Button Colors --- */
+    --nav-button-bg: #ffffff;
+    --nav-button-border: #e0e0e0;
+    --nav-button-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    --nav-button-text-color: #1c1c1e;
+
+    /* --- Card / Loading Message Specifics --- */
+    --card-bg: #ffffff;
+    --card-border: #e0e0e0;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    /* --- Special Elements --- */
+    --golden-icon-color: #ffd700;
+    --golden-icon-glow: rgba(255, 215, 0, 0.6);
+    --accent-red: #E94560;
+    --active-glow: #F6F6F6;
+    --header-flare-color: #ffd700;
+
+    /* --- Transitions & Effects --- */
+    --glass-blur-amount: 0px;
+    --theme-transition-speed: 0.4s;
+    --theme-ease-fn: ease-in-out;
+
+    /* --- Homepage Navigation Button Specific Colors --- */
+    --hp-button-dashboard-bg: linear-gradient(135deg, #E94560, #FF7F50);
+    --hp-button-site-stock-bg: linear-gradient(135deg, #4CAF50, #2E8B57);
+    --hp-button-attendance-bg: linear-gradient(135deg, #8E44AD, #9B59B6);
+    --hp-button-fuel-entry-bg: linear-gradient(135deg, #F39C12, #E67E22);
+    --hp-button-all-sites-inventory-bg: linear-gradient(135deg, #00C6FF, #0072FF);
+    
+    /* --- Demon Slayer specific colors --- */
+    --ds-light-text: #E0E0E0;
+    --ds-active-glow: #F6F6F6;
+    --ds-header-flare-color: #ffd700;
+    --ds-glass-blur: 10px;
+
+    /* Specific RGBA values for video theme transparency */
+    --video-theme-header-bg-value: rgba(0, 0, 0, 0.2);
+    --video-theme-header-border-value: rgba(255, 255, 255, 0.1);
+    --video-theme-header-shadow-value: 0 3px 6px rgba(0, 0, 0, 0.15);
+    
+    --video-theme-overlay-bg-value: rgba(0, 0, 0, 0.6);
+    --video-theme-overlay-gradient-start-value: rgba(0,0,0,0.7);
+    --video-theme-overlay-gradient-end-value: rgba(0,0,0,0.5);
+
+    --video-theme-nav-button-bg-value: rgba(255, 255, 255, 0.08);
+    --video-theme-nav-button-border-value: rgba(255, 255, 255, 0.1);
+    --video-theme-nav-button-shadow-value: 0 5px 15px rgba(0, 0, 0, 0.4);
+    --video-theme-nav-button-hover-bg-value: rgba(255, 255, 255, 0.2);
+    
+    --video-theme-loading-bg-value: rgba(0,0,0,0.5);
+    --video-theme-loading-shadow-value: 0 0 10px rgba(0,0,0,0.7);
+
+    /* --- Media Input Modal --- */
+    --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+    --modal-bg: #1A1A2E;
+    --modal-text-color: #E0E0E0;
+    --modal-border-color: rgba(255,255,255,0.2);
+    --modal-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --modal-input-bg: #16213E;
+    --modal-input-border: rgba(255,255,255,0.3);
+    --modal-input-text: #E0E0E0;
+    --modal-button-bg: #E94560;
+    --modal-button-hover-bg: #533483;
+    --modal-button-text: #FFFFFF;
+    --modal-close-btn-color: #E0E0E0;
+    --modal-close-btn-hover-color: #FF0000;
+}
+
+/* --- LIGHT THEME (iOS Premium Gray) --- */
+.light-theme {
+    /* ... (existing styles) ... */
+    --nav-button-text-color: #495057;
+}
+
+/* --- DARK THEME --- */
+.dark-theme {
+    /* ... (existing styles) ... */
+    --nav-button-text-color: #e0e0e0;
+}
+
+/* --- VIDEO THEME --- */
+.video-theme {
+    /* ... (existing styles) ... */
+    --nav-button-text-color: var(--ds-light-text);
+}
+
+
+/* --- General Layout & Backgrounds --- */
+.homePageContainer {
+    /* ... (existing styles) ... */
+}
+
+/* Background Video/Image Styling */
+.backgroundMedia {
+    /* ... (existing styles) ... */
+}
+
+/* Video/Image Overlay for better readability */
+.mediaOverlay {
+    /* ... (existing styles) ... */
+}
+
+/* Header Section */
+.header {
+    /* ... (existing styles) ... */
+}
+
+/* Header Content */
+.headerContent {
+    /* ... (existing styles) ... */
+}
+
+.headerTitle {
+    /* ... (existing styles) ... */
+}
+
+/* Light Theme Header Title Shadow */
+.light-theme .headerTitle {
+    /* ... (existing styles) ... */
+}
+.dark-theme .headerTitle {
+    /* ... (existing styles) ... */
+}
+.video-theme .headerTitle {
+    /* ... (existing styles) ... */
+}
+
+.userInfoHeader {
+    /* ... (existing styles) ... */
+}
+
+.welcomeMessage {
+    /* ... (existing styles) ... */
+}
+
+.readyMessage {
+    /* ... (existing styles) ... */
+}
+
+.backButton {
+    /* ... (existing styles) ... */
+}
+
+/* --- THEME TOGGLE BUTTON (Golden Home Icon) --- */
+.headerIcon {
+    /* ... (existing styles) ... */
+}
+.headerIcon:hover {
+    /* ... (existing styles) ... */
+}
+
+/* Main Navigation Grid for HomePage */
+.mainButtonsGrid {
+    /* ... (existing styles) ... */
+}
+
+/* Individual Navigation Button */
+.navButton {
+    /* ... (existing styles) ... */
+}
+.navButton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-red);
+    border-color: var(--accent-red);
+}
+.navButton:active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+.navButton .icon {
+    font-size: 32px;
+    margin-bottom: 0;
+    color: var(--active-glow);
+    transition: color 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
+}
+.navButton .text {
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--nav-button-text-color);
+    transition: color 0.3s ease;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+.navButton:hover .text {
+    color: var(--active-glow);
+}
+
+/* Specific button background overrides based on theme */
+
+/* Light theme */
+.light-theme .navButton:nth-child(1) { background: var(--hp-button-dashboard-bg); }
+.light-theme .navButton:nth-child(2) { background: var(--hp-button-site-stock-bg); }
+.light-theme .navButton:nth-child(3) { background: var(--hp-button-attendance-bg); }
+.light-theme .navButton:nth-child(4) { background: var(--hp-button-fuel-entry-bg); }
+.light-theme .navButton:nth-child(5) { background: var(--hp-button-all-sites-inventory-bg); }
+
+/* Dark theme */
+.dark-theme .navButton:nth-child(1) { background: var(--hp-button-dashboard-bg); }
+.dark-theme .navButton:nth-child(2) { background: var(--hp-button-site-stock-bg); }
+.dark-theme .navButton:nth-child(3) { background: var(--hp-button-attendance-bg); }
+.dark-theme .navButton:nth-child(4) { background: var(--hp-button-fuel-entry-bg); }
+.dark-theme .navButton:nth-child(5) { background: var(--hp-button-all-sites-inventory-bg); }
+
+/* Video theme */
+.video-theme .navButton:nth-child(1),
+.video-theme .navButton:nth-child(2),
+.video-theme .navButton:nth-child(3),
+.video-theme .navButton:nth-child(4),
+.video-theme .navButton:nth-child(5) {
+    background: var(--video-theme-nav-button-bg-value);
+    border: 1px solid var(--video-theme-nav-button-border-value);
+}
+
+.video-theme .navButton:hover:nth-child(1),
+.video-theme .navButton:hover:nth-child(2),
+.video-theme .navButton:hover:nth-child(3),
+.video-theme .navButton:hover:nth-child(4),
+.video-theme .navButton:hover:nth-child(5) {
+    background: var(--video-theme-nav-button-hover-bg-value);
+}
+
+/* Loading Message */
+.loadingMessage {
+    /* ... (existing styles) ... */
+}
+
+/* Styling for the media loading spinner */
+.backgroundMediaLoading {
+    /* ... (existing styles) ... */
+}
+.spinner {
+    /* ... (existing styles) ... */
+}
+@keyframes spin {
+    /* ... (existing styles) ... */
+}
+
+/* --- Media Input Modal Styles (New & Premium) --- */
+.mediaInputModalOverlay {
+    /* ... (existing styles) ... */
+}
+.mediaInputModalContent {
+    /* ... (existing styles) ... */
+}
+@keyframes fadeInScale {
+    /* ... (existing styles) ... */
+}
+.mediaInputModalContent h3 {
+    /* ... (existing styles) ... */
+}
+.modalInputField {
+    /* ... (existing styles) ... */
+}
+.modalInputField:focus {
+    /* ... (existing styles) ... */
+}
+.modalButton {
+    /* ... (existing styles) ... */
+}
+.modalButton:hover {
+    /* ... (existing styles) ... */
+}
+.modalOrDivider {
+    /* ... (existing styles) ... */
+}
+.modalCloseButton {
+    /* ... (existing styles) ... */
+}
+.modalCloseButton:hover {
+    /* ... (existing styles) ... */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .headerTitle { font-size: clamp(1.8em, 6vw, 2.5em); }
+  .headerIcon { font-size: 24px; width: 40px; height: 40px; }
+  .mainButtonsGrid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; padding: 20px; }
+  .navButton { height: 110px; font-size: 15px; max-width: 160px; }
+  .navButton .icon { font-size: 28px; }
+  .navButton .text { font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .homePageContainer { padding: 10px; }
+  .header { padding: 10px 15px; }
+  .headerTitle { font-size: clamp(1.5em, 5vw, 2em); }
+  .headerIcon { font-size: 20px; padding-right: 0; width: 35px; height: 35px; }
+  .mainButtonsGrid { grid-template-columns: 1fr; gap: 15px; padding: 15px; }
+  .navButton { max-width: 280px; height: 100px; font-size: 14px; }
+  .navButton .icon { font-size: 24px; }
+  .navButton .text { font-size: 14px; }
+}

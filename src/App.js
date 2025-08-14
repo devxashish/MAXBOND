@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, app } from "./firebase"; // Import 'app' from firebase.js
 import { getMessaging, getToken, onMessage } from "firebase/messaging"; // Import getMessaging, getToken, onMessage
 import ADMIN_EMAILS from "./constants/adminEmails"; // Assuming this file exists and contains admin emails
-
+import SiteInventoryPage from "./components/SiteInventoryPage";
 // Material-UI Imports
 import {
     ThemeProvider as MuiThemeProvider,
@@ -406,6 +406,7 @@ function AppContent() {
                             <Route path="/dashboard/export" element={user ? <ExportPage /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/daily-report" element={user ? <DailyReport /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/weekly-report" element={user ? <WeeklyReport /> : <Navigate to="/login" replace />} />
+                            <Route path="/all-sites-inventory" element={user ? <SiteInventoryPage />  : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/monthly-report" element={user ? <MonthlyReportPage /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/monthly-report" element={user ? <AllSitesExportPage /> : <Navigate to="/login" replace />} />
                             {/* Admin-Only Routes (conditional rendering based on user email) */}

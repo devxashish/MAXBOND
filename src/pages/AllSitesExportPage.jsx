@@ -70,13 +70,10 @@ import { unitConversionRates, getUnitCategory, convertUnit } from "../utils/unit
 // Apply jspdf-autotable plugin for creating tables in PDF
 applyPlugin(jsPDF);
 
-/**
- * AllSitesExportPage component to export data from all sites into a single PDF or Excel file.
- * The PDF will have a separate page for each site, and the Excel file will have a separate sheet for each site.
- */
 const AllSitesExportPage = () => {
     const [userId, setUserId] = useState('');
     const [userName, setUserName] = useState('');
+    const [userRoles, setUserRoles] = useState([]);
     const [sites, setSites] = useState([]);
     const [items, setItems] = useState([]);
     const [allTransactions, setAllTransactions] = useState([]);
@@ -88,7 +85,6 @@ const AllSitesExportPage = () => {
     const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
     const [storagePermission, setStoragePermission] = useState(false);
 
-    // New states for site selection
     const [selectedSites, setSelectedSites] = useState([]);
     const [isAllSitesMode, setIsAllSitesMode] = useState(true);
     const [isSiteSelectionDialogOpen, setIsSiteSelectionDialogOpen] = useState(false);
@@ -98,7 +94,8 @@ const AllSitesExportPage = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
 
-    // Handler to close the custom snackbar
+    const isItemManager = userRoles.includes('Item Manager');
+
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -106,23 +103,40 @@ const AllSitesExportPage = () => {
         setSnackbar({ ...snackbar, open: false });
     };
 
-    /**
-     * Fetches all necessary data (sites, items, transactions) from Firebase.
-     * Uses 'uid' to ensure that only the current user's data is fetched.
-     * @param {string} uid The current user's ID.
-     */
     const fetchAllData = useCallback(async (uid) => {
         setLoading(true);
         try {
-            // Use Promise.all to fetch all data concurrently
-            const [sitesSnapshot, itemsSnapshot, variantsSnapshot, unitsSnapshot, transactionsSnapshot, sigDoc] = await Promise.all([
+            const [sitesSnapshot, itemsSnapshot, variantsSnapshot, unitsSnapshot] = await Promise.all([
                 getDocs(collection(db, 'sites')),
                 getDocs(collection(db, 'items')),
                 getDocs(collection(db, 'itemVariants')),
                 getDocs(collection(db, 'itemUnits')),
-                getDocs(query(collection(db, 'users', uid, 'transfers'))), // Here we use the user's UID to fetch only their data
-                getDoc(doc(db, 'users', uid, 'profile', 'signature')),
             ]);
+
+            // Fetch all transfers for all users only if the user is an Item Manager
+            const allTransfers = [];
+            if (isItemManager) {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const transferPromises = usersSnapshot.docs.map(userDoc =>
+                    getDocs(collection(db, 'users', userDoc.id, 'transfers'))
+                );
+                const allTransfersSnapshots = await Promise.all(transferPromises);
+                allTransfersSnapshots.forEach(snapshot => {
+                    snapshot.docs.forEach(doc => {
+                        allTransfers.push({
+                            id: doc.id,
+                            ...doc.data(),
+                            date: doc.data().timestamp?.toDate ? doc.data().timestamp.toDate() : new Date(),
+                        });
+                    });
+                });
+            } else {
+                setSnackbar({ open: true, message: 'Access denied. You do not have the required role to view this page.', severity: 'error' });
+                setLoading(false);
+                return;
+            }
+
+            const sigDoc = await getDoc(doc(db, 'users', uid, 'profile', 'signature'));
 
             const fetchedSites = sitesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
             const fetchedItems = itemsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -138,31 +152,36 @@ const AllSitesExportPage = () => {
 
             setSites(fetchedSites);
             setItems(allItemsData);
-            setAllTransactions(transactionsSnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-                date: doc.data().timestamp?.toDate ? doc.data().timestamp.toDate() : new Date(),
-            })));
+            setAllTransactions(allTransfers);
             setSignatureURL(sigDoc.exists() ? sigDoc.data().url : null);
+
         } catch (error) {
             console.error('Error fetching all data:', error);
             setSnackbar({ open: true, message: 'Failed to load data. Check permissions.', severity: 'error' });
         } finally {
             setLoading(false);
         }
-    }, [db]);
+    }, [db, isItemManager]);
 
-    // Effect to handle user authentication state changes
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUserId(user.uid);
                 try {
-                    const userProfileDoc = await getDoc(doc(db, 'profiles', user.uid));
-                    setUserName(userProfileDoc.exists() ? userProfileDoc.data().name || user.displayName : user.displayName || 'User');
+                    const userProfileDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userProfileDoc.exists()) {
+                        const userData = userProfileDoc.data();
+                        setUserName(userData.name || user.displayName || 'User');
+                        setUserRoles(userData.roles || []);
+                    } else {
+                        setUserName(user.displayName || 'User');
+                        setUserRoles([]);
+                    }
                 } catch (profileError) {
                     console.error("Error fetching user profile:", profileError);
                     setUserName(user.displayName || 'User');
+                    setUserRoles([]);
                 }
             } else {
                 setUserId('');
@@ -174,7 +193,6 @@ const AllSitesExportPage = () => {
         return () => unsubscribe();
     }, [navigate, db]);
 
-    // Effect to fetch data only after the user ID is available
     useEffect(() => {
         const setupPermissionsAndFetchData = async () => {
             if (isCapacitorApp()) {
@@ -192,20 +210,23 @@ const AllSitesExportPage = () => {
                 }
             }
 
-            if (userId) {
-                fetchAllData(userId);
+            if (userId && userRoles.length > 0) {
+                if (isItemManager) {
+                    fetchAllData(userId);
+                } else {
+                    setLoading(false);
+                    setSnackbar({ open: true, message: 'Access denied. You do not have the required role to view this page.', severity: 'error' });
+                }
+            } else if (userId) {
+                setLoading(false); // User logged in but roles not loaded yet.
             } else {
                 setLoading(false);
             }
         };
 
         setupPermissionsAndFetchData();
-    }, [userId, fetchAllData]);
+    }, [userId, userRoles, isItemManager, fetchAllData]);
 
-    /**
-     * Toggles the selection state of a site in the dialog.
-     * @param {string} siteId The ID of the site to toggle.
-     */
     const handleSiteToggle = (siteId) => {
         setSelectedSites(prevSelected => {
             const currentIndex = prevSelected.indexOf(siteId);
@@ -221,13 +242,6 @@ const AllSitesExportPage = () => {
         });
     };
 
-    /**
-     * Calculates item totals for all sites within a specified date range.
-     * @param {Array} transactionsToProcess List of all transactions.
-     * @param {Date} filterStartDate Start date for filtering.
-     * @param {Date} filterEndDate End date for filtering.
-     * @returns {Object} An object keyed by siteId, containing site-specific summaries.
-     */
     const calculateAllSitesTotals = useCallback((transactionsToProcess, filterStartDate = null, filterEndDate = null) => {
         const siteItemTotals = {};
         const filteredTxns = transactionsToProcess.filter(t => {
@@ -238,12 +252,11 @@ const AllSitesExportPage = () => {
             return inDateRange;
         });
 
-        // First, extract total quantities and transfer info for all sites
         const tempSiteData = {};
         sites.forEach(site => {
             tempSiteData[site.id] = {
                 siteName: site.name,
-                isTransferSite: false, // Flag to track if this is a transfer-out site
+                isTransferSite: false,
                 items: {}
             };
         });
@@ -280,14 +293,12 @@ const AllSitesExportPage = () => {
                 tempSiteData[siteId].items[itemKey].totalQty += quantityInBase;
                 tempSiteData[siteId].items[itemKey].availableQty -= quantityInBase;
                 tempSiteData[siteId].items[itemKey].sendQty += quantityInBase;
-                tempSiteData[siteId].isTransferSite = true; // Mark site as a transfer-out site
-
+                tempSiteData[siteId].isTransferSite = true;
                 const destinationSiteName = sites.find(s => s.id === t.siteTo)?.name || 'Unknown Site';
                 tempSiteData[siteId].items[itemKey].remarks.push(`Sent to: ${destinationSiteName}`);
             }
         });
 
-        // Format the final summary object
         const finalSummary = {};
         for (const siteId in tempSiteData) {
             const siteData = tempSiteData[siteId];
@@ -299,12 +310,10 @@ const AllSitesExportPage = () => {
                 };
                 for (const itemKey in siteData.items) {
                     const itemSummary = siteData.items[itemKey];
-                    // Convert units back to display unit
                     const itemConfig = items.find(i => i.id === itemKey.split('-')[0]);
                     const itemDisplayUnit = itemConfig?.unit || 'pcs';
                     const category = getUnitCategory(itemDisplayUnit);
                     const baseUnit = category ? unitConversionRates[category].base : itemDisplayUnit;
-
                     if (baseUnit !== itemDisplayUnit) {
                         itemSummary.totalQty = convertUnit(itemSummary.totalQty, baseUnit, itemDisplayUnit);
                         itemSummary.availableQty = convertUnit(itemSummary.availableQty, baseUnit, itemDisplayUnit);
@@ -334,7 +343,6 @@ const AllSitesExportPage = () => {
         
         const summary = calculateAllSitesTotals(allTransactions, exportStartDate, exportEndDate);
         
-        // Filter the summary to only include selected sites
         const filteredSummary = {};
         siteIdsToExport.forEach(siteId => {
             if(summary[siteId]) {
@@ -345,12 +353,6 @@ const AllSitesExportPage = () => {
         return filteredSummary;
     }, [allTransactions, sites, exportStartDate, exportEndDate, calculateAllSitesTotals, isAllSitesMode, selectedSites]);
 
-    /**
-     * Saves the file to the device's filesystem and initiates a share dialog.
-     * @param {Blob} blob The file data as a Blob.
-     * @param {string} fileName The name of the file to save.
-     * @returns {string} The filename.
-     */
     const saveFile = async (blob, fileName) => {
         if (!isCapacitorApp()) {
             const url = window.URL.createObjectURL(blob);
@@ -363,7 +365,6 @@ const AllSitesExportPage = () => {
             window.URL.revokeObjectURL(url);
             return fileName;
         }
-
         try {
             const base64Data = await new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -371,24 +372,20 @@ const AllSitesExportPage = () => {
                 reader.onerror = reject;
                 reader.readAsDataURL(blob);
             });
-
             await Filesystem.writeFile({
                 path: fileName,
                 data: base64Data,
                 directory: Directory.Documents,
                 recursive: true
             });
-
             const fileUriResult = await Filesystem.getUri({ directory: Directory.Documents, path: fileName });
             const fileUri = fileUriResult.uri;
-
             await Share.share({
                 title: 'Exported Report',
                 text: `Here is your report: ${fileName}`,
                 url: fileUri,
                 dialogTitle: 'Save/Share Report',
             });
-
             return fileName;
         } catch (error) {
             console.error("Error saving file via Capacitor Filesystem:", error);
@@ -396,10 +393,6 @@ const AllSitesExportPage = () => {
         }
     };
 
-    /**
-     * A wrapper function to handle the export process, including permissions and status updates.
-     * @param {Function} exporterFunction The function that generates the file (PDF or Excel).
-     */
     const handleExportWrapper = async (exporterFunction) => {
         if (Object.keys(allSitesSummary).length === 0 || !Object.values(allSitesSummary).some(site => site.items.length > 0)) {
             setSnackbar({ open: true, message: "No data available to export for the selected filters.", severity: 'warning' });
@@ -419,11 +412,8 @@ const AllSitesExportPage = () => {
                 }
                 setStoragePermission(true);
             }
-
             await new Promise(resolve => setTimeout(resolve, 1000));
-
             const fileNameResult = await exporterFunction();
-
             setSnackbar({
                 open: true,
                 message: isCapacitorApp()
@@ -443,34 +433,25 @@ const AllSitesExportPage = () => {
         }
     };
 
-    /**
-     * Generates a multi-page PDF report with each site on a new page.
-     */
     const generatePDFForAllSites = async () => {
         const docPdf = new jsPDF();
         docPdf.setFontSize(16);
-
         const actualExportStartDate = exportStartDate ? exportStartDate.toDate() : null;
         const actualExportEndDate = exportEndDate ? exportEndDate.toDate() : null;
         const formattedStartDate = actualExportStartDate ? actualExportStartDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A';
         const formattedEndDate = actualExportEndDate ? actualExportEndDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A';
-
         const docWidth = docPdf.internal.pageSize.getWidth();
         const bottomMargin = 20;
-
         const siteIds = Object.keys(allSitesSummary);
         if (siteIds.length === 0) {
             throw new Error("No data available to export.");
         }
-
         siteIds.forEach((siteId, index) => {
             if (index > 0) {
                 docPdf.addPage();
             }
-
             const siteData = allSitesSummary[siteId];
             const siteName = siteData.siteName;
-
             let yOffset = 10;
             docPdf.text(siteName, docWidth / 2, yOffset, { align: 'center' });
             yOffset += 8;
@@ -484,10 +465,9 @@ const AllSitesExportPage = () => {
             let summaryTableColumns = [];
             let summaryTableRows = [];
             let qtyColumnIndex;
-
             if (siteData.isTransferSite) {
                 summaryTableColumns = ["Sr. No.", "Item Name", "Available Qty", "Sent Qty", "Remarks"];
-                qtyColumnIndex = 2; // "Available Qty" is at index 2
+                qtyColumnIndex = 2;
                 let srNo = 1;
                 siteData.items.forEach(item => {
                     summaryTableRows.push([
@@ -500,7 +480,7 @@ const AllSitesExportPage = () => {
                 });
             } else {
                 summaryTableColumns = ["Sr. No.", "Item Name", "Total Qty", "Remarks"];
-                qtyColumnIndex = 2; // "Total Qty" is at index 2
+                qtyColumnIndex = 2;
                 let srNo = 1;
                 siteData.items.forEach(item => {
                     summaryTableRows.push([
@@ -511,7 +491,6 @@ const AllSitesExportPage = () => {
                     ]);
                 });
             }
-
             docPdf.autoTable({
                 head: [summaryTableColumns],
                 body: summaryTableRows,
@@ -519,9 +498,9 @@ const AllSitesExportPage = () => {
                 styles: { fontSize: 8 },
                 headStyles: { fillColor: [20, 100, 200] },
                 columnStyles: {
-                    0: { cellWidth: 15, halign: 'center' }, // Sr. No.
-                    1: { cellWidth: 60, halign: 'left' }, // Item Name
-                    [qtyColumnIndex]: { cellWidth: 30, halign: 'center' }, // Correctly aligning the Qty column
+                    0: { cellWidth: 15, halign: 'center' },
+                    1: { cellWidth: 60, halign: 'left' },
+                    [qtyColumnIndex]: { cellWidth: 30, halign: 'center' },
                     3: { cellWidth: siteData.isTransferSite ? 30 : 50, halign: 'left' },
                     4: { cellWidth: 50, halign: 'left' },
                 },
@@ -540,7 +519,6 @@ const AllSitesExportPage = () => {
                     const textWidthPreparedBy = docPdf.getStringUnitWidth(preparedByText) * docPdf.internal.getFontSize() / docPdf.internal.scaleFactor;
                     const xPreparedBy = docWidth - 14 - textWidthPreparedBy;
                     docPdf.text(preparedByText, xPreparedBy, docPdf.internal.pageSize.height - bottomMargin - 20);
-
                     if (signatureURL) {
                         const imgData = signatureURL;
                         const imgWidth = 50;
@@ -551,47 +529,36 @@ const AllSitesExportPage = () => {
                         const xSignatureLabel = docWidth - 14 - (textWidthSignatureLabel / 2);
                         docPdf.text('Authorized Signature', xSignatureLabel, docPdf.internal.pageSize.height - bottomMargin);
                     }
-
                     let str = "Page " + docPdf.internal.getNumberOfPages();
                     docPdf.text(str, data.settings.margin.left, parseFloat(docPdf.internal.pageSize.height) - 10);
                 }
             });
         });
-
         const pdfBlob = docPdf.output('blob');
         const fileName = `All_Sites_Stock_Master_Report_${new Date().toLocaleDateString('en-IN').replace(/\//g, '-')}.pdf`;
         return await saveFile(pdfBlob, fileName);
     };
 
-    /**
-     * Generates a multi-sheet Excel report with each site on a new sheet.
-     */
     const exportExcelForAllSites = async () => {
         const wb = XLSX.utils.book_new();
-
         const actualExportStartDate = exportStartDate ? exportStartDate.toDate() : null;
         const actualExportEndDate = exportEndDate ? exportEndDate.toDate() : null;
         const formattedStartDate = actualExportStartDate ? actualExportStartDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A';
         const formattedEndDate = actualExportEndDate ? actualExportEndDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }) : 'N/A';
-
         const siteIds = Object.keys(allSitesSummary);
         if (siteIds.length === 0) {
             throw new Error("No data available to export.");
         }
-
         for (const siteId of siteIds) {
             const siteData = allSitesSummary[siteId];
             const siteName = siteData.siteName;
-
             const cleanSheetName = siteName.replace(/[\\/?*[\]:]/g, '_').substring(0, 31);
-
             let siteSheetData = [
                 [siteName],
                 [`Date: ${formattedStartDate} to ${formattedEndDate}`],
                 [],
                 [],
             ];
-
             let srNo = 1;
             if (siteData.isTransferSite) {
                 siteSheetData[3] = ["Sr. No.", "Item Name", "Available Qty", "Sent Qty", "Remarks"];
@@ -615,13 +582,10 @@ const AllSitesExportPage = () => {
                     ]);
                 });
             }
-
             siteSheetData.push([], [], []);
             siteSheetData.push([`Prepared By:`, userName]);
             siteSheetData.push([`Authorized Signature:`, signatureURL || "No Digital Signature Uploaded"]);
-
             let siteSheet = XLSX.utils.aoa_to_sheet(siteSheetData);
-
             if (!siteSheet['!merges']) siteSheet['!merges'] = [];
             const numCols = siteData.isTransferSite ? 5 : 4;
             siteSheet['!merges'].push(
@@ -630,8 +594,6 @@ const AllSitesExportPage = () => {
                 { s: { r: siteSheetData.length - 2, c: 1 }, e: { r: siteSheetData.length - 2, c: numCols - 1 } },
                 { s: { r: siteSheetData.length - 1, c: 1 }, e: { r: siteSheetData.length - 1, c: numCols - 1 } }
             );
-
-            // Apply styling
             const styleHeaderRow = (sheet, rowIdx) => {
                 const headerCells = siteData.isTransferSite ? ["A", "B", "C", "D", "E"] : ["A", "B", "C", "D"];
                 headerCells.forEach((col, colIndex) => {
@@ -644,16 +606,12 @@ const AllSitesExportPage = () => {
                     sheet[cellAddress].s.border = { top: { style: "thin" }, bottom: { style: "thin" }, left: { style: "thin" }, right: { style: "thin" } };
                 });
             };
-
             styleHeaderRow(siteSheet, 3);
-
             siteSheet['!cols'] = siteData.isTransferSite ?
                 [{ wch: 5 }, { wch: 30 }, { wch: 18 }, { wch: 18 }, { wch: 20 }] :
                 [{ wch: 5 }, { wch: 40 }, { wch: 25 }, { wch: 30 }];
-
             XLSX.utils.book_append_sheet(wb, siteSheet, cleanSheetName);
         }
-
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         const s2ab = (s) => {
             const buf = new ArrayBuffer(s.length);
@@ -684,7 +642,6 @@ const AllSitesExportPage = () => {
         }
     };
     
-    // Check if there is any data to export
     const hasData = useMemo(() => {
         return Object.values(allSitesSummary).some(site => site.items.length > 0);
     }, [allSitesSummary]);
@@ -697,7 +654,7 @@ const AllSitesExportPage = () => {
             </Container>
         );
     }
-
+    
     if (!userId) {
         return (
             <Container maxWidth="md" sx={{ mt: 4, textAlign: 'center' }}>
@@ -706,6 +663,17 @@ const AllSitesExportPage = () => {
         );
     }
     
+    // Yahan hum role check karte hain
+    if (!isItemManager) {
+      return (
+        <Container maxWidth="md" sx={{ mt: 4, textAlign: 'center' }}>
+            <Typography variant="h5" color="error">
+                Access Denied: You must be an Item Manager to view this page.
+            </Typography>
+        </Container>
+      );
+    }
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Container maxWidth="lg" className="all-sites-export-container">
@@ -844,7 +812,6 @@ const AllSitesExportPage = () => {
                     **Note:** Reports are saved to your app's Documents folder. Use your device's File Manager to access them.
                 </Typography>
                 
-                {/* Site Selection Dialog */}
                 <Dialog onClose={() => setIsSiteSelectionDialogOpen(false)} open={isSiteSelectionDialogOpen}>
                     <DialogTitle>Select Sites to Export</DialogTitle>
                     <DialogContent>
