@@ -403,6 +403,7 @@ function AppContent() {
                             <Route path="/summary" element={user ? <SummaryPage /> : <Navigate to="/login" replace />} />
                             <Route path="/details/:itemId" element={user ? <DetailsPage /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/reports" element={user ? <ReportsPage /> : <Navigate to="/login" replace />} />
+                            <Route path="/all-sites-export" element={user ?<AllSitesExportPage /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/export" element={user ? <ExportPage /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/daily-report" element={user ? <DailyReport /> : <Navigate to="/login" replace />} />
                             <Route path="/dashboard/weekly-report" element={user ? <WeeklyReport /> : <Navigate to="/login" replace />} />
